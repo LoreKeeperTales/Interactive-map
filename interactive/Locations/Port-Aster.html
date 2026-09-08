@@ -1,0 +1,1823 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Port Aster Interactive Town Map</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #1b1814;
+            color: #e7ddc7;
+            font-family: Georgia, "Times New Roman", serif;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            height: 70px;
+
+            display: flex;
+            align-items: center;
+            gap: 30px;
+
+            padding: 0 30px;
+
+            background: #211d18;
+            border-bottom: 1px solid #665944;
+        }
+
+        header h1 {
+            margin: 0;
+
+            letter-spacing: 4px;
+            font-size: 24px;
+        }
+
+        header .subtitle {
+            color: #a99a80;
+            font-size: 14px;
+
+            margin-right: auto;
+        }
+
+
+        /* =========================
+           HEADER CONTROLS
+        ========================= */
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .zoom-controls {
+            display: flex;
+            gap: 6px;
+        }
+
+        .zoom-controls button,
+        .panel-toggle,
+        .return-button {
+            padding: 8px 12px;
+
+            background: #322b22;
+            color: #e7ddc7;
+
+            border: 1px solid #88775a;
+
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 14px;
+
+            cursor: pointer;
+
+            text-decoration: none;
+        }
+
+        .zoom-controls button:hover,
+        .panel-toggle:hover,
+        .return-button:hover {
+            background: #44392d;
+        }
+
+
+        /* =========================
+           MAIN LAYOUT
+        ========================= */
+
+        .layout {
+            display: grid;
+
+            grid-template-columns: 1fr 360px;
+
+            height: calc(100vh - 70px);
+        }
+
+        .layout.panel-hidden {
+            grid-template-columns: 1fr;
+        }
+
+        .layout.panel-hidden aside {
+            display: none;
+        }
+
+
+        /* =========================
+           MAP
+        ========================= */
+
+        .map-container {
+            position: relative;
+
+            overflow: auto;
+
+            background: #111;
+        }
+
+        .map-stage {
+            position: relative;
+
+            width: 1400px;
+            min-height: 900px;
+        }
+
+        .map-wrapper {
+            position: relative;
+
+            width: 1400px;
+
+            transform-origin: top left;
+        }
+
+        .town-map {
+            display: block;
+
+            width: 100%;
+            height: auto;
+        }
+
+
+        /* =========================
+           MAP MARKERS
+        ========================= */
+
+        .marker {
+            position: absolute;
+
+            width: 28px;
+            height: 28px;
+
+            border: 2px solid #e9d9b5;
+            background: #463728;
+
+            border-radius: 50%;
+
+            color: #f1e5ca;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 13px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transform: translate(-50%, -50%);
+
+            transition:
+                transform 0.15s,
+                background 0.15s;
+        }
+
+        .marker:hover {
+            transform:
+                translate(-50%, -50%)
+                scale(1.25);
+
+            background: #6d3528;
+        }
+
+        .marker.guild {
+            background: #303d46;
+        }
+
+        .marker.government {
+            background: #4c302f;
+        }
+
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        aside {
+            overflow-y: auto;
+
+            padding: 24px;
+
+            background: #252019;
+
+            border-left:
+                1px solid #665944;
+        }
+
+        aside h2 {
+            margin-top: 0;
+
+            border-bottom:
+                1px solid #665944;
+
+            padding-bottom: 10px;
+
+            letter-spacing: 1px;
+        }
+
+        .location-type {
+            color: #aa9b82;
+
+            font-style: italic;
+        }
+
+        .section-title {
+            margin-top: 25px;
+            margin-bottom: 5px;
+
+            color: #c8b78f;
+
+            font-size: 14px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 2px;
+        }
+
+        .placeholder {
+            color: #938872;
+
+            font-style: italic;
+        }
+
+
+        /* =========================
+           SIDEBAR BUTTONS
+        ========================= */
+
+        .sidebar-buttons {
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 8px;
+
+            margin-bottom: 20px;
+        }
+
+        .sidebar-button {
+            padding: 8px 10px;
+
+            background: #322b22;
+            color: #e7ddc7;
+
+            border: 1px solid #88775a;
+
+            font-family: Georgia, "Times New Roman", serif;
+
+            cursor: pointer;
+        }
+
+        .sidebar-button:hover {
+            background: #44392d;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header>
+
+    <h1>
+        PORT ASTER
+    </h1>
+
+    <span class="subtitle">
+        Interactive Town Map
+    </span>
+
+
+    <div class="header-controls">
+
+
+        <!-- ZOOM -->
+
+        <div class="zoom-controls">
+
+            <button onclick="zoomOut()">
+                −
+            </button>
+
+            <button
+                id="zoom-display"
+                onclick="resetZoom()"
+            >
+                100%
+            </button>
+
+            <button onclick="zoomIn()">
+                +
+            </button>
+
+        </div>
+
+
+        <!-- PANEL -->
+
+        <button
+            class="panel-toggle"
+            id="panel-toggle"
+            onclick="togglePanel()"
+        >
+            Hide Panel
+        </button>
+
+
+        <!-- RETURN -->
+
+        <a
+            class="return-button"
+            href="../Interactive map execute.html"
+        >
+            Return to Atlas
+        </a>
+
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================
+     MAIN LAYOUT
+========================= -->
+
+<div
+    class="layout"
+    id="main-layout"
+>
+
+
+    <!-- =========================
+         PORT ASTER MAP
+    ========================= -->
+
+    <main
+        class="map-container"
+        id="map-container"
+    >
+
+        <div
+            class="map-stage"
+            id="map-stage"
+        >
+
+            <div
+                class="map-wrapper"
+                id="map-wrapper"
+            >
+
+
+                <img
+                    src="../maps/port_aster.png"
+                    class="town-map"
+                    alt="Map of Port Aster"
+                >
+
+
+                <!-- =========================
+                     SHOPS
+                ========================= -->
+
+                <div
+                    class="marker"
+                    style="left: 25%; top: 40%;"
+                    onclick="showLocation('marens')"
+                    title="Maren's Outfitters"
+                >
+                    M
+                </div>
+
+
+                <div
+                    class="marker"
+                    style="left: 31%; top: 20%;"
+                    onclick="showLocation('ironwake')"
+                    title="Ironwake Smithy"
+                >
+                    S
+                </div>
+
+
+                <div
+                    class="marker"
+                    style="left: 45%; top: 47%;"
+                    onclick="showLocation('gullcompass')"
+                    title="Gull & Compass"
+                >
+                    G
+                </div>
+
+
+                <div
+                    class="marker"
+                    style="left: 46%; top: 79%;"
+                    onclick="showLocation('greenroot')"
+                    title="Greenroot Apothecary"
+                >
+                    A
+                </div>
+
+
+                <div
+                    class="marker"
+                    style="left: 54%; top: 48%;"
+                    onclick="showLocation('saltandscale')"
+                    title="Salt & Scale Fishmongers"
+                >
+                    F
+                </div>
+
+
+                <div
+                    class="marker"
+                    style="left: 62%; top: 38%;"
+                    onclick="showLocation('oakarrow')"
+                    title="Oak & Arrow"
+                >
+                    O
+                </div>
+
+
+                <div
+                    class="marker"
+                    style="left: 69%; top: 47%;"
+                    onclick="showLocation('ledger')"
+                    title="The Ledger House"
+                >
+                    L
+                </div>
+
+
+                <div
+                    class="marker"
+                    style="left: 44%; top: 56%;"
+                    onclick="showLocation('tankard')"
+                    title="The Silver Tankard"
+                >
+                    T
+                </div>
+
+
+                <div
+                    class="marker"
+                    style="left: 72%; top: 58%;"
+                    onclick="showLocation('seawind')"
+                    title="Seawind Stables"
+                >
+                    H
+                </div>
+
+
+                <div
+                    class="marker"
+                    style="left: 35%; top: 58%;"
+                    onclick="showLocation('inkcompass')"
+                    title="The Ink & Compass"
+                >
+                    I
+                </div>
+
+
+
+                <!-- =========================
+                     GUILD
+                ========================= -->
+
+             <!-- =========================
+     GUILDS OF PORT ASTER
+========================= -->
+
+
+<!-- Adventurer's Guild -->
+<div
+    class="marker guild"
+    style="left: 72%; top: 34%;"
+    onclick="showLocation('adventureguild')"
+    title="Adventurer's Guild — West March Hall"
+>
+    AG
+</div>
+
+
+<!-- Hunter's Guild -->
+<div
+    class="marker guild"
+    style="left: 18%; top: 32%;"
+    onclick="showLocation('huntersguild')"
+    title="Hunter's Guild — Long Trail Lodge"
+>
+    HG
+</div>
+
+
+<!-- League of Challenge -->
+<div
+    class="marker guild"
+    style="left: 24%; top: 52%;"
+    onclick="showLocation('challengeguild')"
+    title="League of Challenge — Aster Fighting Hall"
+>
+    LC
+</div>
+
+
+<!-- Miner's Guild -->
+<div
+    class="marker guild"
+    style="left: 34%; top: 34%;"
+    onclick="showLocation('minersguild')"
+    title="Miner's Guild — Prospector's Office"
+>
+    MG
+</div>
+
+
+<!-- Leather Crafter's Guild -->
+<div
+    class="marker guild"
+    style="left: 29%; top: 63%;"
+    onclick="showLocation('leatherguild')"
+    title="Leather Crafter's Guild — Hideworkers' Yard"
+>
+    LG
+</div>
+
+
+<!-- Farmer's Guild -->
+<div
+    class="marker guild"
+    style="left: 16%; top: 58%;"
+    onclick="showLocation('farmersguild')"
+    title="Farmer's Guild — Marsh & Field Office"
+>
+    FG
+</div>
+
+
+<!-- Merchant Consortium -->
+<div
+    class="marker guild"
+    style="left: 57%; top: 39%;"
+    onclick="showLocation('merchantguild')"
+    title="Merchant Consortium — Aster Exchange"
+>
+    MC
+</div>
+
+
+<!-- Innkeepers' Guild -->
+<div
+    class="marker guild"
+    style="left: 48%; top: 62%;"
+    onclick="showLocation('innkeepersguild')"
+    title="Innkeepers' Guild — Wayfarer's House"
+>
+    IG
+</div>
+
+
+<!-- Order of Stone & Beam -->
+<div
+    class="marker guild"
+    style="left: 65%; top: 30%;"
+    onclick="showLocation('stonebeam')"
+    title="Order of Stone & Beam — Surveyor's House"
+>
+    SB
+</div>
+
+
+<!-- The White Hand -->
+<div
+    class="marker guild"
+    style="left: 67%; top: 53%;"
+    onclick="showLocation('whitehand')"
+    title="The White Hand — White Hand Hospice"
+>
+    WH
+</div>
+
+
+<!-- Tidebound Brotherhood -->
+<div
+    class="marker guild"
+    style="left: 82%; top: 55%;"
+    onclick="showLocation('tidebound')"
+    title="Tidebound Brotherhood — Tidehall"
+>
+    TB
+</div>
+
+
+<!-- Gilded Vault -->
+<div
+    class="marker guild"
+    style="left: 61%; top: 47%;"
+    onclick="showLocation('gildedvault')"
+    title="The Gilded Vault — Aster Vault"
+>
+    GV
+</div>
+
+
+<!-- Guild of the Veiled Key -->
+<div
+    class="marker guild"
+    style="left: 42%; top: 34%;"
+    onclick="showLocation('veiledkey')"
+    title="Guild of the Veiled Key — The Keyhouse"
+>
+    VK
+</div>
+
+
+<!-- Gentleman's League of Magical Excellence -->
+<div
+    class="marker guild"
+    style="left: 74%; top: 44%;"
+    onclick="showLocation('magicalleague')"
+    title="Gentleman's League of Magical Excellence — Aster Arcane Office"
+>
+    GL
+</div>
+
+
+
+                <!-- =========================
+                     GOVERNMENT
+                ========================= -->
+
+                <div
+                    class="marker government"
+                    style="left: 34%; top: 48%;"
+                    onclick="showLocation('councilhall')"
+                    title="Marsh Council Hall"
+                >
+                    C
+                </div>
+
+
+                <div
+                    class="marker government"
+                    style="left: 36%; top: 44%;"
+                    onclick="showLocation('imperialoffice')"
+                    title="Imperial Envoy Office"
+                >
+                    E
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+
+    <!-- =========================
+         INFORMATION PANEL
+    ========================= -->
+
+    <aside id="info-panel">
+
+
+        <div class="sidebar-buttons">
+
+            <button
+                class="sidebar-button"
+                onclick="showAbout()"
+            >
+                About Port Aster
+            </button>
+
+            <button
+                class="sidebar-button"
+                onclick="showGovernment()"
+            >
+                Government
+            </button>
+
+        </div>
+
+
+        <h2>
+            Port Aster
+        </h2>
+
+
+        <p class="location-type">
+            Port Town — West Marches
+        </p>
+
+
+        <p>
+           Welcome to Port Aster, the largest harbor on the western coast of Ellond and the final stop before venturing into the untamed West Marches. Built where the Emerald River meets the sea, the city is home to merchants, explorers, sailors, and adventurers from every corner of the world.
+
+
+        </p>
+
+
+        <div class="section-title">
+            Known For
+        </div>
+
+        <p>
+          Main Exports: exotic spices, rare medicinal herbs, hardwoods, pearls, salted fish, monster materials, tropical fruits, and handcrafted goods from the peoples of the West Marches.
+        </p>
+
+
+    </aside>
+
+
+</div>
+
+
+
+<script>
+
+/* =========================
+   GUILDS
+========================= */
+
+function showGuilds() {
+
+    const panel =
+        document.getElementById("info-panel");
+
+
+    panel.innerHTML = `
+
+        <div class="sidebar-buttons">
+
+            <button
+                class="sidebar-button"
+                onclick="showAbout()"
+            >
+                About Port Aster
+            </button>
+
+            <button
+                class="sidebar-button"
+                onclick="showGovernment()"
+            >
+                Government
+            </button>
+
+            <button
+                class="sidebar-button"
+                onclick="showGuilds()"
+            >
+                Guilds
+            </button>
+
+        </div>
+
+
+        <h2>
+            Guilds of Port Aster
+        </h2>
+
+
+        <p class="location-type">
+            Guild Houses, Chapters & Offices
+        </p>
+
+
+        <p>
+            Port Aster is the principal gateway into
+            the West Marches, making it an important
+            meeting point for many of Ellond's guilds.
+        </p>
+
+
+        <p>
+            Not every guild maintains a full guild
+            hall here. Some operate large chapter
+            houses, while others maintain only a
+            representative, office, workshop or lodge.
+        </p>
+
+
+        <div class="section-title">
+            Major Guilds
+        </div>
+
+        <p>
+            The Adventurer's Guild, Hunter's Guild,
+            Merchant Consortium, Tidebound Brotherhood
+            and White Hand maintain particularly strong
+            presences in Port Aster.
+        </p>
+
+
+        <div class="section-title">
+            Other Guilds
+        </div>
+
+        <p>
+            Smaller offices represent the League of
+            Challenge, Miner's Guild, Leather Crafter's
+            Guild, Farmer's Guild, Innkeepers' Guild,
+            Order of Stone & Beam, Gilded Vault,
+            Guild of the Veiled Key and Gentleman's
+            League of Magical Excellence.
+        </p>
+
+
+        <div class="section-title">
+            League of the Black Forge
+        </div>
+
+        <p>
+            The League maintains no separate guild
+            hall. Durgan Ironwake and the Ironwake
+            Smithy serve as its recognized local
+            representative.
+        </p>
+
+
+        <div class="section-title">
+            Guild of Quill & Stage
+        </div>
+
+        <p>
+            The guild has no permanent hall in Port
+            Aster. Its members work from taverns,
+            markets and temporary stages, with the
+            Silver Tankard serving as an unofficial
+            point of contact.
+        </p>
+
+    `;
+
+}
+
+    /* =========================
+       ZOOM
+    ========================= */
+
+    let currentZoom = 1;
+
+    const minimumZoom = 0.5;
+    const maximumZoom = 2.5;
+    const zoomStep = 0.1;
+
+
+    function updateZoom() {
+
+        const wrapper =
+            document.getElementById("map-wrapper");
+
+        const stage =
+            document.getElementById("map-stage");
+
+        const display =
+            document.getElementById("zoom-display");
+
+
+        wrapper.style.transform =
+            `scale(${currentZoom})`;
+
+
+        stage.style.width =
+            `${1400 * currentZoom}px`;
+
+        stage.style.height =
+            `${900 * currentZoom}px`;
+
+
+        display.textContent =
+            `${Math.round(currentZoom * 100)}%`;
+
+    }
+
+
+    function zoomIn() {
+
+        currentZoom += zoomStep;
+
+        if (currentZoom > maximumZoom) {
+            currentZoom = maximumZoom;
+        }
+
+        updateZoom();
+
+    }
+
+
+    function zoomOut() {
+
+        currentZoom -= zoomStep;
+
+        if (currentZoom < minimumZoom) {
+            currentZoom = minimumZoom;
+        }
+
+        updateZoom();
+
+    }
+
+
+    function resetZoom() {
+
+        currentZoom = 1;
+
+        updateZoom();
+
+    }
+
+
+
+    /* =========================
+       PANEL TOGGLE
+    ========================= */
+
+    function togglePanel() {
+
+        const layout =
+            document.getElementById("main-layout");
+
+        const button =
+            document.getElementById("panel-toggle");
+
+
+        layout.classList.toggle(
+            "panel-hidden"
+        );
+
+
+        if (
+            layout.classList.contains(
+                "panel-hidden"
+            )
+        ) {
+
+            button.textContent =
+                "Show Panel";
+
+        } else {
+
+            button.textContent =
+                "Hide Panel";
+
+        }
+
+    }
+
+
+
+    /* =========================
+       LOCATION DATABASE
+    ========================= */
+
+    const locations = {
+
+
+        marens: {
+
+            name:
+                "Maren's Outfitters",
+
+            type:
+                "Clothing & Travel Equipment",
+
+            owner:
+                "Maren Ashcloak — Female Human, 54",
+
+            description:
+                "A tailor known for durable travel clothing. Adventurers, sailors, and merchants all shop here.",
+
+            inventory:
+                "Common and travel clothing, fine clothing, winter and rain cloaks, leather boots, gloves, hats, bedrolls, backpacks, belts, saddlebags, blankets, repair kits and custom embroidery."
+
+        },
+
+
+        ironwake: {
+
+            name:
+                "Ironwake Smithy",
+
+            type:
+                "Weaponsmith & Armorer",
+
+            owner:
+                "Durgan Ironwake — Male Dwarf, 132",
+
+            description:
+                "The largest forge in Port Aster. Durgan refuses to make cheap weapons and stands behind every blade he sells.",
+
+            inventory:
+                "Weapons, shields, chain and scale armor, breastplates, commissioned plate armor, repairs, weapon silvering and custom commissions."
+
+        },
+
+
+        gullcompass: {
+
+            name:
+                "Gull & Compass",
+
+            type:
+                "Adventure Outfitter",
+
+            owner:
+                "Edwin Marr — Male Human, 48",
+
+            description:
+                "The town's premier adventure outfitter.",
+
+            inventory:
+                "Rope, torches, lanterns, oil, rations, climbing supplies, healer's kits, fishing gear, maps of the West Marches, journals and expedition equipment."
+
+        },
+
+
+        greenroot: {
+
+            name:
+                "Greenroot Apothecary",
+
+            type:
+                "Apothecary",
+
+            owner:
+                "Elira Mossbrook — Female Half-Elf, 87",
+
+            description:
+                "Known for honest remedies and excellent herbal knowledge.",
+
+            inventory:
+                "Healing herbs, antitoxins, bandages, herbal teas, salves, poultices, insect repellent, common healing potions and common spell components."
+
+        },
+
+
+        saltandscale: {
+
+            name:
+                "Salt & Scale Fishmongers",
+
+            type:
+                "Fishmonger",
+
+            owner:
+                "Branik Tideborn — Male Human, 61",
+
+            description:
+                "Fresh catches arrive every dawn.",
+
+            inventory:
+                "Fresh fish, smoked fish, salted cod, crab, lobster, mussels, oysters, seaweed and whale oil."
+
+        },
+
+
+        oakarrow: {
+
+            name:
+                "Oak & Arrow",
+
+            type:
+                "Hunter & Ranger Supplies",
+
+            owner:
+                "Fenric Alderbow — Male Wood Elf, 176",
+
+            description:
+                "The favorite shop of hunters and rangers.",
+
+            inventory:
+                "Longbows, shortbows, crossbows, ammunition, hunting spears, animal traps, snares, quivers, camouflage cloaks and fletching supplies."
+
+        },
+
+
+        ledger: {
+
+            name:
+                "The Ledger House",
+
+            type:
+                "General Merchant",
+
+            owner:
+                "Hester Quill — Female Human, 59",
+
+            description:
+                "A general merchant supplying almost everything a household needs.",
+
+            inventory:
+                "Cookware, buckets, soap, candles, ink, paper, books, locks, rope, flour, salt, sugar, common spices, nails and household tools."
+
+        },
+
+
+        tankard: {
+
+            name:
+                "The Silver Tankard",
+
+            type:
+                "Tavern & Inn",
+
+            owner:
+                "Brom Halfbarrel — Male Halfling, 74",
+
+            description:
+                "A respected tavern frequented by merchants, captains, and adventurers.",
+
+            inventory:
+                "Rooms, hot meals, local ale, imported wine, rum, fresh bread, stew, daily rumors, mercenary notices and ship passage postings."
+
+        },
+
+
+        seawind: {
+
+            name:
+                "Seawind Stables",
+
+            type:
+                "Stables",
+
+            owner:
+                "Greta Holst — Female Human, 42",
+
+            description:
+                "The principal stable and wagon service in Port Aster.",
+
+            inventory:
+                "Horse boarding, wagon rental, riding horses, draft horses, saddle repair, feed and grooming."
+
+        },
+
+
+        inkcompass: {
+
+            name:
+                "The Ink & Compass",
+
+            type:
+                "Books, Maps & Navigation",
+
+            owner:
+                "Orlan Vesk — Male Gnome, 93",
+
+            description:
+                "A quiet shop specializing in knowledge and navigation.",
+
+            inventory:
+                "Blank books, maps, sea charts, ink, quills, scroll cases, wax seals, navigation instruments and occasional common spell scrolls."
+
+        },
+
+
+        adventureguild: {
+
+            name:
+                "Adventure Guild",
+
+            type:
+                "Guild Hall",
+
+            owner:
+                "Port Aster Guild Representatives",
+
+            description:
+                "The local Adventure Guild branch serves explorers, mercenaries and travelers operating throughout the West Marches.",
+
+            inventory:
+                "Contracts, expedition notices, local information, bounty work and adventurer services."
+
+        },
+
+
+        councilhall: {
+
+            name:
+                "Marsh Council Hall",
+
+            type:
+                "Government Building",
+
+            owner:
+                "The Marsh Council",
+
+            description:
+                "The political center of Port Aster and the principal seat of government for the town.",
+
+            inventory:
+                "Council chambers, administrative offices, petition hall and meeting rooms."
+
+        },
+
+
+       imperialoffice: {
+
+    name:
+        "Imperial Envoy Office",
+
+    type:
+        "Government Building",
+
+    owner:
+        "Imperial Envoy",
+
+    description:
+        "A smaller imperial administrative building near the Marsh Council Hall.",
+
+    inventory:
+        "Diplomatic offices, imperial records and communications."
+
+},
+
+
+huntersguild: {
+
+    name:
+        "The Long Trail Lodge",
+
+    type:
+        "Hunter's Guild",
+
+    owner:
+        "Port Aster Hunter's Guild",
+
+    description:
+        "A rugged lodge near the jungle-facing edge of Port Aster. Hunters, trackers and bounty seekers gather here before entering the West Marches.",
+
+    inventory:
+        "Hunting contracts, wildlife reports, bounties, tracking information and records of dangerous beasts."
+
+},
+
+
+challengeguild: {
+
+    name:
+        "Aster Fighting Hall",
+
+    type:
+        "League of Challenge",
+
+    owner:
+        "Port Aster Chapter",
+
+    description:
+        "A training yard and hiring hall used by mercenaries, caravan guards and martial specialists.",
+
+    inventory:
+        "Mercenary contracts, training, guards for hire and martial challenges."
+
+},
+
+
+minersguild: {
+
+    name:
+        "Prospector's Office",
+
+    type:
+        "The Miner's Guild",
+
+    owner:
+        "Port Aster Guild Office",
+
+    description:
+        "A modest office serving prospectors and expeditions searching the West Marches for valuable mineral deposits.",
+
+    inventory:
+        "Claim registration, mineral assessment, prospecting records and purchasing of verified discoveries."
+
+},
+
+
+leatherguild: {
+
+    name:
+        "Hideworkers' Yard",
+
+    type:
+        "The Leather Crafter's Guild",
+
+    owner:
+        "Port Aster Guild Chapter",
+
+    description:
+        "A communal workshop and tannery specializing in the unusual hides brought out of the West Marches.",
+
+    inventory:
+        "Tanning, hide preparation, leatherworking, repairs and assessment of unusual hides."
+
+},
+
+
+farmersguild: {
+
+    name:
+        "Marsh & Field Office",
+
+    type:
+        "The Farmer's Guild",
+
+    owner:
+        "Port Aster Guild Office",
+
+    description:
+        "A small guild office representing farmers, livestock keepers and food producers throughout the surrounding wetlands.",
+
+    inventory:
+        "Agricultural contracts, livestock matters, crop information and regional food trade."
+
+},
+
+
+merchantguild: {
+
+    name:
+        "Aster Exchange",
+
+    type:
+        "The Merchant Consortium",
+
+    owner:
+        "Port Aster Merchant Consortium",
+
+    description:
+        "One of Port Aster's most influential guild establishments and the center of organized commercial activity in the town.",
+
+    inventory:
+        "Trade contracts, cargo registration, caravan arrangements, commercial mediation and merchant services."
+
+},
+
+
+innkeepersguild: {
+
+    name:
+        "The Wayfarer's House",
+
+    type:
+        "The Innkeepers' Guild",
+
+    owner:
+        "Port Aster Chapter",
+
+    description:
+        "The local administrative house for innkeepers, tavern owners and other hospitality businesses.",
+
+    inventory:
+        "Guild registration, employment, lodging standards and dispute mediation."
+
+},
+
+
+stonebeam: {
+
+    name:
+        "Surveyor's House",
+
+    type:
+        "Order of Stone & Beam",
+
+    owner:
+        "Port Aster Guild Office",
+
+    description:
+        "A small but important office responsible for construction knowledge suited to Port Aster's marshland environment.",
+
+    inventory:
+        "Surveying, construction contracts, bridge work, flood-resistant building and architectural consultation."
+
+},
+
+
+whitehand: {
+
+    name:
+        "White Hand Hospice",
+
+    type:
+        "The White Hand",
+
+    owner:
+        "Port Aster Chapter",
+
+    description:
+        "A guild hospice treating sailors, hunters, travelers and adventurers injured or sickened in the West Marches.",
+
+    inventory:
+        "Medical care, healing, treatment of poisons and disease, medical education and local herbal knowledge."
+
+},
+
+
+tidebound: {
+
+    name:
+        "Tidehall",
+
+    type:
+        "The Tidebound Brotherhood",
+
+    owner:
+        "Port Aster Brotherhood",
+
+    description:
+        "One of the town's most important guild halls, serving sailors, captains, navigators and river pilots.",
+
+    inventory:
+        "Navigation records, river charts, maritime contracts, pilot services and information about local waterways."
+
+},
+
+
+gildedvault: {
+
+    name:
+        "Aster Vault",
+
+    type:
+        "The Gilded Vault",
+
+    owner:
+        "Port Aster Branch",
+
+    description:
+        "A fortified banking house serving merchants and adventurers who prefer not to carry their fortunes into the West Marches.",
+
+    inventory:
+        "Deposits, withdrawals, loans, expedition financing and merchant credit."
+
+},
+
+
+veiledkey: {
+
+    name:
+        "The Keyhouse",
+
+    type:
+        "Guild of the Veiled Key",
+
+    owner:
+        "Port Aster Office",
+
+    description:
+        "An intentionally discreet guild office offering information, investigation, recovery and mediation.",
+
+    inventory:
+        "Information services, investigations, recovery work and confidential mediation."
+
+},
+
+
+magicalleague: {
+
+    name:
+        "Aster Arcane Office",
+
+    type:
+        "Gentleman's League of Magical Excellence",
+
+    owner:
+        "Port Aster Guild Mages",
+
+    description:
+        "A small professional magical office maintaining the League's presence in the West Marches.",
+
+    inventory:
+        "Magical identification, certified spellcasting, consultation, guild registration and magical services."
+
+},
+
+    };
+
+
+
+    /* =========================
+       LOCATION PANEL
+    ========================= */
+
+    function showLocation(id) {
+
+        const location =
+            locations[id];
+
+
+        if (!location) {
+            return;
+        }
+
+
+        const panel =
+            document.getElementById("info-panel");
+
+
+        panel.innerHTML = `
+
+          <div class="sidebar-buttons">
+
+    <button
+        class="sidebar-button"
+        onclick="showAbout()"
+    >
+        About Port Aster
+    </button>
+
+    <button
+        class="sidebar-button"
+        onclick="showGovernment()"
+    >
+        Government
+    </button>
+
+    <button
+        class="sidebar-button"
+        onclick="showGuilds()"
+    >
+        Guilds
+    </button>
+
+</div>
+
+
+            <h2>
+                ${location.name}
+            </h2>
+
+
+            <p class="location-type">
+                ${location.type}
+            </p>
+
+
+            <div class="section-title">
+                Owner / Authority
+            </div>
+
+            <p>
+                ${location.owner}
+            </p>
+
+
+            <div class="section-title">
+                About
+            </div>
+
+            <p>
+                ${location.description}
+            </p>
+
+
+            <div class="section-title">
+                Goods & Services
+            </div>
+
+            <p>
+                ${location.inventory}
+            </p>
+
+        `;
+
+    }
+
+
+
+    /* =========================
+       ABOUT PORT ASTER
+    ========================= */
+
+    function showAbout() {
+
+        const panel =
+            document.getElementById("info-panel");
+
+
+        panel.innerHTML = `
+
+            <div class="sidebar-buttons">
+
+                <button
+                    class="sidebar-button"
+                    onclick="showAbout()"
+                >
+                    About Port Aster
+                </button>
+
+                <button
+                    class="sidebar-button"
+                    onclick="showGovernment()"
+                >
+                    Government
+                </button>
+
+            </div>
+
+
+            <h2>
+                Port Aster
+            </h2>
+
+
+            <p class="location-type">
+                Port Town — West Marches
+            </p>
+
+
+            <div class="section-title">
+                Atmosphere
+            </div>
+
+
+            <p>
+                Visitors immediately recognize that
+                they have left the Empire behind.
+            </p>
+
+
+            <p>
+                Raised stone buildings protect against
+                seasonal floods, while lush jungle
+                vegetation fills the streets.
+            </p>
+
+
+            <p>
+                Markets overflow with exotic fruits,
+                spices, fish, reptiles and jungle goods.
+            </p>
+
+
+            <p>
+                Lizardfolk guards patrol the streets.
+                Tortles manage much of the fishing and
+                river trade, while Yuan-ti merchants
+                negotiate beneath colorful awnings.
+            </p>
+
+
+            <p>
+                Imperial banners are present, but they
+                stand alongside — and are outnumbered
+                by — the banners of the ancient
+                Lizardfolk clans.
+            </p>
+
+        `;
+
+    }
+
+
+
+    /* =========================
+       GOVERNMENT
+    ========================= */
+
+    function showGovernment() {
+
+        const panel =
+            document.getElementById("info-panel");
+
+
+        panel.innerHTML = `
+
+            <div class="sidebar-buttons">
+
+                <button
+                    class="sidebar-button"
+                    onclick="showAbout()"
+                >
+                    About Port Aster
+                </button>
+
+                <button
+                    class="sidebar-button"
+                    onclick="showGovernment()"
+                >
+                    Government
+                </button>
+
+            </div>
+
+
+            <h2>
+                Government
+            </h2>
+
+
+            <p class="location-type">
+                The Marsh Council
+            </p>
+
+
+            <p>
+                Port Aster is governed by the Marsh
+                Council, reflecting the cultures of
+                the West Marches rather than direct
+                imperial rule.
+            </p>
+
+
+            <div class="section-title">
+                Council Membership
+            </div>
+
+
+            <ul>
+
+                <li>
+                    4 Lizardfolk Clan Elders
+                </li>
+
+                <li>
+                    1 Tortle Elder
+                </li>
+
+                <li>
+                    1 Yuan-ti Representative
+                </li>
+
+                <li>
+                    1 Merchant Consortium Representative
+                </li>
+
+                <li>
+                    1 Adventure Guild Representative
+                </li>
+
+                <li>
+                    1 Imperial Envoy
+                </li>
+
+            </ul>
+
+
+            <p>
+                The Imperial Envoy is non-voting
+                except on matters directly concerning
+                imperial affairs.
+            </p>
+
+
+            <div class="section-title">
+                Government Buildings
+            </div>
+
+
+            <p>
+                The Marsh Council Hall is the principal
+                civic building. The smaller Imperial
+                Envoy Office stands nearby, reflecting
+                the Empire's limited authority within
+                Port Aster.
+            </p>
+
+        `;
+
+    }
+
+
+
+    /* =========================
+       INITIALIZE
+    ========================= */
+
+    updateZoom();
+
+
+</script>
+
+
+</body>
+
+</html>
