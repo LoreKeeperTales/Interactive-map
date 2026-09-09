@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Xal'Torath Interactive City Map</title>
+
+
+    <style>
+
+
+        /* =========================================================
+           GENERAL
+        ========================================================= */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+
+            background: #1b1814;
+            color: #e7ddc7;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+        }
+
+
+
+        /* =========================================================
+           HEADER
+        ========================================================= */
+
+        header {
+            height: 70px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 30px;
+
+            padding: 0 30px;
+
+            background: #211d18;
+
+            border-bottom:
+                1px solid #665944;
+        }
+
+        header h1 {
+            margin: 0;
+
+            font-size: 24px;
+
+            letter-spacing: 4px;
+        }
+
+        header .subtitle {
+            margin-right: auto;
+
+            color: #a99a80;
+
+            font-size: 14px;
+        }
+
+
+
+        /* =========================================================
+           HEADER CONTROLS
+        ========================================================= */
+
+        .header-controls {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+        .zoom-controls {
+            display: flex;
+
+            gap: 6px;
+        }
+
+        .zoom-controls button,
+        .panel-toggle,
+        .return-button {
+            padding: 8px 12px;
+
+            background: #322b22;
+            color: #e7ddc7;
+
+            border:
+                1px solid #88775a;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 14px;
+
+            cursor: pointer;
+
+            text-decoration: none;
+        }
+
+        .zoom-controls button:hover,
+        .panel-toggle:hover,
+        .return-button:hover {
+            background: #44392d;
+        }
+
+
+
+        /* =========================================================
+           MAIN LAYOUT
+        ========================================================= */
+
+        .layout {
+            display: grid;
+
+            grid-template-columns:
+                1fr
+                360px;
+
+            height:
+                calc(100vh - 70px);
+        }
+
+        .layout.panel-hidden {
+            grid-template-columns:
+                1fr;
+        }
+
+        .layout.panel-hidden aside {
+            display: none;
+        }
+
+
+
+        /* =========================================================
+           MAP
+        ========================================================= */
+
+        .map-container {
+            position: relative;
+
+            overflow: auto;
+
+            background: #111;
+        }
+
+        .map-stage {
+            position: relative;
+
+            width: 1400px;
+
+            min-height: 900px;
+        }
+
+        .map-wrapper {
+            position: relative;
+
+            width: 1400px;
+
+            transform-origin:
+                top left;
+        }
+
+        .town-map {
+            display: block;
+
+            width: 100%;
+            height: auto;
+        }
+
+
+
+        /* =========================================================
+           LOCATION MARKERS
+        ========================================================= */
+
+        .marker {
+            position: absolute;
+
+            width: 20px;
+            height: 20px;
+
+            border:
+                3px solid #e9d9b5;
+
+            background: #6d3528;
+
+            border-radius: 50%;
+
+            cursor: pointer;
+
+            transform:
+                translate(-50%, -50%);
+
+            transition:
+                transform 0.15s,
+                background 0.15s;
+        }
+
+        .marker:hover {
+            transform:
+                translate(-50%, -50%)
+                scale(1.35);
+
+            background: #a75438;
+        }
+
+        .marker-label {
+            position: absolute;
+
+            left: 22px;
+            top: -6px;
+
+            white-space: nowrap;
+
+            padding:
+                4px
+                7px;
+
+            background:
+                rgba(20, 17, 13, 0.88);
+
+            border:
+                1px solid #675b48;
+
+            color: #eee3cb;
+
+            font-size: 13px;
+
+            pointer-events: none;
+        }
+
+
+
+        /* =========================================================
+           INFORMATION PANEL
+        ========================================================= */
+
+        aside {
+            overflow-y: auto;
+
+            padding: 25px;
+
+            background: #252019;
+
+            border-left:
+                1px solid #665944;
+        }
+
+        aside h2 {
+            margin-top: 0;
+
+            padding-bottom: 10px;
+
+            border-bottom:
+                1px solid #665944;
+
+            letter-spacing: 1px;
+        }
+
+        .location-type {
+            color: #aa9b82;
+
+            font-style: italic;
+        }
+
+        .section-title {
+            margin-top: 25px;
+            margin-bottom: 5px;
+
+            color: #c8b78f;
+
+            font-size: 14px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 2px;
+        }
+
+        aside p {
+            line-height: 1.4;
+        }
+
+        .placeholder {
+            color: #938872;
+
+            font-style: italic;
+        }
+
+
+    </style>
+
+</head>
+
+
+
+<body>
+
+
+<!-- =============================================================
+     HEADER
+============================================================= -->
+
+<header>
+
+
+    <h1>
+        XAL'TORATH
+    </h1>
+
+
+    <span class="subtitle">
+        Interactive City Map
+    </span>
+
+
+    <div class="header-controls">
+
+
+        <!-- ZOOM -->
+
+        <div class="zoom-controls">
+
+            <button onclick="zoomOut()">
+                −
+            </button>
+
+            <button
+                id="zoom-display"
+                onclick="resetZoom()"
+            >
+                100%
+            </button>
+
+            <button onclick="zoomIn()">
+                +
+            </button>
+
+        </div>
+
+
+        <!-- PANEL -->
+
+        <button
+            class="panel-toggle"
+            id="panel-toggle"
+            onclick="togglePanel()"
+        >
+            Hide Panel
+        </button>
+
+
+        <!-- RETURN TO WORLD MAP -->
+
+        <a
+            class="return-button"
+            href="../Interactive map execute.html"
+        >
+            Return to Atlas
+        </a>
+
+
+    </div>
+
+
+</header>
+
+
+
+<!-- =============================================================
+     MAIN LAYOUT
+============================================================= -->
+
+<div
+    class="layout"
+    id="main-layout"
+>
+
+
+
+    <!-- =========================================================
+         XAL'TORATH MAP
+    ========================================================= -->
+
+    <main
+        class="map-container"
+        id="map-container"
+    >
+
+
+        <div
+            class="map-stage"
+            id="map-stage"
+        >
+
+
+            <div
+                class="map-wrapper"
+                id="map-wrapper"
+            >
+
+
+                <!-- MAP IMAGE -->
+
+                <img
+                    src="../maps/XalTorath.png"
+                    class="town-map"
+                    alt="Map of Xal'Torath"
+                >
+
+
+
+                <!-- =================================================
+                     FUTURE LOCATION TOKENS
+
+                     IMPORTANT:
+                     Keep all future markers INSIDE map-wrapper.
+
+                     Example:
+
+                     <div
+                         class="marker"
+                         style="left: 50%; top: 50%;"
+                         onclick="showLocation('marshcouncil')"
+                     >
+                         <span class="marker-label">
+                             Marsh Council
+                         </span>
+                     </div>
+
+                ================================================= -->
+
+
+            </div>
+            <!-- END MAP WRAPPER -->
+
+
+        </div>
+        <!-- END MAP STAGE -->
+
+
+    </main>
+
+
+
+    <!-- =========================================================
+         INFORMATION PANEL
+    ========================================================= -->
+
+    <aside id="info-panel">
+
+
+        <h2>
+            Xal'Torath
+        </h2>
+
+
+        <p class="location-type">
+            Lizardfolk City — West Marches
+        </p>
+
+
+        <p>
+            The largest city in the West Marches and the political
+            heart of the Lizardfolk clans.
+        </p>
+
+
+        <div class="section-title">
+            Population
+        </div>
+
+        <p>
+            Approximately 14,000
+        </p>
+
+
+        <div class="section-title">
+            The City
+        </div>
+
+        <p>
+            Xal'Torath is built upon massive stone terraces rising
+            above the surrounding marshes. Bridges, walkways and
+            canals connect the different levels of the city, often
+            winding around enormous mangrove roots.
+        </p>
+
+        <p>
+            Much of its oldest stonework predates the Empire by
+            thousands of years.
+        </p>
+
+
+        <div class="section-title">
+            Government
+        </div>
+
+        <p>
+            Xal'Torath is the political heart of the Lizardfolk
+            clans of the West Marches. Clan elders gather here to
+            settle disputes, discuss matters affecting the marshes
+            and represent their people.
+        </p>
+
+
+        <div class="section-title">
+            Known For
+        </div>
+
+        <p>
+            The Marsh Council chambers, Temple of Asgorath,
+            Great Beast Market, exotic spices, dinosaur mounts,
+            ancient stone observatories and the Dragon Relic Museum.
+        </p>
+
+
+        <div class="section-title">
+            Atmosphere
+        </div>
+
+        <p>
+            Ancient stone terraces stand among thick marsh
+            vegetation and enormous roots. Narrow bridges and
+            elevated walkways cross canals and flooded ground,
+            while markets occupy the broader terraces.
+        </p>
+
+        <p>
+            The city feels considerably older than most settlements
+            in modern Ellond, with newer homes, markets and workshops
+            built directly among structures whose original purpose
+            has long been forgotten.
+        </p>
+
+
+        <div class="section-title">
+            History
+        </div>
+
+        <p>
+            Xal'Torath grew around ancient stone terraces that had
+            already stood in the marshes for thousands of years.
+            Generations of Lizardfolk clans settled among the ruins,
+            repairing bridges, reopening waterways and adapting the
+            old structures to their own needs.
+        </p>
+
+        <p>
+            As the clans of the West Marches became more organized,
+            Xal'Torath developed into their natural meeting place.
+            Its central position and ancient gathering grounds
+            eventually made it the political heart of the Lizardfolk
+            people.
+        </p>
+
+        <p>
+            Even as trade and contact with the rest of Ellond
+            increased, Xal'Torath remained strongly tied to the
+            traditions of the marsh clans.
+        </p>
+
+
+        <div class="section-title">
+            Explore
+        </div>
+
+        <p>
+            Select a location on the city map to view more
+            information.
+        </p>
+
+
+        <div class="section-title">
+            DM Notes
+        </div>
+
+        <p class="placeholder">
+            City secrets, ancient ruins, quests and hidden
+            information can be placed here.
+        </p>
+
+
+    </aside>
+
+
+</div>
+
+
+
+<script>
+
+
+    /* =========================================================
+       ZOOM
+    ========================================================= */
+
+    let currentZoom = 1;
+
+    const minimumZoom = 0.5;
+    const maximumZoom = 2.5;
+    const zoomStep = 0.1;
+
+
+    function updateZoom() {
+
+        const wrapper =
+            document.getElementById("map-wrapper");
+
+        const stage =
+            document.getElementById("map-stage");
+
+        const display =
+            document.getElementById("zoom-display");
+
+
+        wrapper.style.transform =
+            `scale(${currentZoom})`;
+
+
+        stage.style.width =
+            `${1400 * currentZoom}px`;
+
+        stage.style.height =
+            `${900 * currentZoom}px`;
+
+
+        display.textContent =
+            `${Math.round(currentZoom * 100)}%`;
+
+    }
+
+
+    function zoomIn() {
+
+        currentZoom += zoomStep;
+
+
+        if (currentZoom > maximumZoom) {
+
+            currentZoom =
+                maximumZoom;
+
+        }
+
+
+        updateZoom();
+
+    }
+
+
+    function zoomOut() {
+
+        currentZoom -= zoomStep;
+
+
+        if (currentZoom < minimumZoom) {
+
+            currentZoom =
+                minimumZoom;
+
+        }
+
+
+        updateZoom();
+
+    }
+
+
+    function resetZoom() {
+
+        currentZoom = 1;
+
+        updateZoom();
+
+    }
+
+
+
+    /* =========================================================
+       HIDE / SHOW PANEL
+    ========================================================= */
+
+    function togglePanel() {
+
+        const layout =
+            document.getElementById("main-layout");
+
+        const button =
+            document.getElementById("panel-toggle");
+
+
+        layout.classList.toggle(
+            "panel-hidden"
+        );
+
+
+        if (
+            layout.classList.contains(
+                "panel-hidden"
+            )
+        ) {
+
+            button.textContent =
+                "Show Panel";
+
+        }
+
+        else {
+
+            button.textContent =
+                "Hide Panel";
+
+        }
+
+    }
+
+
+
+    /* =========================================================
+       FUTURE LOCATION DATABASE
+
+       When we add locations such as the Temple of Asgorath,
+       Great Beast Market, Marsh Council and Dragon Relic Museum,
+       their information will go here.
+    ========================================================= */
+
+    const locations = {
+
+    };
+
+
+
+    /* =========================================================
+       SHOW LOCATION
+    ========================================================= */
+
+    function showLocation(id) {
+
+        const location =
+            locations[id];
+
+
+        if (!location) {
+
+            return;
+
+        }
+
+
+        const panel =
+            document.getElementById(
+                "info-panel"
+            );
+
+
+        panel.innerHTML = `
+
+            <h2>
+                ${location.name}
+            </h2>
+
+            <p class="location-type">
+                ${location.type}
+            </p>
+
+            <p>
+                ${location.description}
+            </p>
+
+            <div class="section-title">
+                Known For
+            </div>
+
+            <p>
+                ${location.knownFor}
+            </p>
+
+            <div class="section-title">
+                Notes
+            </div>
+
+            <p>
+                ${location.notes}
+            </p>
+
+        `;
+
+    }
+
+
+
+    /* =========================================================
+       INITIALIZE
+    ========================================================= */
+
+    updateZoom();
+
+
+</script>
+
+
+</body>
+
+</html>

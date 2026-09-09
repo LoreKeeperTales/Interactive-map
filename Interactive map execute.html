@@ -2,12 +2,25 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Ellond Interactive Atlas</title>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Ellond Interactive Atlas
+    </title>
+
 
     <style>
+
+
+        /* =========================================================
+           GENERAL
+        ========================================================= */
 
         * {
             box-sizing: border-box;
@@ -15,69 +28,93 @@
 
         body {
             margin: 0;
+
             background: #1b1814;
             color: #e7ddc7;
-            font-family: Georgia, "Times New Roman", serif;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
         }
 
 
-        /* =========================
+
+        /* =========================================================
            HEADER
-        ========================= */
+        ========================================================= */
 
         header {
             height: 70px;
 
             display: flex;
             align-items: center;
+
             gap: 30px;
 
-            padding: 0 30px;
+            padding:
+                0
+                30px;
 
             background: #211d18;
-            border-bottom: 1px solid #665944;
+
+            border-bottom:
+                1px solid #665944;
         }
 
         header h1 {
             margin: 0;
 
-            letter-spacing: 4px;
             font-size: 24px;
+
+            letter-spacing: 4px;
         }
 
         header .subtitle {
-            color: #a99a80;
-            font-size: 14px;
-
             margin-right: auto;
+
+            color: #a99a80;
+
+            font-size: 14px;
         }
 
 
-        /* =========================
+
+        /* =========================================================
            HEADER CONTROLS
-        ========================= */
+        ========================================================= */
 
         .header-controls {
             display: flex;
+
             align-items: center;
+
             gap: 10px;
         }
 
         .zoom-controls {
             display: flex;
+
             gap: 6px;
         }
 
         .zoom-controls button,
         .panel-toggle {
-            padding: 8px 12px;
+            padding:
+                8px
+                12px;
 
             background: #322b22;
             color: #e7ddc7;
 
-            border: 1px solid #88775a;
+            border:
+                1px solid #88775a;
 
-            font-family: Georgia, "Times New Roman", serif;
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
             font-size: 14px;
 
             cursor: pointer;
@@ -89,20 +126,25 @@
         }
 
 
-        /* =========================
+
+        /* =========================================================
            MAIN LAYOUT
-        ========================= */
+        ========================================================= */
 
         .layout {
             display: grid;
 
-            grid-template-columns: 1fr 340px;
+            grid-template-columns:
+                1fr
+                340px;
 
-            height: calc(100vh - 70px);
+            height:
+                calc(100vh - 70px);
         }
 
         .layout.panel-hidden {
-            grid-template-columns: 1fr;
+            grid-template-columns:
+                1fr;
         }
 
         .layout.panel-hidden aside {
@@ -110,9 +152,10 @@
         }
 
 
-        /* =========================
-           MAP AREA
-        ========================= */
+
+        /* =========================================================
+           MAP
+        ========================================================= */
 
         .map-container {
             position: relative;
@@ -126,6 +169,7 @@
             position: relative;
 
             width: 1400px;
+
             min-height: 900px;
         }
 
@@ -134,20 +178,23 @@
 
             width: 1400px;
 
-            transform-origin: top left;
+            transform-origin:
+                top left;
         }
 
         .world-map {
             display: block;
 
             width: 100%;
+
             height: auto;
         }
 
 
-        /* =========================
-           MAP MARKERS
-        ========================= */
+
+        /* =========================================================
+           NORMAL MAP MARKERS
+        ========================================================= */
 
         .marker {
             position: absolute;
@@ -155,14 +202,17 @@
             width: 18px;
             height: 18px;
 
-            border: 3px solid #e9d9b5;
+            border:
+                3px solid #e9d9b5;
+
             background: #6d3528;
 
             border-radius: 50%;
 
             cursor: pointer;
 
-            transform: translate(-50%, -50%);
+            transform:
+                translate(-50%, -50%);
 
             transition:
                 transform 0.15s,
@@ -177,6 +227,91 @@
             background: #a75438;
         }
 
+/* =========================================================
+   SETTLEMENT SIZE MARKERS
+========================================================= */
+
+/* Small village */
+.marker.village-marker {
+    width: 14px;
+    height: 14px;
+
+    border-width: 2px;
+
+    background: #6d3528;
+}
+
+
+/* Town */
+.marker.town-marker {
+    width: 20px;
+    height: 20px;
+
+    border-width: 3px;
+
+    background: #6d3528;
+}
+
+
+/* City / Capital */
+.marker.city-marker {
+    width: 26px;
+    height: 26px;
+
+    border-width: 4px;
+
+    background: #6d3528;
+}
+
+
+/* Keep hover proportional */
+
+.marker.village-marker:hover,
+.marker.town-marker:hover,
+.marker.city-marker:hover {
+    transform:
+        translate(-50%, -50%)
+        scale(1.35);
+
+    background: #a75438;
+}
+
+
+        /* =========================================================
+           GUILD MARKERS
+        ========================================================= */
+
+        .marker.guild-marker {
+            width: 22px;
+            height: 22px;
+
+            border-radius: 2px;
+
+            background: #55456b;
+
+            border:
+                3px solid #e9d9b5;
+
+            transform:
+                translate(-50%, -50%)
+                rotate(45deg);
+        }
+
+        .marker.guild-marker:hover {
+            background: #796392;
+
+            transform:
+                translate(-50%, -50%)
+                rotate(45deg)
+                scale(1.35);
+        }
+
+
+
+        /* =========================================================
+           MARKER LABELS
+        ========================================================= */
+
         .marker-label {
             position: absolute;
 
@@ -185,7 +320,9 @@
 
             white-space: nowrap;
 
-            padding: 4px 7px;
+            padding:
+                4px
+                7px;
 
             background:
                 rgba(20, 17, 13, 0.85);
@@ -201,9 +338,22 @@
         }
 
 
-        /* =========================
+        /* Guild marker itself rotates,
+           so rotate the label back. */
+
+        .marker.guild-marker .marker-label {
+            left: 24px;
+            top: -11px;
+
+            transform:
+                rotate(-45deg);
+        }
+
+
+
+        /* =========================================================
            SIDEBAR
-        ========================= */
+        ========================================================= */
 
         aside {
             overflow-y: auto;
@@ -219,16 +369,17 @@
         aside h2 {
             margin-top: 0;
 
+            padding-bottom: 10px;
+
             border-bottom:
                 1px solid #665944;
-
-            padding-bottom: 10px;
 
             letter-spacing: 1px;
         }
 
         .location-type {
             color: #aa9b82;
+
             font-style: italic;
         }
 
@@ -247,28 +398,37 @@
 
         .placeholder {
             color: #938872;
+
             font-style: italic;
         }
 
 
-        /* =========================
+
+        /* =========================================================
            BUTTONS
-        ========================= */
+        ========================================================= */
 
         .button {
             display: inline-block;
 
             margin-top: 15px;
-            padding: 9px 14px;
 
-            border: 1px solid #88775a;
+            padding:
+                9px
+                14px;
+
+            border:
+                1px solid #88775a;
 
             background: #322b22;
             color: #e7ddc7;
 
             text-decoration: none;
 
-            font-family: Georgia, "Times New Roman", serif;
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
 
             cursor: pointer;
         }
@@ -277,15 +437,53 @@
             background: #44392d;
         }
 
+        .map-button {
+            display: block;
 
-        /* =========================
-           EXPANDED LOCATION PANEL
-        ========================= */
+            width: 100%;
+
+            margin-top: 20px;
+            margin-bottom: 8px;
+
+            padding:
+                13px
+                15px;
+
+            background: #322b22;
+            color: #e7ddc7;
+
+            border:
+                1px solid #88775a;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 17px;
+
+            text-align: center;
+            text-decoration: none;
+
+            cursor: pointer;
+        }
+
+        .map-button:hover {
+            background: #44392d;
+        }
+
+
+
+        /* =========================================================
+           EXPANDED INFORMATION PANEL
+        ========================================================= */
 
         .info-section {
             display: grid;
 
-            grid-template-columns: 42px 1fr;
+            grid-template-columns:
+                42px
+                1fr;
 
             gap: 12px;
 
@@ -293,12 +491,13 @@
         }
 
         .info-icon {
-            font-size: 24px;
+            padding-top: 2px;
+
             color: #c8b78f;
 
-            text-align: center;
+            font-size: 24px;
 
-            padding-top: 2px;
+            text-align: center;
         }
 
         .info-content {
@@ -332,51 +531,27 @@
             line-height: 1.4;
         }
 
-        .map-button {
-            display: block;
-
-            width: 100%;
-
-            margin-top: 20px;
-            margin-bottom: 8px;
-
-            padding: 13px 15px;
-
-            background: #322b22;
-            color: #e7ddc7;
-
-            border: 1px solid #88775a;
-
-            font-family: Georgia, "Times New Roman", serif;
-            font-size: 17px;
-
-            text-align: center;
-            text-decoration: none;
-
-            cursor: pointer;
-        }
-
-        .map-button:hover {
-            background: #44392d;
-        }
 
     </style>
 
 </head>
 
 
+
 <body>
 
 
-<!-- =========================
+<!-- =============================================================
      HEADER
-========================= -->
+============================================================= -->
 
 <header>
+
 
     <h1>
         ELLOND
     </h1>
+
 
     <span class="subtitle">
         Interactive World Atlas
@@ -385,6 +560,8 @@
 
     <div class="header-controls">
 
+
+        <!-- ZOOM -->
 
         <div class="zoom-controls">
 
@@ -406,10 +583,12 @@
         </div>
 
 
+        <!-- SIDEBAR -->
+
         <button
             class="panel-toggle"
-            onclick="togglePanel()"
             id="panel-toggle"
+            onclick="togglePanel()"
         >
             Hide Panel
         </button>
@@ -417,13 +596,14 @@
 
     </div>
 
+
 </header>
 
 
 
-<!-- =========================
+<!-- =============================================================
      MAIN LAYOUT
-========================= -->
+============================================================= -->
 
 <div
     class="layout"
@@ -431,24 +611,28 @@
 >
 
 
-    <!-- =========================
+
+    <!-- =========================================================
          WORLD MAP
-    ========================= -->
+    ========================================================= -->
 
     <main
         class="map-container"
         id="map-container"
     >
 
+
         <div
             class="map-stage"
             id="map-stage"
         >
 
+
             <div
                 class="map-wrapper"
                 id="map-wrapper"
             >
+
 
 
                 <!-- WORLD MAP IMAGE -->
@@ -461,12 +645,12 @@
 
 
 
-                <!-- =========================
+                <!-- =================================================
                      XAL'TORATH
-                ========================= -->
+                ================================================= -->
 
                 <div
-                    class="marker"
+                    class="marker city-marker"
                     style="left: 24%; top: 38%;"
                     onclick="showLocation('xaltorath')"
                 >
@@ -479,12 +663,85 @@
 
 
 
-                <!-- =========================
-                     PORT ASTER
-                ========================= -->
+                <!-- =================================================
+                     GLACIER'S REST
+                ================================================= -->
+
+                <div
+                    class="marker city-marker"
+                    style="left: 76%; top: 16%;"
+                    onclick="showLocation('glaciersrest')"
+                >
+
+                    <span class="marker-label">
+                        Glacier's Rest
+                    </span>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     ENCHANTED FOREST
+                ================================================= -->
 
                 <div
                     class="marker"
+                    style="left: 81%; top: 36%;"
+                    onclick="showLocation('enchantedforest')"
+                >
+
+                    <span class="marker-label">
+                        Enchanted Forest
+                    </span>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     VERDROSS
+                ================================================= -->
+
+                <div
+                    class="marker town-marker"
+                    style="left: 52%; top: 78%;"
+                    onclick="showLocation('verdross')"
+                >
+
+                    <span class="marker-label">
+                        Verdross
+                    </span>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     GENTLEMAN'S LEAGUE
+                     Guild marker = diamond
+                ================================================= -->
+
+                <div
+                    class="marker guild-marker"
+                    style="left: 58%; top: 47%;"
+                    onclick="showLocation('gentlemansleague')"
+                >
+
+                    <span class="marker-label">
+                        Gentleman's League
+                    </span>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     PORT ASTER
+                ================================================= -->
+
+                <div
+                    class="marker town-marker"
                     style="left: 30%; top: 40%;"
                     onclick="showLocation('portaster')"
                 >
@@ -497,12 +754,12 @@
 
 
 
-                <!-- =========================
+                <!-- =================================================
                      MOSSHOLLOW
-                ========================= -->
+                ================================================= -->
 
                 <div
-                    class="marker"
+                    class="marker village-marker"
                     style="left: 31%; top: 36%;"
                     onclick="showLocation('mosshollow')"
                 >
@@ -515,12 +772,12 @@
 
 
 
-                <!-- =========================
+                <!-- =================================================
                      IRONHALL
-                ========================= -->
+                ================================================= -->
 
                 <div
-                    class="marker"
+                    class="marker city-marker"
                     style="left: 53%; top: 25%;"
                     onclick="showLocation('ironhall')"
                 >
@@ -531,93 +788,114 @@
 
                 </div>
 
-<!-- =========================
-     GREENHAVEN
-========================= -->
-
-<div
-    class="marker"
-    style="left: 58%; top: 66%;"
-    onclick="showLocation('greenhaven')"
->
-    <span class="marker-label">
-        Greenhaven
-    </span>
-</div>
 
 
-<!-- =========================
-     LYSMARÈ
-========================= -->
+                <!-- =================================================
+                     GREENHAVEN
+                ================================================= -->
 
-<div
-    class="marker"
-    style="left: 35.5%; top: 53%;"
-    onclick="showLocation('lysmare')"
->
-    <span class="marker-label">
-        Lysmarè
-    </span>
-</div>
+                <div
+                    class="marker city-marker"
+                    style="left: 58%; top: 66%;"
+                    onclick="showLocation('greenhaven')"
+                >
 
+                    <span class="marker-label">
+                        Greenhaven
+                    </span>
 
-<!-- =========================
-     STONEREACH
-========================= -->
-
-<div
-    class="marker"
-    style="left: 58%; top: 32%;"
-    onclick="showLocation('stonereach')"
->
-    <span class="marker-label">
-        Stonereach
-    </span>
-</div>
+                </div>
 
 
-<!-- =========================
-     THALANDOR
-========================= -->
 
-<div
-    class="marker"
-    style="left: 59%; top: 17%;"
-    onclick="showLocation('thalandor')"
->
-    <span class="marker-label">
-        Thalandor
-    </span>
-</div>
+                <!-- =================================================
+                     LYSMARÈ
+                ================================================= -->
 
+                <div
+                    class="marker village-marker"
+                    style="left: 35.5%; top: 53%;"
+                    onclick="showLocation('lysmare')"
+                >
 
-<!-- =========================
-     VHAL'KARETH
-========================= -->
+                    <span class="marker-label">
+                        Lysmarè
+                    </span>
 
-<div
-    class="marker"
-    style="left: 41%; top: 46%;"
-    onclick="showLocation('vhalkareth')"
->
-    <span class="marker-label">
-        Vhal'Kareth
-    </span>
-</div>
+                </div>
 
 
-<!-- END MAP WRAPPER -->
 
-</div>
+                <!-- =================================================
+                     STONEREACH
+                ================================================= -->
 
-</div>
+                <div
+                    class="marker town-marker"
+                    style="left: 58%; top: 32%;"
+                    onclick="showLocation('stonereach')"
+                >
 
-</main>
+                    <span class="marker-label">
+                        Stonereach
+                    </span>
+
+                </div>
 
 
-    <!-- =========================
+
+                <!-- =================================================
+                     THALANDOR
+                ================================================= -->
+
+                <div
+                    class="marker city-marker"
+                    style="left: 59%; top: 17%;"
+                    onclick="showLocation('thalandor')"
+                >
+
+                    <span class="marker-label">
+                        Thalandor
+                    </span>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     VHAL'KARETH
+                ================================================= -->
+
+                <div
+                    class="marker city-marker"
+                    style="left: 41%; top: 46%;"
+                    onclick="showLocation('vhalkareth')"
+                >
+
+                    <span class="marker-label">
+                        Vhal'Kareth
+                    </span>
+
+                </div>
+
+
+
+            </div>
+            <!-- END MAP WRAPPER -->
+
+
+        </div>
+        <!-- END MAP STAGE -->
+
+
+    </main>
+    <!-- END MAP CONTAINER -->
+
+
+
+    <!-- =========================================================
          INFORMATION PANEL
-    ========================= -->
+    ========================================================= -->
 
     <aside id="info-panel">
 
@@ -658,9 +936,9 @@
 <script>
 
 
-    /* =========================
+    /* =========================================================
        ZOOM
-    ========================= */
+    ========================================================= */
 
     let currentZoom = 1;
 
@@ -702,9 +980,14 @@
 
         currentZoom += zoomStep;
 
+
         if (currentZoom > maximumZoom) {
-            currentZoom = maximumZoom;
+
+            currentZoom =
+                maximumZoom;
+
         }
+
 
         updateZoom();
 
@@ -715,9 +998,14 @@
 
         currentZoom -= zoomStep;
 
+
         if (currentZoom < minimumZoom) {
-            currentZoom = minimumZoom;
+
+            currentZoom =
+                minimumZoom;
+
         }
+
 
         updateZoom();
 
@@ -734,9 +1022,9 @@
 
 
 
-    /* =========================
-       PANEL TOGGLE
-    ========================= */
+    /* =========================================================
+       SIDEBAR
+    ========================================================= */
 
     function togglePanel() {
 
@@ -761,7 +1049,9 @@
             button.textContent =
                 "Show Panel";
 
-        } else {
+        }
+
+        else {
 
             button.textContent =
                 "Hide Panel";
@@ -772,22 +1062,25 @@
 
 
 
-    /* =========================
+    /* =========================================================
        LOCATION DATABASE
-    ========================= */
+    ========================================================= */
 
     const locations = {
 
 
 
-        /* =========================
+        /* =====================================================
            XAL'TORATH
-        ========================= */
+        ===================================================== */
 
         xaltorath: {
 
             name:
                 "Xal'Torath",
+
+            map:
+                "locations/xaltorath.html",
 
             type:
                 "Lizardfolk City — West Marches",
@@ -811,9 +1104,134 @@
 
 
 
-        /* =========================
+        /* =====================================================
+           GLACIER'S REST
+        ===================================================== */
+
+        glaciersrest: {
+
+            name:
+                "Glacier's Rest",
+
+
+            type:
+                "Northern Settlement",
+
+            description:
+                "A remote settlement in the frozen reaches of northern Ellond, surrounded by snow, ice and rugged wilderness.",
+
+            population:
+                "Unknown",
+
+            knownFor:
+                "Its isolated northern location, harsh climate and travelers passing through the frozen reaches.",
+
+            history:
+                "Add Glacier's Rest history here.",
+
+            dm:
+                "Add hidden campaign information here."
+
+        },
+
+
+
+        /* =====================================================
+           ENCHANTED FOREST
+        ===================================================== */
+
+        enchantedforest: {
+
+            name:
+                "Enchanted Forest",
+
+            type:
+                "Ancient Forest",
+
+            description:
+                "A vast and ancient woodland where magic runs unusually strong. Travel into the forest is restricted, and much of what lies beneath its canopy remains unknown to outsiders.",
+
+            population:
+                "Unknown",
+
+            knownFor:
+                "Ancient magic, unusual creatures, old ruins and restricted travel.",
+
+            history:
+                "Add the history of the Enchanted Forest here.",
+
+            dm:
+                "Add hidden campaign information here."
+
+        },
+
+
+
+        /* =====================================================
+           VERDROSS
+        ===================================================== */
+
+        verdross: {
+
+            name:
+                "Verdross",
+
+            type:
+                "Settlement",
+
+            description:
+                "Add Verdross description here.",
+
+            population:
+                "Unknown",
+
+            knownFor:
+                "Add notable features of Verdross here.",
+
+            history:
+                "Add Verdross history here.",
+
+            dm:
+                "Add hidden campaign information here."
+
+        },
+
+
+
+        /* =====================================================
+           GENTLEMAN'S LEAGUE OF MAGICAL EXCELLENCE
+        ===================================================== */
+
+        gentlemansleague: {
+
+            name:
+                "Gentleman's League of Magical Excellence",
+
+            type:
+                "Mage Guild Headquarters",
+
+            description:
+                "One of the most influential guilds in Ellond. The League trains, certifies and represents professional mages while providing magical specialists to kingdoms and organizations throughout the continent.",
+
+            population:
+                "Guild Headquarters",
+
+            knownFor:
+                "Professional magic, magical certification, Royal Mages and its close relationship with the College of Perpetual Dawn.",
+
+            history:
+                "By 451 COD, the Gentleman's League of Magical Excellence is led by Luna and Pete and has become one of Ellond's most influential guilds. Rather than concentrating its mages in one kingdom, the League sends members across Ellond to serve as Royal Mages, deliberately placing them among peoples other than their own to reduce local loyalties and favoritism.",
+
+            dm:
+                "The League maintains strong ties with the College of Perpetual Dawn, lending resources for magical study and training."
+
+        },
+
+
+
+        /* =====================================================
            PORT ASTER
-        ========================= */
+        ===================================================== */
 
         portaster: {
 
@@ -857,9 +1275,9 @@
 
 
 
-        /* =========================
+        /* =====================================================
            MOSSHOLLOW
-        ========================= */
+        ===================================================== */
 
         mosshollow: {
 
@@ -894,9 +1312,9 @@
 
 
 
-        /* =========================
+        /* =====================================================
            IRONHALL
-        ========================= */
+        ===================================================== */
 
         ironhall: {
 
@@ -923,134 +1341,143 @@
 
         },
 
-/* =========================
-   LYSMARÈ
-========================= */
-
-lysmare: {
-
-    name:
-        "Lysmarè",
-
-    type:
-        "Settlement",
-
-    description:
-        "Add Lysmarè description here.",
-
-    population:
-        "Unknown",
-
-    knownFor:
-        "Add notable features of Lysmarè here.",
-
-    history:
-        "Add Lysmarè history here.",
-
-    dm:
-        "Add hidden campaign information here."
-
-},
 
 
-/* =========================
-   STONEREACH
-========================= */
+        /* =====================================================
+           LYSMARÈ
+        ===================================================== */
 
-stonereach: {
+        lysmare: {
 
-    name:
-        "Stonereach",
+            name:
+                "Lysmarè",
 
-    type:
-        "Dwarven Settlement",
+            type:
+                "Settlement",
 
-    description:
-        "A dwarven settlement associated with the Central Highlands and the development of the region's mineral wealth.",
+            description:
+                "Add Lysmarè description here.",
 
-    population:
-        "Unknown",
+            population:
+                "Unknown",
 
-    knownFor:
-        "Dwarven trade, mining and its connection to Dwaranite.",
+            knownFor:
+                "Add notable features of Lysmarè here.",
 
-    history:
-        "Add Stonereach history here.",
+            history:
+                "Add Lysmarè history here.",
 
-    dm:
-        "Add hidden campaign information here."
+            dm:
+                "Add hidden campaign information here."
 
-},
-
-
-/* =========================
-   THALANDOR
-========================= */
-
-thalandor: {
-
-    name:
-        "Thalandor",
-
-    type:
-        "Settlement",
-
-    description:
-        "Add Thalandor description here.",
-
-    population:
-        "Unknown",
-
-    knownFor:
-        "Add notable features of Thalandor here.",
-
-    history:
-        "Add Thalandor history here.",
-
-    dm:
-        "Add hidden campaign information here."
-
-},
+        },
 
 
-/* =========================
-   VHAL'KARETH
-========================= */
 
-vhalkareth: {
+        /* =====================================================
+           STONEREACH
+        ===================================================== */
 
-    name:
-        "Vhal'Kareth",
+        stonereach: {
 
-    type:
-        "Settlement",
+            name:
+                "Stonereach",
 
-    description:
-        "An old settlement with deep roots in the history of Ellond.",
+            type:
+                "Dwarven Settlement",
 
-    population:
-        "Unknown",
+            description:
+                "A dwarven settlement associated with the Central Highlands and the development of the region's mineral wealth.",
 
-    knownFor:
-        "Add notable features of Vhal'Kareth here.",
+            population:
+                "Unknown",
 
-    history:
-        "Add Vhal'Kareth history here.",
+            knownFor:
+                "Dwarven trade, mining and its connection to Dwaranite.",
 
-    dm:
-        "Add hidden campaign information here."
+            history:
+                "Add Stonereach history here.",
 
-},
+            dm:
+                "Add hidden campaign information here."
+
+        },
 
 
-        /* =========================
+
+        /* =====================================================
+           THALANDOR
+        ===================================================== */
+
+        thalandor: {
+
+            name:
+                "Thalandor",
+
+            type:
+                "Settlement",
+
+            description:
+                "Add Thalandor description here.",
+
+            population:
+                "Unknown",
+
+            knownFor:
+                "Add notable features of Thalandor here.",
+
+            history:
+                "Add Thalandor history here.",
+
+            dm:
+                "Add hidden campaign information here."
+
+        },
+
+
+
+        /* =====================================================
+           VHAL'KARETH
+        ===================================================== */
+
+        vhalkareth: {
+
+            name:
+                "Vhal'Kareth",
+
+            type:
+                "Settlement",
+
+            description:
+                "An old settlement with deep roots in the history of Ellond.",
+
+            population:
+                "Unknown",
+
+            knownFor:
+                "Add notable features of Vhal'Kareth here.",
+
+            history:
+                "Add Vhal'Kareth history here.",
+
+            dm:
+                "Add hidden campaign information here."
+
+        },
+
+
+
+        /* =====================================================
            GREENHAVEN
-        ========================= */
+        ===================================================== */
 
         greenhaven: {
 
             name:
                 "Greenhaven",
+
+            map:
+                "locations/greenhaven.html",
 
             type:
                 "Human Capital — Southern Empire",
@@ -1059,10 +1486,10 @@ vhalkareth: {
                 "Greenhaven is a prosperous farming and harbour town situated along the northern edge of the Southern Empire. The countryside surrounding Greenhaven contains some of the most fertile land in the Empire. Vast fields stretch beyond the town for miles, broken by orchards, grazing lands, farmsteads, mills and small agricultural villages. Wheat, barley, oats, vegetables and fruit are produced here in enormous quantities. Greenhaven and its surrounding farms provide most of the food consumed throughout the Southern Empire, earning the region the common nickname The Granary of the South.",
 
             population:
-                "Predominantly Human, aproximatly 15,000",
+                "Predominantly Human, approximately 15,000",
 
             knownFor:
-                "Grand market, extensive farmland, grain production and the Granary of the South.",
+                "Grand Market, extensive farmland, grain production and the Granary of the South.",
 
             history:
                 "Greenhaven began as a frontier settlement near the southern edge of the Empire, founded to support trade, farming, and travel between the settled lands and the wilder regions beyond. Over time, merchants, hunters, farmers, and travelers turned the settlement into a steady stopping point rather than a major city. Its position made it valuable without ever making it crowded, and much of Greenhaven's character still comes from that balance between civilization and the open road. Today, it is known as a practical, welcoming town where caravans resupply, travelers rest, and news from the southern reaches of Ellond often arrives first.",
@@ -1072,13 +1499,14 @@ vhalkareth: {
 
         }
 
+
     };
 
 
 
-    /* =========================
+    /* =========================================================
        SHOW LOCATION
-    ========================= */
+    ========================================================= */
 
     function showLocation(id) {
 
@@ -1087,15 +1515,20 @@ vhalkareth: {
 
 
         if (!location) {
+
             return;
+
         }
 
 
         const panel =
-            document.getElementById("info-panel");
+            document.getElementById(
+                "info-panel"
+            );
 
 
         panel.innerHTML = `
+
 
             <h2>
                 ${location.name}
@@ -1110,6 +1543,7 @@ vhalkareth: {
             <p>
                 ${location.description}
             </p>
+
 
 
             ${location.map ? `
@@ -1169,6 +1603,7 @@ vhalkareth: {
                             ${location.governmentDetails}
                         </p>
 
+
                         ${location.governmentNote ? `
 
                             <p class="info-small">
@@ -1176,6 +1611,7 @@ vhalkareth: {
                             </p>
 
                         ` : ""}
+
 
                     </div>
 
@@ -1314,15 +1750,16 @@ vhalkareth: {
 
             ` : ""}
 
+
         `;
 
     }
 
 
 
-    /* =========================
+    /* =========================================================
        OPEN LOCATION PAGE
-    ========================= */
+    ========================================================= */
 
     function openLocation(id) {
 
@@ -1342,13 +1779,29 @@ vhalkareth: {
 
         }
 
+
+        if (id === "greenhaven") {
+
+            window.location.href =
+                "locations/greenhaven.html";
+
+        }
+
+        if (id === "xaltorath") {
+
+             window.location.href =
+               "locations/xaltorath.html";
+
+        }
+
+
     }
 
 
 
-    /* =========================
+    /* =========================================================
        INITIALIZE
-    ========================= */
+    ========================================================= */
 
     updateZoom();
 
