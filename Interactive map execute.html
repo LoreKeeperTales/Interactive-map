@@ -27,6 +27,7 @@
 
         header {
             height: 70px;
+
             display: flex;
             align-items: center;
             gap: 30px;
@@ -39,6 +40,7 @@
 
         header h1 {
             margin: 0;
+
             letter-spacing: 4px;
             font-size: 24px;
         }
@@ -93,6 +95,7 @@
 
         .layout {
             display: grid;
+
             grid-template-columns: 1fr 340px;
 
             height: calc(100vh - 70px);
@@ -113,18 +116,22 @@
 
         .map-container {
             position: relative;
+
             overflow: auto;
+
             background: #111;
         }
 
         .map-stage {
             position: relative;
+
             width: 1400px;
             min-height: 900px;
         }
 
         .map-wrapper {
             position: relative;
+
             width: 1400px;
 
             transform-origin: top left;
@@ -132,6 +139,7 @@
 
         .world-map {
             display: block;
+
             width: 100%;
             height: auto;
         }
@@ -162,7 +170,10 @@
         }
 
         .marker:hover {
-            transform: translate(-50%, -50%) scale(1.35);
+            transform:
+                translate(-50%, -50%)
+                scale(1.35);
+
             background: #a75438;
         }
 
@@ -176,9 +187,11 @@
 
             padding: 4px 7px;
 
-            background: rgba(20, 17, 13, 0.85);
+            background:
+                rgba(20, 17, 13, 0.85);
 
-            border: 1px solid #675b48;
+            border:
+                1px solid #675b48;
 
             color: #eee3cb;
 
@@ -199,13 +212,15 @@
 
             background: #252019;
 
-            border-left: 1px solid #665944;
+            border-left:
+                1px solid #665944;
         }
 
         aside h2 {
             margin-top: 0;
 
-            border-bottom: 1px solid #665944;
+            border-bottom:
+                1px solid #665944;
 
             padding-bottom: 10px;
 
@@ -226,6 +241,7 @@
             font-size: 14px;
 
             text-transform: uppercase;
+
             letter-spacing: 2px;
         }
 
@@ -236,7 +252,7 @@
 
 
         /* =========================
-           SIDEBAR BUTTON
+           BUTTONS
         ========================= */
 
         .button {
@@ -260,84 +276,89 @@
         .button:hover {
             background: #44392d;
         }
-/* =========================
-   EXPANDED LOCATION PANEL
-========================= */
 
-.info-section {
-    display: grid;
-    grid-template-columns: 42px 1fr;
-    gap: 12px;
 
-    margin-top: 24px;
-}
+        /* =========================
+           EXPANDED LOCATION PANEL
+        ========================= */
 
-.info-icon {
-    font-size: 24px;
-    color: #c8b78f;
+        .info-section {
+            display: grid;
 
-    text-align: center;
+            grid-template-columns: 42px 1fr;
 
-    padding-top: 2px;
-}
+            gap: 12px;
 
-.info-content {
-    min-width: 0;
-}
+            margin-top: 24px;
+        }
 
-.info-heading {
-    margin-bottom: 7px;
+        .info-icon {
+            font-size: 24px;
+            color: #c8b78f;
 
-    color: #c8b78f;
+            text-align: center;
 
-    font-size: 14px;
+            padding-top: 2px;
+        }
 
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
+        .info-content {
+            min-width: 0;
+        }
 
-.info-content p {
-    margin-top: 0;
-    margin-bottom: 8px;
+        .info-heading {
+            margin-bottom: 7px;
 
-    line-height: 1.35;
-}
+            color: #c8b78f;
 
-.info-small {
-    color: #a99a80;
+            font-size: 14px;
 
-    font-style: italic;
+            text-transform: uppercase;
 
-    line-height: 1.4;
-}
+            letter-spacing: 2px;
+        }
 
-.map-button {
-    display: block;
+        .info-content p {
+            margin-top: 0;
+            margin-bottom: 8px;
 
-    width: 100%;
+            line-height: 1.35;
+        }
 
-    margin-top: 20px;
-    margin-bottom: 8px;
+        .info-small {
+            color: #a99a80;
 
-    padding: 13px 15px;
+            font-style: italic;
 
-    background: #322b22;
-    color: #e7ddc7;
+            line-height: 1.4;
+        }
 
-    border: 1px solid #88775a;
+        .map-button {
+            display: block;
 
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 17px;
+            width: 100%;
 
-    text-align: center;
-    text-decoration: none;
+            margin-top: 20px;
+            margin-bottom: 8px;
 
-    cursor: pointer;
-}
+            padding: 13px 15px;
 
-.map-button:hover {
-    background: #44392d;
-}
+            background: #322b22;
+            color: #e7ddc7;
+
+            border: 1px solid #88775a;
+
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 17px;
+
+            text-align: center;
+            text-decoration: none;
+
+            cursor: pointer;
+        }
+
+        .map-button:hover {
+            background: #44392d;
+        }
 
     </style>
 
@@ -365,8 +386,6 @@
     <div class="header-controls">
 
 
-        <!-- ZOOM -->
-
         <div class="zoom-controls">
 
             <button onclick="zoomOut()">
@@ -386,8 +405,6 @@
 
         </div>
 
-
-        <!-- SIDEBAR -->
 
         <button
             class="panel-toggle"
@@ -481,6 +498,24 @@
 
 
                 <!-- =========================
+                     MOSSHOLLOW
+                ========================= -->
+
+                <div
+                    class="marker"
+                    style="left: 31%; top: 36%;"
+                    onclick="showLocation('mosshollow')"
+                >
+
+                    <span class="marker-label">
+                        Mosshollow
+                    </span>
+
+                </div>
+
+
+
+                <!-- =========================
                      IRONHALL
                 ========================= -->
 
@@ -499,36 +534,13 @@
 
 
                 <!-- =========================
-                     MOSSHOLLOW
-                ========================= -->
-
-                <div
-                    class="marker"
-                    style="left: 31%; top: 36%;"
-                    onclick="showLocation('mosshollow')"
-                >
-
-                    <span class="marker-label">
-                        Mosshollow
-                    </span>
-
-                </div>
-
-
-            </div>
-
-        </div>
-
-    </main>
-
-               <!-- =========================
-                     Greenhaven
+                     GREENHAVEN
                 ========================= -->
 
                 <div
                     class="marker"
                     style="left: 55%; top: 80%;"
-                    onclick="showLocation('Greenhaven')"
+                    onclick="showLocation('greenhaven')"
                 >
 
                     <span class="marker-label">
@@ -543,6 +555,7 @@
         </div>
 
     </main>
+
 
 
     <!-- =========================
@@ -677,11 +690,15 @@
             document.getElementById("panel-toggle");
 
 
-        layout.classList.toggle("panel-hidden");
+        layout.classList.toggle(
+            "panel-hidden"
+        );
 
 
         if (
-            layout.classList.contains("panel-hidden")
+            layout.classList.contains(
+                "panel-hidden"
+            )
         ) {
 
             button.textContent =
@@ -712,65 +729,74 @@
 
         xaltorath: {
 
-    name:
-        "Xal'Torath",
+            name:
+                "Xal'Torath",
 
-    type:
-        "Lizardfolk City — West Marches",
+            type:
+                "Lizardfolk City — West Marches",
 
-    description:
-        "The largest city in the West Marches and the political heart of the Lizardfolk clans. Built on massive stone terraces above the marshes, connected by bridges, canals, and towering mangrove roots. Much of the city predates the Empire by thousands of years.",
+            description:
+                "The largest city in the West Marches and the political heart of the Lizardfolk clans. Built on massive stone terraces above the marshes, connected by bridges, canals, and towering mangrove roots. Much of the city predates the Empire by thousands of years.",
 
-    population:
-        "Approximately 14,000",
+            population:
+                "Approximately 14,000",
 
-    knownFor:
-        "Marsh Council chambers, Temple of Asgorath, Great Beast Market, exotic spices, dinosaur mounts, ancient stone observatories and the Dragon Relic Museum.",
+            knownFor:
+                "Marsh Council chambers, Temple of Asgorath, Great Beast Market, exotic spices, dinosaur mounts, ancient stone observatories and the Dragon Relic Museum.",
 
-    history:
-        "Much of the stonework predates the modern kingdoms of Ellond by thousands of years.",
+            history:
+                "Much of the stonework predates the modern kingdoms of Ellond by thousands of years.",
 
-},
+            dm:
+                "Add hidden information, adventure hooks and campaign secrets here."
 
-
-
-      portaster: {
-
-    name:
-        "Port Aster",
-
-    map:
-        "locations/port-aster.html",
-
-    type:
-        "Port Town — West Marches",
-
-    description:
-        "A busy coastal settlement and stopping point for travelers, merchants and adventurers. Known for its diverse cultures, thriving markets and access to the West Marches.",
-
-    population:
-        "Unknown",
-
-    government:
-        "The Marsh Council",
-
-    governmentDetails:
-        "4 Lizardfolk Clan Elders, 1 Tortle Elder, 1 Yuan-ti Representative, 1 Merchant Consortium Representative, 1 Adventure Guild Representative, and 1 Imperial Envoy.",
-
-    governmentNote:
-        "The Imperial Envoy is non-voting except on matters directly concerning imperial affairs.",
-
-    knownFor:
-    "Trade, ships, travelers, its adventurer notice board, and its role as a gateway to the West Marches.",
-
-atmosphere:
-    "Visitors immediately recognize that they have left the Empire behind. Raised stone buildings protect against seasonal floods, while lush jungle vegetation fills the streets. Markets overflow with exotic fruits, spices, fish, reptiles and jungle goods. Lizardfolk guards patrol the streets, Tortles manage much of the fishing and river trade, and Yuan-ti merchants negotiate beneath colorful awnings. Imperial banners are present, but are outnumbered by the banners of the ancient Lizardfolk clans.",
-
-history:
-    "Port Aster began as a small Lizardfolk settlement established by clans migrating from the central swamps toward the western coast. As trade between the peoples of Ellond grew, the clans recognized the value of direct access to foreign merchants and sea routes. What began as a trading outpost gradually became the principal gateway between the West Marches and the wider world. Tortles, Yuan-ti, merchants, sailors, and adventurers followed, transforming Port Aster into a diverse port while its Lizardfolk founders retained much of its culture and political influence. Today, Port Aster stands as a meeting place between the ancient traditions of the West Marches and the growing trade of Ellond.",
+        },
 
 
-},
+
+        /* =========================
+           PORT ASTER
+        ========================= */
+
+        portaster: {
+
+            name:
+                "Port Aster",
+
+            map:
+                "locations/port-aster.html",
+
+            type:
+                "Port Town — West Marches",
+
+            description:
+                "A busy coastal settlement and stopping point for travelers, merchants and adventurers. Known for its diverse cultures, thriving markets and access to the West Marches.",
+
+            population:
+                "Unknown",
+
+            government:
+                "The Marsh Council",
+
+            governmentDetails:
+                "4 Lizardfolk Clan Elders, 1 Tortle Elder, 1 Yuan-ti Representative, 1 Merchant Consortium Representative, 1 Adventure Guild Representative, and 1 Imperial Envoy.",
+
+            governmentNote:
+                "The Imperial Envoy is non-voting except on matters directly concerning imperial affairs.",
+
+            knownFor:
+                "Trade, ships, travelers, its adventurer notice board, and its role as a gateway to the West Marches.",
+
+            atmosphere:
+                "Visitors immediately recognize that they have left the Empire behind. Raised stone buildings protect against seasonal floods, while lush jungle vegetation fills the streets. Markets overflow with exotic fruits, spices, fish, reptiles and jungle goods. Lizardfolk guards patrol the streets, Tortles manage much of the fishing and river trade, and Yuan-ti merchants negotiate beneath colorful awnings. Imperial banners are present, but are outnumbered by the banners of the ancient Lizardfolk clans.",
+
+            history:
+                "Port Aster began as a small Lizardfolk settlement established by clans migrating from the central swamps toward the western coast. As trade between the peoples of Ellond grew, the clans recognized the value of direct access to foreign merchants and sea routes. What began as a trading outpost gradually became the principal gateway between the West Marches and the wider world. Tortles, Yuan-ti, merchants, sailors, and adventurers followed, transforming Port Aster into a diverse port while its Lizardfolk founders retained much of its culture and political influence. Today, Port Aster stands as a meeting place between the ancient traditions of the West Marches and the growing trade of Ellond.",
+
+            dm:
+                "Add hidden campaign information here."
+
+        },
 
 
 
@@ -780,34 +806,34 @@ history:
 
         mosshollow: {
 
-    name:
-        "Mosshollow",
+            name:
+                "Mosshollow",
 
-    map:
-        "locations/mosshollow.html",
+            map:
+                "locations/mosshollow.html",
 
-    type:
-        "Fishing Village",
+            type:
+                "Fishing Village",
 
-    description:
-        "A quiet fishing village built on stilts above the marsh waters. Wooden walkways connect homes, docks and small communal buildings across the wetlands.",
+            description:
+                "A quiet fishing village built on stilts above the marsh waters. Wooden walkways connect homes, docks and small communal buildings across the wetlands.",
 
-    population:
-        "Approximately 900",
+            population:
+                "Approximately 900",
 
-    exports:
-        "Salted fish, pearl diving, marsh reeds and freshwater oysters.",
+            exports:
+                "Salted fish, pearl diving, marsh reeds and freshwater oysters.",
 
-    knownFor:
-        "Giant lily fields, a friendly Tortle population and excellent seafood.",
+            knownFor:
+                "Giant lily fields, a friendly Tortle population and excellent seafood.",
 
-    history:
-        "Mosshollow began as a small fishing settlement along the shores of a broad inland lake, surrounded by the wetlands of the West Marches. Its calm waters, rich fishing grounds, and abundant reeds provided everything the early settlement needed. Over generations, Lizardfolk and Tortles built their homes on stilts along the lake and established traditions of fishing, pearl diving, and gathering marsh plants. While Port Aster grew into a busy center of trade, Mosshollow remained deliberately small, a quiet village where life still follows the rhythms of the lake and marsh.",
+            history:
+                "Mosshollow began as a small fishing settlement along the shores of a broad inland lake, surrounded by the wetlands of the West Marches. Its calm waters, rich fishing grounds, and abundant reeds provided everything the early settlement needed. Over generations, Lizardfolk and Tortles built their homes on stilts along the lake and established traditions of fishing, pearl diving, and gathering marsh plants. While Port Aster grew into a busy center of trade, Mosshollow remained deliberately small, a quiet village where life still follows the rhythms of the lake and marsh.",
 
-    dm:
-        "Add hidden campaign information here."
+            dm:
+                "Add hidden campaign information here."
 
-},
+        },
 
 
 
@@ -838,37 +864,41 @@ history:
             dm:
                 "Add hidden campaign information here."
 
-        }
+        },
 
-    };
+
 
         /* =========================
-           Greenhaven
+           GREENHAVEN
         ========================= */
 
-        ironhall: {
+        greenhaven: {
 
             name:
                 "Greenhaven",
 
             type:
-                "Human Capital - Southern Empire",
+                "Human Capital — Southern Empire",
 
             description:
-                "Greenhaven is a prosperous farming and harbour town situated along the northern edge of the Southern Empire. The countryside surrounding Greenhaven contains some of the most fertile land in the Empire. Vast fields stretch beyond the town for miles, broken by orchards, grazing lands, farmsteads, mills and small agricultural villages. Wheat, barley, oats, vegetables and fruit are produced here in enormous quantities. Greenhaven and its surrounding farms provide most of the food consumed throughout the Southern Empire, earning the region the common nickname: "The Granary of the South."",
+                "Greenhaven is a prosperous farming and harbour town situated along the northern edge of the Southern Empire. The countryside surrounding Greenhaven contains some of the most fertile land in the Empire. Vast fields stretch beyond the town for miles, broken by orchards, grazing lands, farmsteads, mills and small agricultural villages. Wheat, barley, oats, vegetables and fruit are produced here in enormous quantities. Greenhaven and its surrounding farms provide most of the food consumed throughout the Southern Empire, earning the region the common nickname The Granary of the South.",
 
             population:
                 "Predominantly Human",
 
             knownFor:
-                "Grand market, Grainary",
+                "Grand market, extensive farmland, grain production and the Granary of the South.",
 
             history:
-                 "Greenhaven began as a frontier settlement near the southern edge of the Empire, founded to support trade, farming, and travel between the settled lands and the wilder regions beyond. Over time, merchants, hunters, farmers, and travelers turned the settlement into a steady stopping point rather than a major city. Its position made it valuable without ever making it crowded, and much of Greenhaven's character still comes from that balance between civilization and the open road. Today, it is known as a practical, welcoming town where caravans resupply, travelers rest, and news from the southern reaches of Ellond often arrives first.",
+                "Greenhaven began as a frontier settlement near the southern edge of the Empire, founded to support trade, farming, and travel between the settled lands and the wilder regions beyond. Over time, merchants, hunters, farmers, and travelers turned the settlement into a steady stopping point rather than a major city. Its position made it valuable without ever making it crowded, and much of Greenhaven's character still comes from that balance between civilization and the open road. Today, it is known as a practical, welcoming town where caravans resupply, travelers rest, and news from the southern reaches of Ellond often arrives first.",
+
+            dm:
+                "Add hidden campaign information here."
 
         }
 
     };
+
 
 
     /* =========================
@@ -877,241 +907,241 @@ history:
 
     function showLocation(id) {
 
-    const location =
-        locations[id];
+        const location =
+            locations[id];
 
 
-    if (!location) {
-        return;
-    }
+        if (!location) {
+            return;
+        }
 
 
-    const panel =
-        document.getElementById("info-panel");
+        const panel =
+            document.getElementById("info-panel");
 
 
-    panel.innerHTML = `
+        panel.innerHTML = `
 
-        <h2>
-            ${location.name}
-        </h2>
-
-
-        <p class="location-type">
-            ${location.type}
-        </p>
+            <h2>
+                ${location.name}
+            </h2>
 
 
-        <p>
-            ${location.description}
-        </p>
+            <p class="location-type">
+                ${location.type}
+            </p>
 
 
-        ${location.map ? `
-
-            <a
-                class="map-button"
-                href="${location.map}"
-            >
-                View ${location.name} Map
-            </a>
-
-        ` : ""}
+            <p>
+                ${location.description}
+            </p>
 
 
+            ${location.map ? `
 
-        <div class="info-section">
+                <a
+                    class="map-button"
+                    href="${location.map}"
+                >
+                    View ${location.name} Map
+                </a>
 
-            <div class="info-icon">
-                ◉
-            </div>
-
-            <div class="info-content">
-
-                <div class="info-heading">
-                    Population
-                </div>
-
-                <p>
-                    ${location.population}
-                </p>
-
-            </div>
-
-        </div>
+            ` : ""}
 
 
-
-        ${location.government ? `
 
             <div class="info-section">
 
                 <div class="info-icon">
-                    ◆
+                    ◉
                 </div>
 
                 <div class="info-content">
 
                     <div class="info-heading">
-                        Government
+                        Population
                     </div>
 
                     <p>
-                        ${location.government}
+                        ${location.population}
                     </p>
 
-                    <p class="info-small">
-                        ${location.governmentDetails}
-                    </p>
+                </div>
 
-                    ${location.governmentNote ? `
+            </div>
 
-                        <p class="info-small">
-                            ${location.governmentNote}
+
+
+            ${location.government ? `
+
+                <div class="info-section">
+
+                    <div class="info-icon">
+                        ◆
+                    </div>
+
+                    <div class="info-content">
+
+                        <div class="info-heading">
+                            Government
+                        </div>
+
+                        <p>
+                            ${location.government}
                         </p>
 
-                    ` : ""}
+                        <p class="info-small">
+                            ${location.governmentDetails}
+                        </p>
+
+                        ${location.governmentNote ? `
+
+                            <p class="info-small">
+                                ${location.governmentNote}
+                            </p>
+
+                        ` : ""}
+
+                    </div>
 
                 </div>
 
-            </div>
-
-        ` : ""}
+            ` : ""}
 
 
 
-        ${location.exports ? `
+            ${location.exports ? `
+
+                <div class="info-section">
+
+                    <div class="info-icon">
+                        ↗
+                    </div>
+
+                    <div class="info-content">
+
+                        <div class="info-heading">
+                            Exports
+                        </div>
+
+                        <p>
+                            ${location.exports}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            ` : ""}
+
+
 
             <div class="info-section">
 
                 <div class="info-icon">
-                    ↗
+                    ★
                 </div>
 
                 <div class="info-content">
 
                     <div class="info-heading">
-                        Exports
+                        Known For
                     </div>
 
                     <p>
-                        ${location.exports}
+                        ${location.knownFor}
                     </p>
 
                 </div>
 
             </div>
 
-        ` : ""}
 
 
+            ${location.atmosphere ? `
 
-        <div class="info-section">
+                <div class="info-section">
 
-            <div class="info-icon">
-                ★
-            </div>
+                    <div class="info-icon">
+                        ❧
+                    </div>
 
-            <div class="info-content">
+                    <div class="info-content">
 
-                <div class="info-heading">
-                    Known For
+                        <div class="info-heading">
+                            Atmosphere
+                        </div>
+
+                        <p>
+                            ${location.atmosphere}
+                        </p>
+
+                    </div>
+
                 </div>
 
-                <p>
-                    ${location.knownFor}
-                </p>
-
-            </div>
-
-        </div>
+            ` : ""}
 
 
-
-        ${location.atmosphere ? `
 
             <div class="info-section">
 
                 <div class="info-icon">
-                    ❧
+                    ▤
                 </div>
 
                 <div class="info-content">
 
                     <div class="info-heading">
-                        Atmosphere
+                        History
                     </div>
 
                     <p>
-                        ${location.atmosphere}
+                        ${location.history}
                     </p>
 
                 </div>
 
             </div>
 
-        ` : ""}
 
 
+            <div class="info-section">
 
-        <div class="info-section">
-
-            <div class="info-icon">
-                ▤
-            </div>
-
-            <div class="info-content">
-
-                <div class="info-heading">
-                    History
+                <div class="info-icon">
+                    ≡
                 </div>
 
-                <p>
-                    ${location.history}
-                </p>
+                <div class="info-content">
 
-            </div>
+                    <div class="info-heading">
+                        DM Notes
+                    </div>
 
-        </div>
+                    <p class="placeholder">
+                        ${location.dm}
+                    </p>
 
-
-
-        <div class="info-section">
-
-            <div class="info-icon">
-                ≡
-            </div>
-
-            <div class="info-content">
-
-                <div class="info-heading">
-                    DM Notes
                 </div>
 
-                <p class="placeholder">
-                    ${location.dm}
-                </p>
-
             </div>
 
-        </div>
 
 
+            ${location.map ? `
 
-        ${location.map ? `
+                <button
+                    class="button"
+                    onclick="openLocation('${id}')"
+                >
+                    Open Location
+                </button>
 
-            <button
-                class="button"
-                onclick="openLocation('${id}')"
-            >
-                Open Location
-            </button>
+            ` : ""}
 
-        ` : ""}
+        `;
 
-    `;
-
-}
+    }
 
 
 
@@ -1120,6 +1150,7 @@ history:
     ========================= */
 
     function openLocation(id) {
+
 
         if (id === "portaster") {
 
