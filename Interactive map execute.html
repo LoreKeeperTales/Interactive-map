@@ -10,9 +10,7 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>
-        Ellond Interactive Atlas
-    </title>
+    <title>Ellond Interactive Atlas</title>
 
 
     <style>
@@ -26,10 +24,19 @@
             box-sizing: border-box;
         }
 
+        html,
         body {
             margin: 0;
 
+            width: 100%;
+            height: 100%;
+
+            overflow: hidden;
+        }
+
+        body {
             background: #1b1814;
+
             color: #e7ddc7;
 
             font-family:
@@ -41,41 +48,170 @@
 
 
         /* =========================================================
-           HEADER
+           FANTASY HEADER
         ========================================================= */
 
         header {
-            height: 70px;
+            position: relative;
+
+            height: 86px;
 
             display: flex;
             align-items: center;
 
-            gap: 30px;
+            gap: 18px;
 
-            padding:
-                0
-                30px;
+            padding: 0 22px;
 
-            background: #211d18;
+            background:
+                linear-gradient(
+                    180deg,
+                    #211a12 0%,
+                    #17120d 55%,
+                    #100d09 100%
+                );
+
+            border-top:
+                2px solid #8d7042;
 
             border-bottom:
-                1px solid #665944;
+                3px solid #6e542f;
+
+            box-shadow:
+                inset 0 1px 0 #b89a63,
+                inset 0 -1px 0 #2a1d10,
+                0 4px 10px rgba(0, 0, 0, 0.65);
+
+            z-index: 100;
         }
 
-        header h1 {
+
+        header::after {
+            content: "";
+
+            position: absolute;
+
+            left: 8px;
+            right: 8px;
+            bottom: 5px;
+
+            height: 1px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    #8d7042 10%,
+                    #b79a63 50%,
+                    #8d7042 90%,
+                    transparent
+                );
+
+            pointer-events: none;
+        }
+
+
+
+        /* =========================================================
+           HEADER COMPASS
+        ========================================================= */
+
+        .header-emblem {
+            position: relative;
+
+            width: 58px;
+            height: 58px;
+
+            flex:
+                0 0 58px;
+
+            border:
+                2px solid #9d7b45;
+
+            border-radius: 50%;
+
+            box-shadow:
+                inset 0 0 0 3px #1a140e,
+                inset 0 0 0 4px #67502e,
+                0 0 6px rgba(0, 0, 0, 0.8);
+        }
+
+
+        .header-emblem::before {
+            content: "";
+
+            position: absolute;
+
+            left: 50%;
+            top: 5px;
+
+            width: 2px;
+            height: 44px;
+
+            background: #b89758;
+
+            transform:
+                translateX(-50%);
+        }
+
+
+        .header-emblem::after {
+            content: "";
+
+            position: absolute;
+
+            left: 5px;
+            top: 50%;
+
+            width: 44px;
+            height: 2px;
+
+            background: #b89758;
+
+            transform:
+                translateY(-50%);
+        }
+
+
+
+        /* =========================================================
+           HEADER TITLE
+        ========================================================= */
+
+        .header-title {
+            display: flex;
+
+            align-items: baseline;
+
+            gap: 18px;
+
+            margin-right: auto;
+        }
+
+
+        .header-title h1 {
             margin: 0;
 
-            font-size: 24px;
+            color: #ead8b4;
 
-            letter-spacing: 4px;
+            font-size: 29px;
+
+            letter-spacing: 6px;
+
+            text-shadow:
+                0 2px 2px #000,
+                0 0 4px rgba(194, 152, 86, 0.25);
         }
 
-        header .subtitle {
-            margin-right: auto;
 
-            color: #a99a80;
+        .header-title .subtitle {
+            color: #b99a68;
 
             font-size: 14px;
+
+            font-style: italic;
+
+            letter-spacing: 0.5px;
         }
 
 
@@ -85,30 +221,86 @@
         ========================================================= */
 
         .header-controls {
-            display: flex;
+            position: relative;
 
+            display: flex;
             align-items: center;
 
-            gap: 10px;
+            gap: 7px;
+
+            padding:
+                8px 10px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #2a2116,
+                    #18120c
+                );
+
+            border:
+                1px solid #755b35;
+
+            box-shadow:
+                inset 0 0 0 1px #342619,
+                0 2px 6px rgba(0, 0, 0, 0.6);
         }
+
+
+        .header-controls::before,
+        .header-controls::after {
+            content: "◆";
+
+            position: absolute;
+
+            top: 50%;
+
+            color: #987545;
+
+            font-size: 9px;
+
+            transform:
+                translateY(-50%);
+        }
+
+        .header-controls::before {
+            left: -7px;
+        }
+
+        .header-controls::after {
+            right: -7px;
+        }
+
 
         .zoom-controls {
             display: flex;
 
-            gap: 6px;
+            gap: 5px;
         }
 
-        .zoom-controls button,
-        .panel-toggle {
-            padding:
-                8px
-                12px;
 
-            background: #322b22;
-            color: #e7ddc7;
+        .zoom-controls button {
+            min-width: 40px;
+            height: 38px;
+
+            padding:
+                0 12px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #302518,
+                    #1c150e
+                );
+
+            color: #ead8b4;
 
             border:
-                1px solid #88775a;
+                1px solid #81643a;
+
+            box-shadow:
+                inset 0 1px 0 rgba(255, 225, 170, 0.12),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.8);
 
             font-family:
                 Georgia,
@@ -118,11 +310,30 @@
             font-size: 14px;
 
             cursor: pointer;
+
+            transition:
+                background 0.15s,
+                border-color 0.15s;
         }
 
-        .zoom-controls button:hover,
-        .panel-toggle:hover {
-            background: #44392d;
+
+        .zoom-controls button:hover {
+            background:
+                linear-gradient(
+                    180deg,
+                    #49371f,
+                    #2a1e12
+                );
+
+            border-color:
+                #b18c52;
+        }
+
+
+        #zoom-display {
+            min-width: 72px;
+
+            font-size: 16px;
         }
 
 
@@ -132,38 +343,76 @@
         ========================================================= */
 
         .layout {
+            position: relative;
+
             display: grid;
 
             grid-template-columns:
-                1fr
-                340px;
+                minmax(0, 1fr)
+                445px;
+
+            width: 100%;
 
             height:
-                calc(100vh - 70px);
+                calc(100vh - 86px);
         }
+
 
         .layout.panel-hidden {
             grid-template-columns:
                 1fr;
         }
 
-        .layout.panel-hidden aside {
-            display: none;
-        }
-
 
 
         /* =========================================================
-           MAP
+           MAP AREA
         ========================================================= */
 
         .map-container {
             position: relative;
 
+            min-width: 0;
+
             overflow: auto;
 
             background: #111;
+
+            scrollbar-color:
+                #735a36
+                #1b150e;
+
+            scrollbar-width: thin;
         }
+
+
+        .map-container::-webkit-scrollbar {
+            width: 14px;
+            height: 14px;
+        }
+
+        .map-container::-webkit-scrollbar-track {
+            background: #17110b;
+
+            border:
+                1px solid #42311d;
+        }
+
+        .map-container::-webkit-scrollbar-thumb {
+            background:
+                linear-gradient(
+                    90deg,
+                    #4c3820,
+                    #8b6a3c,
+                    #4c3820
+                );
+
+            border:
+                2px solid #21170e;
+
+            border-radius: 5px;
+        }
+
 
         .map-stage {
             position: relative;
@@ -172,6 +421,7 @@
 
             min-height: 900px;
         }
+
 
         .map-wrapper {
             position: relative;
@@ -182,11 +432,11 @@
                 top left;
         }
 
+
         .world-map {
             display: block;
 
             width: 100%;
-
             height: auto;
         }
 
@@ -217,7 +467,10 @@
             transition:
                 transform 0.15s,
                 background 0.15s;
+
+            z-index: 12;
         }
+
 
         .marker:hover {
             transform:
@@ -225,85 +478,37 @@
                 scale(1.35);
 
             background: #a75438;
+
+            z-index: 40;
         }
 
-/* =========================================================
-   SETTLEMENT SIZE MARKERS
-========================================================= */
-
-/* Small village */
-.marker.village-marker {
-    width: 14px;
-    height: 14px;
-
-    border-width: 2px;
-
-    background: #6d3528;
-}
-
-
-/* Town */
-.marker.town-marker {
-    width: 20px;
-    height: 20px;
-
-    border-width: 3px;
-
-    background: #6d3528;
-}
-
-
-/* City / Capital */
-.marker.city-marker {
-    width: 26px;
-    height: 26px;
-
-    border-width: 4px;
-
-    background: #6d3528;
-}
-
-
-/* Keep hover proportional */
-
-.marker.village-marker:hover,
-.marker.town-marker:hover,
-.marker.city-marker:hover {
-    transform:
-        translate(-50%, -50%)
-        scale(1.35);
-
-    background: #a75438;
-}
 
 
         /* =========================================================
-           GUILD MARKERS
+           SETTLEMENT SIZE MARKERS
         ========================================================= */
 
-        .marker.guild-marker {
-            width: 22px;
-            height: 22px;
+        .marker.village-marker {
+            width: 14px;
+            height: 14px;
 
-            border-radius: 2px;
-
-            background: #55456b;
-
-            border:
-                3px solid #e9d9b5;
-
-            transform:
-                translate(-50%, -50%)
-                rotate(45deg);
+            border-width: 2px;
         }
 
-        .marker.guild-marker:hover {
-            background: #796392;
 
-            transform:
-                translate(-50%, -50%)
-                rotate(45deg)
-                scale(1.35);
+        .marker.town-marker {
+            width: 20px;
+            height: 20px;
+
+            border-width: 3px;
+        }
+
+
+        .marker.city-marker {
+            width: 26px;
+            height: 26px;
+
+            border-width: 4px;
         }
 
 
@@ -321,11 +526,10 @@
             white-space: nowrap;
 
             padding:
-                4px
-                7px;
+                4px 7px;
 
             background:
-                rgba(20, 17, 13, 0.85);
+                rgba(20, 17, 13, 0.86);
 
             border:
                 1px solid #675b48;
@@ -338,38 +542,266 @@
         }
 
 
-        /* Guild marker itself rotates,
-           so rotate the label back. */
 
-        .marker.guild-marker .marker-label {
-            left: 24px;
-            top: -11px;
+        /* =========================================================
+           GUILD MARKER
+        ========================================================= */
+
+        .marker.guild-marker {
+            width: 22px;
+            height: 22px;
+
+            background: transparent;
+
+            border: none;
+
+            border-radius: 0;
 
             transform:
-                rotate(-45deg);
+                translate(-50%, -50%);
+        }
+
+
+        .marker.guild-marker::before {
+            content: "";
+
+            position: absolute;
+
+            width: 22px;
+            height: 22px;
+
+            left: 0;
+            top: 0;
+
+            background: #55456b;
+
+            border:
+                3px solid #e9d9b5;
+
+            border-radius: 2px;
+
+            transform:
+                rotate(45deg);
+        }
+
+
+        .marker.guild-marker:hover {
+            transform:
+                translate(-50%, -50%)
+                scale(1.35);
+
+            background: transparent;
+        }
+
+
+        .marker.guild-marker:hover::before {
+            background: #796392;
+        }
+
+
+        .marker.guild-marker .marker-label {
+            left: 32px;
+            top: -4px;
+
+            transform: none;
+
+            white-space: nowrap;
         }
 
 
 
         /* =========================================================
-           SIDEBAR
+           DRAGON MARKERS
         ========================================================= */
 
-        aside {
-            overflow-y: auto;
+        .dragon-marker {
+            position: absolute;
 
-            padding: 25px;
+            width: 48px;
+            height: 48px;
 
-            background: #252019;
+            transform:
+                translate(-50%, -50%);
 
-            border-left:
-                1px solid #665944;
+            cursor: pointer;
+
+            z-index: 20;
+
+            transition:
+                transform 0.15s ease;
         }
 
-        aside h2 {
+
+        .dragon-marker:hover {
+            transform:
+                translate(-50%, -50%)
+                scale(1.2);
+
+            z-index: 50;
+        }
+
+
+        .dragon-marker img {
+            display: block;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: contain;
+
+            pointer-events: none;
+        }
+
+
+        .dragon-marker .marker-label {
+            left: 54px;
+            top: 13px;
+        }
+
+
+
+        /* =========================================================
+           SIDE AREA
+        ========================================================= */
+
+        .side-area {
+            position: relative;
+
+            min-width: 0;
+
+            display: grid;
+
+            grid-template-columns:
+                320px
+                125px;
+
+            background: #17120d;
+
+            border-left:
+                2px solid #715632;
+
+            box-shadow:
+                -5px 0 12px rgba(0, 0, 0, 0.55);
+
+            z-index: 30;
+        }
+
+
+        .layout.panel-hidden .side-area {
+            display: none;
+        }
+
+
+
+        /* =========================================================
+           COLLAPSE ARROW
+        ========================================================= */
+
+        .panel-arrow {
+            position: absolute;
+
+            right: 445px;
+            top: 50%;
+
+            width: 34px;
+            height: 64px;
+
+            transform:
+                translateY(-50%);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 0;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #342719,
+                    #1a130d
+                );
+
+            color: #ead8b4;
+
+            border:
+                1px solid #8a6b3f;
+
+            border-right: none;
+
+            border-radius:
+                7px 0 0 7px;
+
+            box-shadow:
+                -3px 2px 7px rgba(0, 0, 0, 0.45);
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 21px;
+
+            cursor: pointer;
+
+            z-index: 100;
+        }
+
+
+        .panel-arrow:hover {
+            background:
+                linear-gradient(
+                    180deg,
+                    #49371f,
+                    #281c11
+                );
+        }
+
+
+        .layout.panel-hidden .panel-arrow {
+            right: 0;
+        }
+
+
+
+        /* =========================================================
+           INFORMATION PANEL
+        ========================================================= */
+
+        .info-panel {
+            overflow-y: auto;
+
+            padding:
+                28px 26px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #2a2015 0%,
+                    #20170f 65%,
+                    #17100b 100%
+                );
+
+            border-right:
+                1px solid #6b5232;
+
+            box-shadow:
+                inset -1px 0 0 #3b2b1a;
+
+            scrollbar-color:
+                #735a36
+                #21170f;
+
+            scrollbar-width: thin;
+        }
+
+
+        .info-panel h2 {
             margin-top: 0;
 
             padding-bottom: 10px;
+
+            color: #ead8b4;
 
             border-bottom:
                 1px solid #665944;
@@ -377,11 +809,13 @@
             letter-spacing: 1px;
         }
 
+
         .location-type {
             color: #aa9b82;
 
             font-style: italic;
         }
+
 
         .section-title {
             margin-top: 25px;
@@ -396,6 +830,7 @@
             letter-spacing: 2px;
         }
 
+
         .placeholder {
             color: #938872;
 
@@ -405,77 +840,7 @@
 
 
         /* =========================================================
-           BUTTONS
-        ========================================================= */
-
-        .button {
-            display: inline-block;
-
-            margin-top: 15px;
-
-            padding:
-                9px
-                14px;
-
-            border:
-                1px solid #88775a;
-
-            background: #322b22;
-            color: #e7ddc7;
-
-            text-decoration: none;
-
-            font-family:
-                Georgia,
-                "Times New Roman",
-                serif;
-
-            cursor: pointer;
-        }
-
-        .button:hover {
-            background: #44392d;
-        }
-
-        .map-button {
-            display: block;
-
-            width: 100%;
-
-            margin-top: 20px;
-            margin-bottom: 8px;
-
-            padding:
-                13px
-                15px;
-
-            background: #322b22;
-            color: #e7ddc7;
-
-            border:
-                1px solid #88775a;
-
-            font-family:
-                Georgia,
-                "Times New Roman",
-                serif;
-
-            font-size: 17px;
-
-            text-align: center;
-            text-decoration: none;
-
-            cursor: pointer;
-        }
-
-        .map-button:hover {
-            background: #44392d;
-        }
-
-
-
-        /* =========================================================
-           EXPANDED INFORMATION PANEL
+           INFORMATION CONTENT
         ========================================================= */
 
         .info-section {
@@ -490,6 +855,7 @@
             margin-top: 24px;
         }
 
+
         .info-icon {
             padding-top: 2px;
 
@@ -500,9 +866,11 @@
             text-align: center;
         }
 
+
         .info-content {
             min-width: 0;
         }
+
 
         .info-heading {
             margin-bottom: 7px;
@@ -516,12 +884,14 @@
             letter-spacing: 2px;
         }
 
+
         .info-content p {
             margin-top: 0;
             margin-bottom: 8px;
 
             line-height: 1.35;
         }
+
 
         .info-small {
             color: #a99a80;
@@ -532,7 +902,342 @@
         }
 
 
-    </style>
+
+        /* =========================================================
+           BUTTONS
+        ========================================================= */
+
+        .button {
+            display: inline-block;
+
+            margin-top: 15px;
+
+            padding:
+                9px 14px;
+
+            border:
+                1px solid #88775a;
+
+            background: #322b22;
+
+            color: #e7ddc7;
+
+            text-decoration: none;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            cursor: pointer;
+        }
+
+
+        .button:hover {
+            background: #44392d;
+        }
+
+
+        .map-button {
+            display: block;
+
+            width: 100%;
+
+            margin-top: 20px;
+            margin-bottom: 8px;
+
+            padding:
+                13px 15px;
+
+            background: #322b22;
+
+            color: #e7ddc7;
+
+            border:
+                1px solid #88775a;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 17px;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            cursor: pointer;
+        }
+
+
+        .map-button:hover {
+            background: #44392d;
+        }
+
+
+
+       /* =========================================================
+   HANGING REGION BANNER
+========================================================= */
+
+.region-banner {
+    position: relative;
+    align-self: start;
+
+    width: 108px;
+
+    margin:
+        18px auto
+        55px;
+
+    padding:
+        24px 10px
+        34px;
+
+    overflow: visible;
+    text-align: center;
+
+    color: #e6d5ad;
+
+    background:
+        linear-gradient(
+            90deg,
+            #0d1511 0%,
+            #17251e 10%,
+            #1d2c24 50%,
+            #17251e 90%,
+            #0d1511 100%
+        );
+
+    border-left:
+        2px solid #8b7042;
+
+    border-right:
+        2px solid #8b7042;
+
+    outline:
+        1px solid rgba(192, 156, 91, 0.28);
+
+    outline-offset:
+        -7px;
+
+    box-shadow:
+        inset 5px 0 8px rgba(0, 0, 0, 0.35),
+        inset -5px 0 8px rgba(0, 0, 0, 0.35),
+        0 5px 10px rgba(0, 0, 0, 0.55);
+}
+
+
+/* =========================================================
+   BANNER ROD
+========================================================= */
+
+.region-banner::before {
+    content: "";
+
+    position: absolute;
+
+    top: -11px;
+    left: -14px;
+
+    width:
+        calc(100% + 28px);
+
+    height: 10px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #b7955a 0%,
+            #7c5d32 50%,
+            #3f2b17 100%
+        );
+
+    border:
+        1px solid #c6a66d;
+
+    border-radius:
+        5px;
+
+    box-shadow:
+        0 3px 5px rgba(0, 0, 0, 0.7);
+
+    z-index: 3;
+}
+
+
+/* =========================================================
+   V-CUT BOTTOM
+========================================================= */
+
+.region-banner::after {
+    content: "";
+
+    position: absolute;
+
+    left: -2px;
+    bottom: -32px;
+
+    width: 108px;
+    height: 34px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #0d1511,
+            #17251e 12%,
+            #1d2c24 50%,
+            #17251e 88%,
+            #0d1511
+        );
+
+    clip-path:
+        polygon(
+            0 0,
+            100% 0,
+            100% 100%,
+            50% 58%,
+            0 100%
+        );
+
+    border-left:
+        2px solid #8b7042;
+
+    border-right:
+        2px solid #8b7042;
+
+    filter:
+        drop-shadow(
+            0 4px 3px rgba(0, 0, 0, 0.45)
+        );
+}
+
+
+/* =========================================================
+   REGION EMBLEM
+========================================================= */
+
+.region-emblem {
+    width: 64px;
+    height: 64px;
+
+    margin:
+        5px auto
+        12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.region-emblem-placeholder {
+    color: #c8a761;
+
+    font-size: 40px;
+
+    text-shadow:
+        1px 1px 0 #4c371d,
+        -1px -1px 0 #4c371d,
+        0 2px 3px rgba(0, 0, 0, 0.7);
+}
+
+
+/* =========================================================
+   BANNER TEXT
+========================================================= */
+
+.region-name {
+    color: #f0dfb5;
+
+    font-size: 14px;
+    font-weight: bold;
+
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+
+    line-height: 1.1;
+
+    overflow-wrap: break-word;
+}
+
+.region-status {
+    margin-top: 6px;
+
+    color: #baa178;
+
+    font-size: 9px;
+    font-style: italic;
+
+    line-height: 1.3;
+}
+
+.region-divider {
+    width: 80%;
+    height: 1px;
+
+    margin:
+        12px auto;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #a88750,
+            transparent
+        );
+}
+
+.region-divider-symbol {
+    margin-top: -19px;
+    margin-bottom: 9px;
+
+    color: #b99a62;
+
+    font-size: 9px;
+}
+
+.region-seat {
+    color: #ead9b4;
+
+    font-size: 12px;
+    font-weight: bold;
+
+    letter-spacing: 1px;
+    text-transform: uppercase;
+
+    overflow-wrap: break-word;
+}
+
+.region-seat-label {
+    margin-top: 2px;
+
+    color: #9d8968;
+
+    font-size: 7px;
+
+    text-transform: uppercase;
+    letter-spacing: 1.3px;
+}
+
+.region-character {
+    color: #c8b58e;
+
+    font-size: 8px;
+    line-height: 1.45;
+
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+
+    overflow-wrap: break-word;
+}
+
+
+</style>
 
 </head>
 
@@ -548,20 +1253,23 @@
 <header>
 
 
-    <h1>
-        ELLOND
-    </h1>
+    <div class="header-emblem"></div>
 
 
-    <span class="subtitle">
-        Interactive World Atlas
-    </span>
+    <div class="header-title">
+
+        <h1>
+            ELLOND
+        </h1>
+
+        <span class="subtitle">
+            Interactive World Atlas
+        </span>
+
+    </div>
 
 
     <div class="header-controls">
-
-
-        <!-- ZOOM -->
 
         <div class="zoom-controls">
 
@@ -581,18 +1289,6 @@
             </button>
 
         </div>
-
-
-        <!-- SIDEBAR -->
-
-        <button
-            class="panel-toggle"
-            id="panel-toggle"
-            onclick="togglePanel()"
-        >
-            Hide Panel
-        </button>
-
 
     </div>
 
@@ -634,14 +1330,100 @@
             >
 
 
-
-                <!-- WORLD MAP IMAGE -->
-
                 <img
                     src="maps/Ellond borders.png"
                     class="world-map"
                     alt="Map of Ellond"
                 >
+
+
+
+                <!-- =================================================
+                     FOUR DRAGONS
+                ================================================= -->
+
+
+                <!-- WEST — MULHAAN VEN -->
+
+                <div
+                    class="dragon-marker"
+                    style="left: 5%; top: 47%;"
+                    onclick="showLocation('mulhaanven')"
+                >
+
+                    <img
+                        src="tokens/dragon token.png"
+                        alt="Mulhaan Ven"
+                    >
+
+                    <span class="marker-label">
+                        Mulhaan Ven
+                    </span>
+
+                </div>
+
+
+
+                <!-- NORTH — FRIN YOL -->
+
+                <div
+                    class="dragon-marker"
+                    style="left: 72%; top: 12%;"
+                    onclick="showLocation('frinyol')"
+                >
+
+                    <img
+                        src="tokens/dragon token.png"
+                        alt="Frin Yol"
+                    >
+
+                    <span class="marker-label">
+                        Frin Yol
+                    </span>
+
+                </div>
+
+
+
+                <!-- EAST — GOLT VIING -->
+
+                <div
+                    class="dragon-marker"
+                    style="left: 86%; top: 31.5%;"
+                    onclick="showLocation('goltviing')"
+                >
+
+                    <img
+                        src="tokens/dragon token.png"
+                        alt="Golt Viing"
+                    >
+
+                    <span class="marker-label">
+                        Golt Viing
+                    </span>
+
+                </div>
+
+
+
+                <!-- SOUTH — GEIN OKAAZ -->
+
+                <div
+                    class="dragon-marker"
+                    style="left: 48%; top: 83%;"
+                    onclick="showLocation('geinokaaz')"
+                >
+
+                    <img
+                        src="tokens/dragon token.png"
+                        alt="Gein Okaaz"
+                    >
+
+                    <span class="marker-label">
+                        Gein Okaaz
+                    </span>
+
+                </div>
 
 
 
@@ -719,7 +1501,6 @@
 
                 <!-- =================================================
                      GENTLEMAN'S LEAGUE
-                     Guild marker = diamond
                 ================================================= -->
 
                 <div
@@ -879,7 +1660,6 @@
                 </div>
 
 
-
             </div>
             <!-- END MAP WRAPPER -->
 
@@ -889,44 +1669,159 @@
 
 
     </main>
-    <!-- END MAP CONTAINER -->
 
 
 
     <!-- =========================================================
-         INFORMATION PANEL
+         COLLAPSE ARROW
     ========================================================= -->
 
-    <aside id="info-panel">
+    <button
+        class="panel-arrow"
+        id="panel-arrow"
+        onclick="togglePanel()"
+        title="Hide panel"
+    >
+        ▶
+    </button>
 
 
-        <h2>
-            Ellond
-        </h2>
+
+    <!-- =========================================================
+         RIGHT SIDE
+    ========================================================= -->
+
+    <div
+        class="side-area"
+        id="side-area"
+    >
 
 
-        <p class="location-type">
-            World Map
-        </p>
+
+        <!-- =====================================================
+             LOCATION INFORMATION
+        ===================================================== -->
+
+        <aside
+            class="info-panel"
+            id="info-panel"
+        >
 
 
-        <p>
-            Select a location on the map to view information.
-        </p>
+            <div id="location-panel-content">
 
 
-        <div class="section-title">
-            Atlas
-        </div>
+                <h2>
+                    Ellond
+                </h2>
 
 
-        <p>
-            Settlements, regions, ruins, guilds, temples and other
-            important locations can be accessed directly from the map.
-        </p>
+                <p class="location-type">
+                    World Map
+                </p>
 
 
-    </aside>
+                <p>
+                    Select a location on the map to view information.
+                </p>
+
+
+                <div class="section-title">
+                    Atlas
+                </div>
+
+
+                <p>
+                    Settlements, regions, ruins, guilds, temples
+                    and other important locations can be accessed
+                    directly from the map.
+                </p>
+
+
+            </div>
+
+
+        </aside>
+
+
+
+        <!-- =====================================================
+             REGIONAL BANNER
+        ===================================================== -->
+
+        <aside
+            class="region-banner"
+            id="region-banner"
+        >
+
+
+            <div class="region-emblem">
+
+                <span
+                    class="region-emblem-placeholder"
+                    id="region-emblem"
+                >
+                    ✦
+                </span>
+
+            </div>
+
+
+            <div
+                class="region-name"
+                id="region-name"
+            >
+                Ellond
+            </div>
+
+
+            <div
+                class="region-status"
+                id="region-status"
+            >
+                The Known World
+            </div>
+
+
+            <div class="region-divider"></div>
+
+            <div class="region-divider-symbol">
+                ◇
+            </div>
+
+
+            <div
+                class="region-seat"
+                id="region-seat"
+            >
+                —
+            </div>
+
+
+            <div class="region-seat-label">
+                Seat
+            </div>
+
+
+            <div class="region-divider"></div>
+
+            <div class="region-divider-symbol">
+                ◇
+            </div>
+
+
+            <div
+                class="region-character"
+                id="region-character"
+            >
+                MANY LANDS • MANY PEOPLES • ONE STORY
+            </div>
+
+
+        </aside>
+
+
+    </div>
 
 
 </div>
@@ -936,50 +1831,71 @@
 <script>
 
 
-    /* =========================================================
-       ZOOM
-    ========================================================= */
+/* =========================================================
+   ZOOM SETTINGS
 
-    let currentZoom = 1;
+   1.0 atlas zoom = 80% actual image scale
+========================================================= */
 
-    const minimumZoom = 0.5;
-    const maximumZoom = 2.5;
-    const zoomStep = 0.1;
+const baseMapScale = 0.8;
 
+let currentZoom = 1;
 
-    function updateZoom() {
+const minimumZoom = 0.5;
+const maximumZoom = 2.5;
+const zoomStep = 0.1;
 
-        const wrapper =
-            document.getElementById("map-wrapper");
+function updateZoom() {
 
-        const stage =
-            document.getElementById("map-stage");
+    const wrapper =
+        document.getElementById(
+            "map-wrapper"
+        );
 
-        const display =
-            document.getElementById("zoom-display");
+    const stage =
+        document.getElementById(
+            "map-stage"
+        );
 
-
-        wrapper.style.transform =
-            `scale(${currentZoom})`;
-
-
-        stage.style.width =
-            `${1400 * currentZoom}px`;
-
-        stage.style.height =
-            `${900 * currentZoom}px`;
+    const display =
+        document.getElementById(
+            "zoom-display"
+        );
 
 
-        display.textContent =
-            `${Math.round(currentZoom * 100)}%`;
+    /*
+        Atlas 100% = actual scale 0.8
+    */
 
-    }
+    const actualScale =
+        currentZoom * baseMapScale;
+
+
+    wrapper.style.transform =
+        `scale(${actualScale})`;
+
+
+    stage.style.width =
+        `${1400 * actualScale}px`;
+
+    stage.style.height =
+        `${900 * actualScale}px`;
+
+
+    /*
+        Display atlas-relative zoom,
+        not actual CSS scale
+    */
+
+    display.textContent =
+        `${Math.round(currentZoom * 100)}%`;
+
+}
 
 
     function zoomIn() {
 
         currentZoom += zoomStep;
-
 
         if (currentZoom > maximumZoom) {
 
@@ -987,7 +1903,6 @@
                 maximumZoom;
 
         }
-
 
         updateZoom();
 
@@ -998,14 +1913,12 @@
 
         currentZoom -= zoomStep;
 
-
         if (currentZoom < minimumZoom) {
 
             currentZoom =
                 minimumZoom;
 
         }
-
 
         updateZoom();
 
@@ -1023,16 +1936,20 @@
 
 
     /* =========================================================
-       SIDEBAR
+       PANEL TOGGLE
     ========================================================= */
 
     function togglePanel() {
 
         const layout =
-            document.getElementById("main-layout");
+            document.getElementById(
+                "main-layout"
+            );
 
-        const button =
-            document.getElementById("panel-toggle");
+        const arrow =
+            document.getElementById(
+                "panel-arrow"
+            );
 
 
         layout.classList.toggle(
@@ -1046,15 +1963,21 @@
             )
         ) {
 
-            button.textContent =
-                "Show Panel";
+            arrow.textContent =
+                "◀";
+
+            arrow.title =
+                "Show panel";
 
         }
 
         else {
 
-            button.textContent =
-                "Hide Panel";
+            arrow.textContent =
+                "▶";
+
+            arrow.title =
+                "Hide panel";
 
         }
 
@@ -1063,10 +1986,277 @@
 
 
     /* =========================================================
+       REGIONAL BANNERS
+    ========================================================= */
+
+    const regions = {
+
+
+        ellond: {
+
+            name:
+                "Ellond",
+
+            status:
+                "The Known World",
+
+            seat:
+                "—",
+
+            character:
+                "Many Lands • Many Peoples • One Story",
+
+            emblem:
+                "✦"
+
+        },
+
+
+        westmarches: {
+
+            name:
+                "West Marches",
+
+            status:
+                "Clan Lands",
+
+            seat:
+                "Xal'Torath",
+
+            character:
+                "Marsh • Trade • Ancient Stone",
+
+            emblem:
+                "◇"
+
+        },
+
+
+        centralhighlands: {
+
+            name:
+                "Central Highlands",
+
+            status:
+                "Dwarven Holds",
+
+            seat:
+                "Ironhall",
+
+            character:
+                "Stone • Craft • Mining",
+
+            emblem:
+                "◆"
+
+        },
+
+
+        southernempire: {
+
+            name:
+                "Southern Empire",
+
+            status:
+                "Imperial Territory",
+
+            seat:
+                "Greenhaven",
+
+            character:
+                "Farms • Trade • Grain",
+
+            emblem:
+                "✥"
+
+        },
+
+
+        northlands: {
+
+            name:
+                "Northern Lands",
+
+            status:
+                "Northern Territory",
+
+            seat:
+                "—",
+
+            character:
+                "Ice • Mountains • Endurance",
+
+            emblem:
+                "✦"
+
+        },
+
+
+        unknown: {
+
+            name:
+                "Ellond",
+
+            status:
+                "Region Not Yet Defined",
+
+            seat:
+                "—",
+
+            character:
+                "Roads • Settlements • Old Lands",
+
+            emblem:
+                "✧"
+
+        },
+
+
+        guild: {
+
+            name:
+                "Magical League",
+
+            status:
+                "Guild Territory",
+
+            seat:
+                "Headquarters",
+
+            character:
+                "Magic • Study • Influence",
+
+            emblem:
+                "◆"
+
+        },
+
+
+        dragon: {
+
+            name:
+                "Ancient Dragon",
+
+            status:
+                "Dragon Domain",
+
+            seat:
+                "Lair",
+
+            character:
+                "Ancient • Powerful • Revered",
+
+            emblem:
+                "✦"
+
+        }
+
+
+    };
+
+
+
+    /* =========================================================
        LOCATION DATABASE
     ========================================================= */
 
     const locations = {
+
+
+        /* =====================================================
+           FOUR DRAGONS
+        ===================================================== */
+
+        mulhaanven: {
+
+            name:
+                "Mulhaan Ven",
+
+            region:
+                "dragon",
+
+            type:
+                "Brass Dragon — Dragon of the West",
+
+            description:
+                "Mulhaan Ven is the great Brass Dragon of the western lands of Ellond.",
+
+            knownFor:
+                "Wind, wisdom and calm.",
+
+            history:
+                "One of the four ancient dragons who shaped the early history of Ellond."
+
+        },
+
+
+        frinyol: {
+
+            name:
+                "Frin Yol",
+
+            region:
+                "dragon",
+
+            type:
+                "Red Dragon — Dragon of the North",
+
+            description:
+                "Frin Yol is the great Red Dragon of the northern lands of Ellond.",
+
+            knownFor:
+                "Fire and strength.",
+
+            history:
+                "One of the four ancient dragons who shaped the early history of Ellond."
+
+        },
+
+
+        goltviing: {
+
+            name:
+                "Golt Viing",
+
+            region:
+                "dragon",
+
+            type:
+                "Rattelry Dragon — Dragon of the East",
+
+            description:
+                "Golt Viing is the great Rattelry Dragon of the eastern lands of Ellond.",
+
+            knownFor:
+                "Earth and intelligence.",
+
+            history:
+                "One of the four ancient dragons who shaped the early history of Ellond."
+
+        },
+
+
+        geinokaaz: {
+
+            name:
+                "Gein Okaaz",
+
+            region:
+                "dragon",
+
+            type:
+                "Water Dragon — Dragon of the South",
+
+            description:
+                "Gein Okaaz is the great Water Dragon of the southern lands of Ellond.",
+
+            knownFor:
+                "Water and solitude.",
+
+            history:
+                "One of the four ancient dragons who shaped the early history of Ellond."
+
+        },
 
 
 
@@ -1078,6 +2268,9 @@
 
             name:
                 "Xal'Torath",
+
+            region:
+                "westmarches",
 
             map:
                 "locations/xaltorath.html",
@@ -1105,131 +2298,6 @@
 
 
         /* =====================================================
-           GLACIER'S REST
-        ===================================================== */
-
-        glaciersrest: {
-
-            name:
-                "Glacier's Rest",
-
-
-            type:
-                "Northern Settlement",
-
-            description:
-                "A remote settlement in the frozen reaches of northern Ellond, surrounded by snow, ice and rugged wilderness.",
-
-            population:
-                "Unknown",
-
-            knownFor:
-                "Its isolated northern location, harsh climate and travelers passing through the frozen reaches.",
-
-            history:
-                "Add Glacier's Rest history here.",
-
-            dm:
-                "Add hidden campaign information here."
-
-        },
-
-
-
-        /* =====================================================
-           ENCHANTED FOREST
-        ===================================================== */
-
-        enchantedforest: {
-
-            name:
-                "Enchanted Forest",
-
-            type:
-                "Ancient Forest",
-
-            description:
-                "A vast and ancient woodland where magic runs unusually strong. Travel into the forest is restricted, and much of what lies beneath its canopy remains unknown to outsiders.",
-
-            population:
-                "Unknown",
-
-            knownFor:
-                "Ancient magic, unusual creatures, old ruins and restricted travel.",
-
-            history:
-                "Add the history of the Enchanted Forest here.",
-
-            dm:
-                "Add hidden campaign information here."
-
-        },
-
-
-
-        /* =====================================================
-           VERDROSS
-        ===================================================== */
-
-        verdross: {
-
-            name:
-                "Verdross",
-
-            type:
-                "Settlement",
-
-            description:
-                "Add Verdross description here.",
-
-            population:
-                "Unknown",
-
-            knownFor:
-                "Add notable features of Verdross here.",
-
-            history:
-                "Add Verdross history here.",
-
-            dm:
-                "Add hidden campaign information here."
-
-        },
-
-
-
-        /* =====================================================
-           GENTLEMAN'S LEAGUE OF MAGICAL EXCELLENCE
-        ===================================================== */
-
-        gentlemansleague: {
-
-            name:
-                "Gentleman's League of Magical Excellence",
-
-            type:
-                "Mage Guild Headquarters",
-
-            description:
-                "One of the most influential guilds in Ellond. The League trains, certifies and represents professional mages while providing magical specialists to kingdoms and organizations throughout the continent.",
-
-            population:
-                "Guild Headquarters",
-
-            knownFor:
-                "Professional magic, magical certification, Royal Mages and its close relationship with the College of Perpetual Dawn.",
-
-            history:
-                "By 451 COD, the Gentleman's League of Magical Excellence is led by Luna and Pete and has become one of Ellond's most influential guilds. Rather than concentrating its mages in one kingdom, the League sends members across Ellond to serve as Royal Mages, deliberately placing them among peoples other than their own to reduce local loyalties and favoritism.",
-
-            dm:
-                "The League maintains strong ties with the College of Perpetual Dawn, lending resources for magical study and training."
-
-        },
-
-
-
-        /* =====================================================
            PORT ASTER
         ===================================================== */
 
@@ -1237,6 +2305,9 @@
 
             name:
                 "Port Aster",
+
+            region:
+                "westmarches",
 
             map:
                 "locations/port-aster.html",
@@ -1284,6 +2355,9 @@
             name:
                 "Mosshollow",
 
+            region:
+                "westmarches",
+
             map:
                 "locations/mosshollow.html",
 
@@ -1321,6 +2395,9 @@
             name:
                 "Ironhall",
 
+            region:
+                "centralhighlands",
+
             type:
                 "Dwarven Capital — Central Highlands",
 
@@ -1344,37 +2421,6 @@
 
 
         /* =====================================================
-           LYSMARÈ
-        ===================================================== */
-
-        lysmare: {
-
-            name:
-                "Lysmarè",
-
-            type:
-                "Settlement",
-
-            description:
-                "Add Lysmarè description here.",
-
-            population:
-                "Unknown",
-
-            knownFor:
-                "Add notable features of Lysmarè here.",
-
-            history:
-                "Add Lysmarè history here.",
-
-            dm:
-                "Add hidden campaign information here."
-
-        },
-
-
-
-        /* =====================================================
            STONEREACH
         ===================================================== */
 
@@ -1382,6 +2428,9 @@
 
             name:
                 "Stonereach",
+
+            region:
+                "centralhighlands",
 
             type:
                 "Dwarven Settlement",
@@ -1406,6 +2455,179 @@
 
 
         /* =====================================================
+           GREENHAVEN
+        ===================================================== */
+
+        greenhaven: {
+
+            name:
+                "Greenhaven",
+
+            region:
+                "southernempire",
+
+            map:
+                "locations/greenhaven.html",
+
+            type:
+                "Human Capital — Southern Empire",
+
+            description:
+                "Greenhaven is a prosperous farming and harbour town situated along the northern edge of the Southern Empire. The countryside surrounding Greenhaven contains some of the most fertile land in the Empire. Vast fields stretch beyond the town for miles, broken by orchards, grazing lands, farmsteads, mills and small agricultural villages. Wheat, barley, oats, vegetables and fruit are produced here in enormous quantities. Greenhaven and its surrounding farms provide most of the food consumed throughout the Southern Empire, earning the region the common nickname The Granary of the South.",
+
+            population:
+                "Predominantly Human, approximately 15,000",
+
+            knownFor:
+                "Grand Market, extensive farmland, grain production and the Granary of the South.",
+
+            history:
+                "Greenhaven began as a frontier settlement near the southern edge of the Empire, founded to support trade, farming, and travel between the settled lands and the wilder regions beyond. Over time, merchants, hunters, farmers, and travelers turned the settlement into a steady stopping point rather than a major city. Its position made it valuable without ever making it crowded, and much of Greenhaven's character still comes from that balance between civilization and the open road. Today, it is known as a practical, welcoming town where caravans resupply, travelers rest, and news from the southern reaches of Ellond often arrives first.",
+
+            dm:
+                "Add hidden campaign information here."
+
+        },
+
+
+
+        /* =====================================================
+           GLACIER'S REST
+        ===================================================== */
+
+        glaciersrest: {
+
+            name:
+                "Glacier's Rest",
+
+            region:
+                "northlands",
+
+            type:
+                "Northern Settlement",
+
+            description:
+                "A remote settlement in the frozen reaches of northern Ellond, surrounded by snow, ice and rugged wilderness.",
+
+            population:
+                "Unknown",
+
+            knownFor:
+                "Its isolated northern location, harsh climate and travelers passing through the frozen reaches.",
+
+            history:
+                "Add Glacier's Rest history here.",
+
+            dm:
+                "Add hidden campaign information here."
+
+        },
+
+
+
+        /* =====================================================
+           ENCHANTED FOREST
+        ===================================================== */
+
+        enchantedforest: {
+
+            name:
+                "Enchanted Forest",
+
+            region:
+                "unknown",
+
+            type:
+                "Ancient Forest",
+
+            description:
+                "A vast and ancient woodland where magic runs unusually strong. Travel into the forest is restricted, and much of what lies beneath its canopy remains unknown to outsiders.",
+
+            population:
+                "Unknown",
+
+            knownFor:
+                "Ancient magic, unusual creatures, old ruins and restricted travel.",
+
+            history:
+                "Add the history of the Enchanted Forest here.",
+
+            dm:
+                "Add hidden campaign information here."
+
+        },
+
+
+
+        /* =====================================================
+           VERDROSS
+        ===================================================== */
+
+        verdross: {
+
+            name:
+                "Verdross",
+
+            region:
+                "unknown",
+
+            type:
+                "Settlement",
+
+            description:
+                "Add Verdross description here.",
+
+            population:
+                "Unknown",
+
+            knownFor:
+                "Add notable features of Verdross here.",
+
+            history:
+                "Add Verdross history here.",
+
+            dm:
+                "Add hidden campaign information here."
+
+        },
+
+
+
+        /* =====================================================
+           LYSMARÈ
+        ===================================================== */
+
+        lysmare: {
+
+            name:
+                "Lysmarè",
+
+            region:
+                "unknown",
+
+            type:
+                "Settlement",
+
+            description:
+                "Add Lysmarè description here.",
+
+            population:
+                "Unknown",
+
+            knownFor:
+                "Add notable features of Lysmarè here.",
+
+            history:
+                "Add Lysmarè history here.",
+
+            dm:
+                "Add hidden campaign information here."
+
+        },
+
+
+
+        /* =====================================================
            THALANDOR
         ===================================================== */
 
@@ -1413,6 +2635,9 @@
 
             name:
                 "Thalandor",
+
+            region:
+                "unknown",
 
             type:
                 "Settlement",
@@ -1445,6 +2670,9 @@
             name:
                 "Vhal'Kareth",
 
+            region:
+                "unknown",
+
             type:
                 "Settlement",
 
@@ -1468,40 +2696,73 @@
 
 
         /* =====================================================
-           GREENHAVEN
+           GENTLEMAN'S LEAGUE
         ===================================================== */
 
-        greenhaven: {
+        gentlemansleague: {
 
             name:
-                "Greenhaven",
+                "Gentleman's League of Magical Excellence",
 
-            map:
-                "locations/greenhaven.html",
+            region:
+                "guild",
 
             type:
-                "Human Capital — Southern Empire",
+                "Mage Guild Headquarters",
 
             description:
-                "Greenhaven is a prosperous farming and harbour town situated along the northern edge of the Southern Empire. The countryside surrounding Greenhaven contains some of the most fertile land in the Empire. Vast fields stretch beyond the town for miles, broken by orchards, grazing lands, farmsteads, mills and small agricultural villages. Wheat, barley, oats, vegetables and fruit are produced here in enormous quantities. Greenhaven and its surrounding farms provide most of the food consumed throughout the Southern Empire, earning the region the common nickname The Granary of the South.",
+                "One of the most influential guilds in Ellond. The League trains, certifies and represents professional mages while providing magical specialists to kingdoms and organizations throughout the continent.",
 
             population:
-                "Predominantly Human, approximately 15,000",
+                "Guild Headquarters",
 
             knownFor:
-                "Grand Market, extensive farmland, grain production and the Granary of the South.",
+                "Professional magic, magical certification, Royal Mages and its close relationship with the College of Perpetual Dawn.",
 
             history:
-                "Greenhaven began as a frontier settlement near the southern edge of the Empire, founded to support trade, farming, and travel between the settled lands and the wilder regions beyond. Over time, merchants, hunters, farmers, and travelers turned the settlement into a steady stopping point rather than a major city. Its position made it valuable without ever making it crowded, and much of Greenhaven's character still comes from that balance between civilization and the open road. Today, it is known as a practical, welcoming town where caravans resupply, travelers rest, and news from the southern reaches of Ellond often arrives first.",
+                "By 451 COD, the Gentleman's League of Magical Excellence is led by Luna and Pete and has become one of Ellond's most influential guilds. Rather than concentrating its mages in one kingdom, the League sends members across Ellond to serve as Royal Mages, deliberately placing them among peoples other than their own to reduce local loyalties and favoritism.",
 
             dm:
-                "Add hidden campaign information here."
+                "The League maintains strong ties with the College of Perpetual Dawn, lending resources for magical study and training."
 
         }
 
 
     };
 
+
+
+    /* =========================================================
+       UPDATE REGION BANNER
+    ========================================================= */
+
+    function updateRegionBanner(regionId) {
+
+        const region =
+            regions[regionId] ||
+            regions.unknown;
+
+        document.getElementById(
+            "region-name"
+        ).textContent = region.name;
+
+        document.getElementById(
+            "region-status"
+        ).textContent = region.status;
+
+        document.getElementById(
+            "region-seat"
+        ).textContent = region.seat;
+
+        document.getElementById(
+            "region-character"
+        ).textContent = region.character;
+
+        document.getElementById(
+            "region-emblem"
+        ).textContent = region.emblem;
+
+    }
 
 
     /* =========================================================
@@ -1521,9 +2782,14 @@
         }
 
 
+        updateRegionBanner(
+            location.region
+        );
+
+
         const panel =
             document.getElementById(
-                "info-panel"
+                "location-panel-content"
             );
 
 
@@ -1536,13 +2802,17 @@
 
 
             <p class="location-type">
-                ${location.type}
+                ${location.type || ""}
             </p>
 
 
-            <p>
-                ${location.description}
-            </p>
+            ${location.description ? `
+
+                <p>
+                    ${location.description}
+                </p>
+
+            ` : ""}
 
 
 
@@ -1559,25 +2829,29 @@
 
 
 
-            <div class="info-section">
+            ${location.population ? `
 
-                <div class="info-icon">
-                    ◉
-                </div>
+                <div class="info-section">
 
-                <div class="info-content">
-
-                    <div class="info-heading">
-                        Population
+                    <div class="info-icon">
+                        ◉
                     </div>
 
-                    <p>
-                        ${location.population}
-                    </p>
+                    <div class="info-content">
+
+                        <div class="info-heading">
+                            Population
+                        </div>
+
+                        <p>
+                            ${location.population}
+                        </p>
+
+                    </div>
 
                 </div>
 
-            </div>
+            ` : ""}
 
 
 
@@ -1599,9 +2873,14 @@
                             ${location.government}
                         </p>
 
-                        <p class="info-small">
-                            ${location.governmentDetails}
-                        </p>
+
+                        ${location.governmentDetails ? `
+
+                            <p class="info-small">
+                                ${location.governmentDetails}
+                            </p>
+
+                        ` : ""}
 
 
                         ${location.governmentNote ? `
@@ -1611,7 +2890,6 @@
                             </p>
 
                         ` : ""}
-
 
                     </div>
 
@@ -1647,25 +2925,29 @@
 
 
 
-            <div class="info-section">
+            ${location.knownFor ? `
 
-                <div class="info-icon">
-                    ★
-                </div>
+                <div class="info-section">
 
-                <div class="info-content">
-
-                    <div class="info-heading">
-                        Known For
+                    <div class="info-icon">
+                        ★
                     </div>
 
-                    <p>
-                        ${location.knownFor}
-                    </p>
+                    <div class="info-content">
+
+                        <div class="info-heading">
+                            Known For
+                        </div>
+
+                        <p>
+                            ${location.knownFor}
+                        </p>
+
+                    </div>
 
                 </div>
 
-            </div>
+            ` : ""}
 
 
 
@@ -1695,47 +2977,55 @@
 
 
 
-            <div class="info-section">
+            ${location.history ? `
 
-                <div class="info-icon">
-                    ▤
-                </div>
+                <div class="info-section">
 
-                <div class="info-content">
-
-                    <div class="info-heading">
-                        History
+                    <div class="info-icon">
+                        ▤
                     </div>
 
-                    <p>
-                        ${location.history}
-                    </p>
+                    <div class="info-content">
 
-                </div>
+                        <div class="info-heading">
+                            History
+                        </div>
 
-            </div>
+                        <p>
+                            ${location.history}
+                        </p>
 
-
-
-            <div class="info-section">
-
-                <div class="info-icon">
-                    ≡
-                </div>
-
-                <div class="info-content">
-
-                    <div class="info-heading">
-                        DM Notes
                     </div>
 
-                    <p class="placeholder">
-                        ${location.dm}
-                    </p>
+                </div>
+
+            ` : ""}
+
+
+
+            ${location.dm ? `
+
+                <div class="info-section">
+
+                    <div class="info-icon">
+                        ≡
+                    </div>
+
+                    <div class="info-content">
+
+                        <div class="info-heading">
+                            DM Notes
+                        </div>
+
+                        <p class="placeholder">
+                            ${location.dm}
+                        </p>
+
+                    </div>
 
                 </div>
 
-            </div>
+            ` : ""}
 
 
 
@@ -1763,37 +3053,22 @@
 
     function openLocation(id) {
 
-
-        if (id === "portaster") {
-
-            window.location.href =
-                "locations/port-aster.html";
-
-        }
+        const location =
+            locations[id];
 
 
-        if (id === "mosshollow") {
+        if (
+            !location ||
+            !location.map
+        ) {
 
-            window.location.href =
-                "locations/mosshollow.html";
+            return;
 
         }
 
 
-        if (id === "greenhaven") {
-
-            window.location.href =
-                "locations/greenhaven.html";
-
-        }
-
-        if (id === "xaltorath") {
-
-             window.location.href =
-               "locations/xaltorath.html";
-
-        }
-
+        window.location.href =
+            location.map;
 
     }
 
@@ -1804,6 +3079,10 @@
     ========================================================= */
 
     updateZoom();
+
+    updateRegionBanner(
+        "ellond"
+    );
 
 
 </script>

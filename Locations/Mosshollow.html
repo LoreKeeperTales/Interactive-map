@@ -19,6 +19,111 @@
             color: #e7ddc7;
             font-family: Georgia, "Times New Roman", serif;
         }
+/* =========================================================
+   MOSSHOLLOW LOCATION MARKERS
+========================================================= */
+
+.village-marker {
+    position: absolute;
+
+    width: 14px;
+    height: 14px;
+
+    transform: translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    background: #7f3f2d;
+
+    border: 2px solid #ead9b5;
+
+    box-shadow:
+        0 0 0 1px rgba(0,0,0,0.7),
+        0 2px 4px rgba(0,0,0,0.6);
+
+    cursor: pointer;
+
+    z-index: 20;
+
+    transition:
+        transform 0.15s ease,
+        background 0.15s ease;
+}
+
+.village-marker:hover {
+    transform:
+        translate(-50%, -50%)
+        scale(1.25);
+
+    background: #a5573d;
+}
+
+
+/* marker text */
+
+.village-marker .marker-label {
+    position: absolute;
+
+    left: 17px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    padding: 3px 7px;
+
+    color: #ead9b5;
+
+    background: rgba(24, 18, 12, 0.94);
+
+    border: 1px solid #665033;
+
+    font-family: Georgia, serif;
+    font-size: 12px;
+
+    white-space: nowrap;
+
+    pointer-events: none;
+
+    box-shadow:
+        0 2px 4px rgba(0,0,0,0.5);
+}
+
+
+/* =========================================================
+   GUILD MARKER
+========================================================= */
+
+.village-marker.guild {
+    width: 16px;
+    height: 16px;
+
+    border-radius: 2px;
+
+    background: #55456b;
+
+    border: 2px solid #ead9b5;
+
+    transform:
+        translate(-50%, -50%)
+        rotate(45deg);
+}
+
+.village-marker.guild:hover {
+    transform:
+        translate(-50%, -50%)
+        rotate(45deg)
+        scale(1.25);
+}
+
+
+/* counter-rotate guild label */
+
+.village-marker.guild .marker-label {
+    left: 20px;
+    top: -8px;
+
+    transform: rotate(-45deg);
+}
 
 
         /* =========================
@@ -204,7 +309,6 @@
             pointer-events: none;
         }
 
-
         /* =========================
            INFORMATION PANEL
         ========================= */
@@ -366,10 +470,101 @@
                 >
 
 
-                <!--
-                MOSSHOLLOW LOCATION MARKERS
-                WILL GO HERE
-                -->
+<!-- ======================================================
+     MOSSHOLLOW LOCATIONS
+======================================================= -->
+
+
+<!-- GUILD OF NETS AND REEDS -->
+
+<div
+    class="village-marker guild"
+    style="left: 58%; top: 31%;"
+    onclick="showVillageLocation('netsandreeds')"
+>
+    <span class="marker-label">
+        Guild of Nets & Reeds
+    </span>
+</div>
+
+
+<!-- MOONCHURCH SHRINE -->
+
+<div
+    class="village-marker"
+    style="left: 17%; top: 29%;"
+    onclick="showVillageLocation('moonchurch')"
+>
+    <span class="marker-label">
+        Moonchurch Shrine
+    </span>
+</div>
+
+
+<!-- THE REED & OYSTER -->
+
+<div
+    class="village-marker"
+    style="left: 52%; top: 22%;"
+    onclick="showVillageLocation('reedandoyster')"
+>
+    <span class="marker-label">
+        The Reed & Oyster
+    </span>
+</div>
+
+
+<!-- MARSH MARKET -->
+
+<div
+    class="village-marker"
+    style="left: 58%; top: 48%;"
+    onclick="showVillageLocation('marshmarket')"
+>
+    <span class="marker-label">
+        Marsh Market
+    </span>
+</div>
+
+
+<!-- TORTLE ELDER'S HOUSE -->
+
+<div
+    class="village-marker"
+    style="left: 40%; top: 53%;"
+    onclick="showVillageLocation('tortleelder')"
+>
+    <span class="marker-label">
+        Elder's House
+    </span>
+</div>
+
+
+<!-- PEARL DIVERS' JETTY -->
+
+<div
+    class="village-marker"
+    style="left: 43%; top: 9%;"
+    onclick="showVillageLocation('pearljetty')"
+>
+    <span class="marker-label">
+        Pearl Divers' Jetty
+    </span>
+</div>
+
+
+<!-- OLD LILY LANDING -->
+
+<div
+    class="village-marker"
+    style="left: 91%; top: 48%;"
+    onclick="showVillageLocation('lilylanding')"
+>
+    <span class="marker-label">
+        Old Lily Landing
+    </span>
+</div>
+
 
 
             </div>
@@ -538,6 +733,125 @@
 
     }
 
+
+
+const villageLocations = {
+
+    netsandreeds: {
+        name: "Guild of Nets & Reeds",
+        type: "Guild Hall",
+        description:
+            "The working heart of Mosshollow's fishing trade. The guild manages fishing rights, dock maintenance, pearl-diving claims and marsh harvesting.",
+        known:
+            "Fishers, pearl divers and boat crews gather here for work, disputes and news from the wetlands."
+    },
+
+    moonchurch: {
+        name: "Moonchurch Shrine",
+        type: "Waterside Shrine",
+        description:
+            "A small old shrine overlooking Moonchurch Bridge and the waters below.",
+        known:
+            "Fishermen traditionally leave small offerings here before setting out onto the marsh."
+    },
+
+    reedandoyster: {
+        name: "The Reed & Oyster",
+        type: "Inn & Tavern",
+        description:
+            "Mosshollow's principal inn, serving fishermen, traders and the occasional traveler.",
+        known:
+            "Known for fresh oysters, smoked fish and strong local ale."
+    },
+
+    marshmarket: {
+        name: "Marsh Market",
+        type: "Village Market",
+        description:
+            "A modest waterside market where the village sells fish, reeds, pearls, shellfish and marsh goods.",
+        known:
+            "The busiest part of Mosshollow during the early morning."
+    },
+
+    tortleelder: {
+        name: "Elder's House",
+        type: "Meeting House",
+        description:
+            "Home and meeting place of one of Mosshollow's respected Tortle elders.",
+        known:
+            "Villagers often come here to settle disputes or seek advice."
+    },
+
+    pearljetty: {
+        name: "Pearl Divers' Jetty",
+        type: "Working Dock",
+        description:
+            "A collection of narrow docks used by Mosshollow's pearl divers and shallow-water boats.",
+        known:
+            "Divers depart before sunrise when the marsh waters are calm."
+    },
+
+    lilylanding: {
+        name: "Old Lily Landing",
+        type: "Marsh Landing",
+        description:
+            "An old landing leading toward the giant lily fields beyond Mosshollow.",
+        known:
+            "Hunters, gatherers and marsh guides commonly begin their journeys here."
+    }
+
+};
+
+
+
+
+function showVillageLocation(id) {
+
+    const location = villageLocations[id];
+
+    if (!location) {
+        return;
+    }
+
+    const panel = document.getElementById("info-panel");
+
+    panel.innerHTML = `
+        <h2>${location.name}</h2>
+
+        <p class="location-type">
+            ${location.type}
+        </p>
+
+        <p>
+            ${location.description}
+        </p>
+
+        <div class="section-title">
+            Known For
+        </div>
+
+        <p>
+            ${location.known}
+        </p>
+
+        <div class="section-title">
+            Explore
+        </div>
+
+        <p>
+            Select another marker on the village map
+            to view more information.
+        </p>
+
+        <div class="section-title">
+            DM Notes
+        </div>
+
+        <p class="placeholder">
+            Add hidden information, quests and secrets here.
+        </p>
+    `;
+}
 
 
     /* =========================
