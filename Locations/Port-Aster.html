@@ -289,6 +289,506 @@
             margin-bottom: 5px;
         }
 
+    
+        /* =========================================================
+           SHARED ELLOND ATLAS STYLE
+           Keeps location pages visually aligned with the main Atlas.
+        ========================================================= */
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        header {
+            position: relative;
+            height: 86px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding: 0 22px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #211a12 0%,
+                    #17120d 55%,
+                    #100d09 100%
+                );
+
+            border-top: 2px solid #8d7042;
+            border-bottom: 3px solid #6e542f;
+
+            box-shadow:
+                inset 0 1px 0 #b89a63,
+                inset 0 -1px 0 #2a1d10,
+                0 4px 10px rgba(0,0,0,.65);
+
+            z-index: 100;
+        }
+
+        header::after {
+            content: "";
+            position: absolute;
+            left: 8px;
+            right: 8px;
+            bottom: 5px;
+            height: 1px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    #8d7042 10%,
+                    #b79a63 50%,
+                    #8d7042 90%,
+                    transparent
+                );
+
+            pointer-events: none;
+        }
+
+        .header-emblem {
+            position: relative;
+            width: 58px;
+            height: 58px;
+            flex: 0 0 58px;
+
+            border: 2px solid #9d7b45;
+            border-radius: 50%;
+
+            box-shadow:
+                inset 0 0 0 3px #1a140e,
+                inset 0 0 0 4px #67502e,
+                0 0 6px rgba(0,0,0,.8);
+        }
+
+        .header-emblem::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 5px;
+            width: 2px;
+            height: 44px;
+            background: #b89758;
+            transform: translateX(-50%);
+        }
+
+        .header-emblem::after {
+            content: "";
+            position: absolute;
+            left: 5px;
+            top: 50%;
+            width: 44px;
+            height: 2px;
+            background: #b89758;
+            transform: translateY(-50%);
+        }
+
+        .header-title {
+            display: flex;
+            align-items: baseline;
+            gap: 18px;
+            margin-right: auto;
+            min-width: 0;
+        }
+
+        .header-title h1 {
+            margin: 0;
+            color: #ead8b4;
+            font-size: 27px;
+            letter-spacing: 5px;
+
+            text-shadow:
+                0 2px 2px #000,
+                0 0 4px rgba(194,152,86,.25);
+        }
+
+        .header-title .subtitle {
+            margin: 0;
+            color: #b99a68;
+            font-size: 14px;
+            font-style: italic;
+            letter-spacing: .5px;
+            white-space: nowrap;
+        }
+
+        .header-controls {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 10px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #2a2116,
+                    #18120c
+                );
+
+            border: 1px solid #755b35;
+
+            box-shadow:
+                inset 0 0 0 1px #342619,
+                0 2px 6px rgba(0,0,0,.6);
+        }
+
+        .header-controls::before,
+        .header-controls::after {
+            content: "◆";
+            position: absolute;
+            top: 50%;
+            color: #987545;
+            font-size: 9px;
+            transform: translateY(-50%);
+        }
+
+        .header-controls::before {
+            left: -7px;
+        }
+
+        .header-controls::after {
+            right: -7px;
+        }
+
+        .atlas-nav,
+        .zoom-controls {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .atlas-nav {
+            padding-right: 7px;
+            margin-right: 2px;
+            border-right: 1px solid #5d472a;
+        }
+
+        .nav-button,
+        .zoom-controls button {
+            min-width: 40px;
+            height: 38px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 11px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #302518,
+                    #1c150e
+                );
+
+            color: #ead8b4;
+            border: 1px solid #81643a;
+
+            box-shadow:
+                inset 0 1px 0 rgba(255,225,170,.12),
+                inset 0 -1px 0 rgba(0,0,0,.8);
+
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 13px;
+            text-decoration: none;
+            cursor: pointer;
+
+            transition:
+                background .15s,
+                border-color .15s;
+        }
+
+        .nav-button:hover,
+        .zoom-controls button:hover {
+            background:
+                linear-gradient(
+                    180deg,
+                    #49371f,
+                    #2a1e12
+                );
+
+            border-color: #b18c52;
+        }
+
+        #zoom-display {
+            min-width: 68px;
+            font-size: 15px;
+        }
+
+        .layout {
+            height: calc(100vh - 86px);
+            grid-template-columns: minmax(0,1fr) 400px;
+        }
+
+        .layout.panel-hidden {
+            grid-template-columns: minmax(0,1fr) 0;
+        }
+
+        .map-container {
+            scrollbar-color: #735a36 #1b150e;
+            scrollbar-width: thin;
+        }
+
+        .map-container::-webkit-scrollbar {
+            width: 14px;
+            height: 14px;
+        }
+
+        .map-container::-webkit-scrollbar-track {
+            background: #17110b;
+            border: 1px solid #42311d;
+        }
+
+        .map-container::-webkit-scrollbar-thumb {
+            background:
+                linear-gradient(
+                    90deg,
+                    #4c3820,
+                    #8b6a3c,
+                    #4c3820
+                );
+
+            border: 2px solid #21170e;
+            border-radius: 5px;
+        }
+
+        aside {
+            position: relative;
+            min-width: 0;
+            overflow-y: auto;
+            padding: 30px 31px 45px;
+
+            background:
+                radial-gradient(
+                    circle at 30% 20%,
+                    rgba(96,72,42,.13),
+                    transparent 34%
+                ),
+                linear-gradient(
+                    90deg,
+                    #1d1710,
+                    #2a2117 48%,
+                    #211910
+                );
+
+            border-left: 2px solid #73562f;
+
+            box-shadow:
+                inset 4px 0 9px rgba(0,0,0,.35),
+                -4px 0 10px rgba(0,0,0,.45);
+        }
+
+        aside h2 {
+            margin-top: 0;
+            padding-bottom: 11px;
+            color: #ead8b4;
+
+            border-bottom: 1px solid #6f5737;
+
+            font-size: 25px;
+            letter-spacing: 1.5px;
+        }
+
+        .location-type {
+            color: #b39b73;
+            font-style: italic;
+        }
+
+        .section-title {
+            margin-top: 24px;
+            margin-bottom: 6px;
+            color: #c9a96d;
+            font-size: 13px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        aside p {
+            line-height: 1.45;
+        }
+
+        .sidebar-button,
+        .deep-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 34px;
+            padding: 7px 10px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #302518,
+                    #1c150e
+                );
+
+            color: #ead8b4;
+            border: 1px solid #81643a;
+
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 12px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .sidebar-button:hover,
+        .deep-link:hover {
+            background:
+                linear-gradient(
+                    180deg,
+                    #49371f,
+                    #2a1e12
+                );
+
+            border-color: #b18c52;
+        }
+
+        .guild-context {
+            margin-top: 23px;
+            padding: 13px 14px 14px;
+
+            background: rgba(11,8,5,.26);
+            border: 1px solid #5f482b;
+
+            box-shadow:
+                inset 0 0 0 1px rgba(181,142,78,.08);
+        }
+
+        .guild-staff {
+            margin: 8px 0 13px;
+        }
+
+        .staff-row {
+            display: grid;
+            grid-template-columns: 118px 1fr;
+            gap: 8px;
+            margin: 5px 0;
+            font-size: 13px;
+        }
+
+        .staff-label {
+            color: #aa8e60;
+            text-transform: uppercase;
+            font-size: 10px;
+            letter-spacing: 1px;
+        }
+
+        .staff-name {
+            color: #e5d7b9;
+        }
+
+        .panel-arrow {
+            position: absolute;
+            right: 400px;
+            top: 50%;
+            transform: translateY(-50%);
+
+            width: 34px;
+            height: 70px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 0;
+            background:
+                linear-gradient(
+                    90deg,
+                    #1b140d,
+                    #342719
+                );
+
+            color: #d6b270;
+            border: 1px solid #80623a;
+            border-right: none;
+
+            box-shadow:
+                -2px 2px 6px rgba(0,0,0,.5);
+
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 22px;
+            cursor: pointer;
+            z-index: 90;
+
+            transition:
+                right .2s ease,
+                background .15s ease;
+        }
+
+        .panel-arrow:hover {
+            background:
+                linear-gradient(
+                    90deg,
+                    #2a1e12,
+                    #49371f
+                );
+        }
+
+        .layout.panel-hidden .panel-arrow {
+            right: 0;
+        }
+
+        .layout.panel-hidden aside {
+            display: none;
+        }
+
+        @media (max-width: 1180px) {
+            .header-title .subtitle {
+                display: none;
+            }
+
+            .header-title h1 {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+
+            .header-emblem {
+                width: 48px;
+                height: 48px;
+                flex-basis: 48px;
+            }
+
+            .header-emblem::before {
+                height: 34px;
+            }
+
+            .header-emblem::after {
+                width: 34px;
+            }
+
+            .nav-button {
+                padding: 0 8px;
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            header {
+                padding: 0 10px;
+                gap: 9px;
+            }
+
+            .header-emblem {
+                display: none;
+            }
+
+            .layout {
+                grid-template-columns: minmax(0,1fr) 300px;
+            }
+
+            .panel-arrow {
+                right: 300px;
+            }
+
+            .layout.panel-hidden .panel-arrow {
+                right: 0;
+            }
+        }
+
+
     </style>
 
 </head>
@@ -303,60 +803,52 @@
 
 <header>
 
-    <h1>
-        PORT ASTER
-    </h1>
+    <div class="header-emblem"></div>
 
-    <span class="subtitle">
-        Interactive Town Map
-    </span>
-
+    <div class="header-title">
+        <h1>PORT ASTER</h1>
+        <span class="subtitle">Interactive Town Map</span>
+    </div>
 
     <div class="header-controls">
 
-
-        <!-- ZOOM -->
-
-        <div class="zoom-controls">
-
-            <button onclick="zoomOut()">
-                −
+        <nav class="atlas-nav" aria-label="Atlas navigation">
+            <button
+                class="nav-button"
+                type="button"
+                onclick="goBack()"
+                title="Return to previous page"
+            >
+                ← Back
             </button>
 
+            <a class="nav-button" href="../index.html">
+                Atlas
+            </a>
+
+            <a class="nav-button" href="../Guilds/index.html">
+                Guilds
+            </a>
+
+            <a class="nav-button" href="../Npc/index.html">
+                NPCs
+            </a>
+        </nav>
+
+        <div class="zoom-controls">
+            <button type="button" onclick="zoomOut()">−</button>
+
             <button
+                type="button"
                 id="zoom-display"
                 onclick="resetZoom()"
+                title="Reset zoom"
             >
                 100%
             </button>
 
-            <button onclick="zoomIn()">
-                +
-            </button>
-
+            <button type="button" onclick="zoomIn()">+</button>
         </div>
-
-
-        <!-- PANEL -->
-
-        <button
-            class="panel-toggle"
-            id="panel-toggle"
-            onclick="togglePanel()"
-        >
-            Hide Panel
-        </button>
-
-
-        <!-- RETURN -->
-
-        <a
-            class="return-button"
-            href="../Interactive map execute.html"
-        >
-            Return to Atlas
-        </a>
-
 
     </div>
 
@@ -706,6 +1198,21 @@
          INFORMATION PANEL
     ========================= -->
 
+    
+    <!-- =====================================================
+         INFORMATION PANEL TOGGLE
+    ====================================================== -->
+
+    <button
+        class="panel-arrow"
+        id="panel-arrow"
+        type="button"
+        onclick="togglePanel()"
+        title="Hide information panel"
+    >
+        ›
+    </button>
+
     <aside id="info-panel">
 
 
@@ -762,6 +1269,20 @@
 
 
 <script>
+
+    /* =========================================================
+       BACK NAVIGATION
+    ========================================================= */
+
+    function goBack() {
+        if (document.referrer) {
+            history.back();
+        } else {
+            window.location.href = "../index.html";
+        }
+    }
+
+
 
 /* =========================
    GUILDS
@@ -965,31 +1486,23 @@ function showGuilds() {
         const layout =
             document.getElementById("main-layout");
 
-        const button =
-            document.getElementById("panel-toggle");
+        const arrow =
+            document.getElementById("panel-arrow");
 
+        layout.classList.toggle("panel-hidden");
 
-        layout.classList.toggle(
-            "panel-hidden"
-        );
+        if (arrow) {
+            const hidden =
+                layout.classList.contains("panel-hidden");
 
+            arrow.textContent =
+                hidden ? "‹" : "›";
 
-        if (
-            layout.classList.contains(
-                "panel-hidden"
-            )
-        ) {
-
-            button.textContent =
-                "Show Panel";
-
-        } else {
-
-            button.textContent =
-                "Hide Panel";
-
+            arrow.title =
+                hidden
+                ? "Show information panel"
+                : "Hide information panel";
         }
-
     }
 
 
@@ -997,6 +1510,145 @@ function showGuilds() {
     /* =========================
        LOCATION DATABASE
     ========================= */
+
+
+    const portAsterGuildLinks = {
+        adventureguild: {
+            guildName: "Adventurer's Guild",
+            guildPage: "../Guilds/adventurers-guild.html",
+            head: "To be assigned",
+            frontDesk: "To be assigned"
+        },
+        huntersguild: {
+            guildName: "Hunter's Guild",
+            guildPage: "../Guilds/hunters-guild.html",
+            head: "To be assigned",
+            frontDesk: "To be assigned"
+        },
+        challengeguild: {
+            guildName: "League of Challenge",
+            guildPage: "../Guilds/league-of-challenge.html",
+            head: "To be assigned",
+            frontDesk: "To be assigned"
+        },
+        minersguild: {
+            guildName: "Miner's Guild",
+            guildPage: "../Guilds/miners-guild.html",
+            head: "To be assigned",
+            frontDesk: "To be assigned"
+        },
+        leatherguild: {
+            guildName: "Leather Crafter's Guild",
+            guildPage: "../Guilds/leather-crafters-guild.html",
+            head: "To be assigned",
+            frontDesk: "To be assigned"
+        },
+        farmersguild: {
+            guildName: "Farmer's Guild",
+            guildPage: "../Guilds/farmers-guild.html",
+            head: "To be assigned",
+            frontDesk: "To be assigned"
+        },
+        merchantguild: {
+            guildName: "Merchant Consortium",
+            guildPage: "../Guilds/merchant-consortium.html",
+            head: "To be assigned",
+            frontDesk: "To be assigned"
+        },
+        innkeepersguild: {
+            guildName: "Innkeepers' Guild",
+            guildPage: "../Guilds/innkeepers-guild.html",
+            head: "To be assigned",
+            frontDesk: "To be assigned"
+        },
+        stonebeam: {
+            guildName: "The Order of Stone & Beam",
+            guildPage: "../Guilds/order-stone-beam.html",
+            head: "To be assigned",
+            frontDesk: "To be assigned"
+        },
+        whitehand: {
+            guildName: "The White Hand",
+            guildPage: "../Guilds/white-hand.html",
+            head: "To be assigned",
+            frontDesk: "To be assigned"
+        },
+        tidebound: {
+            guildName: "The Tidebound Brotherhood",
+            guildPage: "../Guilds/tidebound-brotherhood.html",
+            head: "To be assigned",
+            frontDesk: "To be assigned"
+        },
+        gildedvault: {
+            guildName: "The Gilded Vault",
+            guildPage: "../Guilds/gilded-vault.html",
+            head: "To be assigned",
+            frontDesk: "To be assigned"
+        },
+        veiledkey: {
+            guildName: "Guild of the Veiled Key",
+            guildPage: "../Guilds/guild-of-the-veiled-key.html",
+            head: "To be assigned",
+            frontDesk: "To be assigned"
+        },
+        magicalleague: {
+            guildName: "Gentleman's League of Magical Excellence",
+            guildPage: "../Guilds/gentlemans-league.html",
+            head: "To be assigned",
+            frontDesk: "To be assigned"
+        },
+    };
+
+    function portAsterGuildContext(id) {
+
+        const guild =
+            portAsterGuildLinks[id];
+
+        if (!guild) {
+            return "";
+        }
+
+        return `
+            <div class="guild-context">
+
+                <div class="section-title">
+                    Local Guild Staff
+                </div>
+
+                <div class="guild-staff">
+
+                    <div class="staff-row">
+                        <span class="staff-label">
+                            Head of Operations
+                        </span>
+
+                        <span class="staff-name">
+                            ${guild.head}
+                        </span>
+                    </div>
+
+                    <div class="staff-row">
+                        <span class="staff-label">
+                            Front Desk
+                        </span>
+
+                        <span class="staff-name">
+                            ${guild.frontDesk}
+                        </span>
+                    </div>
+
+                </div>
+
+                <a
+                    class="deep-link"
+                    href="${guild.guildPage}"
+                >
+                    Open Guild Page
+                </a>
+
+            </div>
+        `;
+    }
 
     const locations = {
 
@@ -1606,6 +2258,8 @@ magicalleague: {
             <p>
                 ${location.inventory}
             </p>
+
+            ${portAsterGuildContext(id)}
 
         `;
 

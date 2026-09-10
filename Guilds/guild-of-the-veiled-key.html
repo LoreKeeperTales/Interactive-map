@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Guild of the Veiled Key — Ellond Atlas</title>
+<style>
+
+* { box-sizing: border-box; }
+
+html, body {
+    margin: 0;
+    min-height: 100%;
+}
+
+body {
+    background:
+        radial-gradient(circle at 25% 15%, rgba(105,78,45,.10), transparent 32%),
+        #17120d;
+    color: #e7ddc7;
+    font-family: Georgia, "Times New Roman", serif;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    height: 86px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 0 22px;
+    background: linear-gradient(180deg,#211a12 0%,#17120d 55%,#100d09 100%);
+    border-top: 2px solid #8d7042;
+    border-bottom: 3px solid #6e542f;
+    box-shadow:
+        inset 0 1px 0 #b89a63,
+        inset 0 -1px 0 #2a1d10,
+        0 4px 10px rgba(0,0,0,.65);
+    z-index: 100;
+}
+
+header::after {
+    content: "";
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    bottom: 5px;
+    height: 1px;
+    background: linear-gradient(90deg,transparent,#8d7042 10%,#b79a63 50%,#8d7042 90%,transparent);
+    pointer-events: none;
+}
+
+.header-emblem {
+    position: relative;
+    width: 58px;
+    height: 58px;
+    flex: 0 0 58px;
+    border: 2px solid #9d7b45;
+    border-radius: 50%;
+    box-shadow:
+        inset 0 0 0 3px #1a140e,
+        inset 0 0 0 4px #67502e,
+        0 0 6px rgba(0,0,0,.8);
+}
+
+.header-emblem::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 5px;
+    width: 2px;
+    height: 44px;
+    background: #b89758;
+    transform: translateX(-50%);
+}
+
+.header-emblem::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    width: 44px;
+    height: 2px;
+    background: #b89758;
+    transform: translateY(-50%);
+}
+
+.header-title {
+    margin-right: auto;
+    min-width: 0;
+}
+
+.header-title h1 {
+    margin: 0;
+    color: #ead8b4;
+    font-size: 26px;
+    letter-spacing: 4px;
+    text-shadow:
+        0 2px 2px #000,
+        0 0 4px rgba(194,152,86,.25);
+}
+
+.header-title .subtitle {
+    display: block;
+    margin-top: 4px;
+    color: #b99a68;
+    font-size: 13px;
+    font-style: italic;
+    letter-spacing: .5px;
+}
+
+.header-controls {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 10px;
+    background: linear-gradient(180deg,#2a2116,#18120c);
+    border: 1px solid #755b35;
+    box-shadow:
+        inset 0 0 0 1px #342619,
+        0 2px 6px rgba(0,0,0,.6);
+}
+
+.header-controls::before,
+.header-controls::after {
+    content: "◆";
+    position: absolute;
+    top: 50%;
+    color: #987545;
+    font-size: 9px;
+    transform: translateY(-50%);
+}
+
+.header-controls::before { left: -7px; }
+.header-controls::after { right: -7px; }
+
+.nav-button,
+.action-button {
+    min-height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 12px;
+    background: linear-gradient(180deg,#302518,#1c150e);
+    color: #ead8b4;
+    border: 1px solid #81643a;
+    box-shadow:
+        inset 0 1px 0 rgba(255,225,170,.12),
+        inset 0 -1px 0 rgba(0,0,0,.8);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 13px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.nav-button:hover,
+.action-button:hover {
+    background: linear-gradient(180deg,#49371f,#2a1e12);
+    border-color: #b18c52;
+}
+
+.page-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 310px;
+    min-height: calc(100vh - 86px);
+}
+
+main {
+    min-width: 0;
+    padding: 42px clamp(28px, 5vw, 72px) 70px;
+}
+
+.guild-heading {
+    max-width: 980px;
+    margin: 0 auto 30px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid #705736;
+}
+
+.guild-kicker {
+    margin-bottom: 8px;
+    color: #b99a68;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+.guild-heading h2 {
+    margin: 0;
+    color: #ead8b4;
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: normal;
+    line-height: 1.05;
+}
+
+.guild-domain {
+    margin-top: 13px;
+    color: #bca47c;
+    font-style: italic;
+    font-size: 16px;
+}
+
+.content-grid {
+    max-width: 980px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 18px;
+}
+
+.section-card {
+    padding: 20px 22px 22px;
+    background: linear-gradient(180deg,rgba(50,39,26,.82),rgba(28,21,14,.88));
+    border: 1px solid #674f31;
+    box-shadow:
+        inset 0 0 0 1px rgba(191,150,84,.06),
+        0 3px 8px rgba(0,0,0,.24);
+}
+
+.section-card.wide { grid-column: 1 / -1; }
+
+.section-title {
+    margin: 0 0 12px;
+    padding-bottom: 8px;
+    color: #d2b57d;
+    border-bottom: 1px solid #5d482f;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.placeholder {
+    margin: 0;
+    color: #9d9079;
+    font-style: italic;
+    line-height: 1.55;
+}
+
+.chapter {
+    margin-top: 14px;
+    padding: 15px;
+    background: rgba(9,7,5,.30);
+    border: 1px solid #5f482b;
+}
+
+.chapter-name {
+    margin: 0 0 11px;
+    color: #e6d5ad;
+    font-size: 17px;
+    letter-spacing: 1px;
+}
+
+.staff-row {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 10px;
+    margin: 7px 0;
+}
+
+.staff-label {
+    color: #aa8e60;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.staff-name { color: #ded0b2; }
+
+aside {
+    position: sticky;
+    top: 86px;
+    height: calc(100vh - 86px);
+    overflow-y: auto;
+    padding: 32px 25px 40px;
+    background: linear-gradient(90deg,#1d1710,#2a2117);
+    border-left: 2px solid #73562f;
+    box-shadow:
+        inset 4px 0 9px rgba(0,0,0,.35),
+        -4px 0 10px rgba(0,0,0,.45);
+}
+
+.profile-title {
+    margin: 0 0 18px;
+    padding-bottom: 11px;
+    color: #ead8b4;
+    border-bottom: 1px solid #6f5737;
+    font-size: 22px;
+    letter-spacing: 1px;
+}
+
+.profile-row { margin: 19px 0; }
+
+.profile-label {
+    display: block;
+    margin-bottom: 5px;
+    color: #b99a68;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.profile-value {
+    color: #e4d6b8;
+    line-height: 1.4;
+}
+
+.sidebar-rule {
+    height: 1px;
+    margin: 23px 0;
+    background: linear-gradient(90deg,transparent,#735b38,transparent);
+}
+
+.dm-note {
+    color: #988b75;
+    font-style: italic;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+body::-webkit-scrollbar,
+aside::-webkit-scrollbar {
+    width: 12px;
+}
+
+body::-webkit-scrollbar-track,
+aside::-webkit-scrollbar-track {
+    background: #17110b;
+}
+
+body::-webkit-scrollbar-thumb,
+aside::-webkit-scrollbar-thumb {
+    background: linear-gradient(90deg,#4c3820,#8b6a3c,#4c3820);
+    border: 2px solid #21170e;
+    border-radius: 5px;
+}
+
+.directory-wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 42px 28px 70px;
+}
+
+.directory-title {
+    margin-bottom: 28px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #705736;
+}
+
+.directory-title h2 {
+    margin: 0;
+    color: #ead8b4;
+    font-size: 40px;
+    font-weight: normal;
+    letter-spacing: 2px;
+}
+
+.directory-title p {
+    margin: 8px 0 0;
+    color: #b99a68;
+    font-style: italic;
+}
+
+.guild-directory {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(265px, 1fr));
+    gap: 14px;
+}
+
+.guild-card {
+    min-height: 96px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 7px;
+    padding: 17px 18px;
+    background: linear-gradient(180deg,rgba(50,39,26,.86),rgba(27,20,13,.92));
+    color: #ead8b4;
+    border: 1px solid #674f31;
+    text-decoration: none;
+    box-shadow:
+        inset 0 0 0 1px rgba(191,150,84,.06),
+        0 3px 7px rgba(0,0,0,.24);
+}
+
+.guild-card:hover {
+    border-color: #aa8450;
+    background: linear-gradient(180deg,rgba(73,55,31,.92),rgba(34,25,15,.96));
+}
+
+.guild-card strong {
+    font-size: 17px;
+    font-weight: normal;
+}
+
+.guild-card span {
+    color: #aa9877;
+    font-size: 12px;
+    font-style: italic;
+}
+
+@media (max-width: 900px) {
+    header {
+        height: auto;
+        min-height: 86px;
+        flex-wrap: wrap;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .header-emblem { display: none; }
+
+    .header-title h1 {
+        font-size: 20px;
+        letter-spacing: 2px;
+    }
+
+    .page-shell { display: block; }
+
+    aside {
+        position: static;
+        height: auto;
+        border-left: none;
+        border-top: 2px solid #73562f;
+    }
+
+    .content-grid { grid-template-columns: 1fr; }
+
+    .section-card.wide { grid-column: auto; }
+}
+
+</style>
+</head>
+<body>
+
+<header>
+    <div class="header-emblem"></div>
+
+    <div class="header-title">
+        <h1>ELLOND</h1>
+        <span class="subtitle">Guild Archive</span>
+    </div>
+
+    <nav class="header-controls" aria-label="Atlas navigation">
+        <button class="nav-button" type="button" onclick="goBack()">← Back</button>
+        <a class="nav-button" href="../index.html">Atlas</a>
+        <a class="nav-button" href="index.html">Guilds</a>
+        <a class="nav-button" href="../Npc/index.html">NPCs</a>
+    </nav>
+</header>
+
+<div class="page-shell">
+
+<main>
+    <section class="guild-heading">
+        <div class="guild-kicker">Guild Record</div>
+        <h2>The Guild of the Veiled Key</h2>
+        <div class="guild-domain">Locks • Secrets • Specialist Services</div>
+    </section>
+
+    <div class="content-grid">
+
+        <section class="section-card wide">
+            <h3 class="section-title">Overview</h3>
+            <p class="placeholder">
+                Add a short description of the guild, what it represents,
+                and its role in Ellond.
+            </p>
+        </section>
+
+        <section class="section-card">
+            <h3 class="section-title">History</h3>
+            <p class="placeholder">
+                Add the guild's founding, major historical events,
+                important reforms, rivalries, or changes in influence.
+            </p>
+        </section>
+
+        <section class="section-card">
+            <h3 class="section-title">Organization</h3>
+            <p class="placeholder">
+                Add leadership structure, ranks, membership requirements,
+                traditions, and internal organization.
+            </p>
+        </section>
+
+        <section class="section-card">
+            <h3 class="section-title">Services & Responsibilities</h3>
+            <p class="placeholder">
+                Add what the guild provides to members, settlements,
+                kingdoms, travelers, or the public.
+            </p>
+        </section>
+
+        <section class="section-card">
+            <h3 class="section-title">Reputation & Influence</h3>
+            <p class="placeholder">
+                Add how the guild is viewed across Ellond and where
+                its influence is strongest.
+            </p>
+        </section>
+
+        <section class="section-card wide">
+            <h3 class="section-title">Guild Locations</h3>
+
+            <p class="placeholder">
+                Add headquarters, regional halls, local chapters,
+                offices, lodges, or affiliated establishments here.
+            </p>
+
+            <div class="chapter">
+                <h4 class="chapter-name">Example Local Chapter</h4>
+
+                <div class="staff-row">
+                    <span class="staff-label">Head of Operations</span>
+                    <span class="staff-name">To be assigned</span>
+                </div>
+
+                <div class="staff-row">
+                    <span class="staff-label">Front Desk</span>
+                    <span class="staff-name">To be assigned</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h3 class="section-title">Notable Members</h3>
+            <p class="placeholder">
+                Add guildmasters, officers, specialists,
+                historical figures, or other NPCs.
+            </p>
+        </section>
+
+        <section class="section-card">
+            <h3 class="section-title">Relations</h3>
+            <p class="placeholder">
+                Add allied guilds, rivals, kingdoms, institutions,
+                religious ties, or other important relationships.
+            </p>
+        </section>
+
+        <section class="section-card wide">
+            <h3 class="section-title">DM Notes</h3>
+            <p class="placeholder">
+                Add secrets, adventure hooks, hidden motives,
+                internal disputes, or campaign-only information here.
+            </p>
+        </section>
+
+    </div>
+</main>
+
+<aside>
+    <h3 class="profile-title">Guild Profile</h3>
+
+    <div class="profile-row">
+        <span class="profile-label">Name</span>
+        <div class="profile-value">The Guild of the Veiled Key</div>
+    </div>
+
+    <div class="profile-row">
+        <span class="profile-label">Field</span>
+        <div class="profile-value">Locks • Secrets • Specialist Services</div>
+    </div>
+
+    <div class="profile-row">
+        <span class="profile-label">Headquarters</span>
+        <div class="profile-value">To be assigned</div>
+    </div>
+
+    <div class="profile-row">
+        <span class="profile-label">Guildmaster</span>
+        <div class="profile-value">To be assigned</div>
+    </div>
+
+    <div class="profile-row">
+        <span class="profile-label">Founded</span>
+        <div class="profile-value">To be assigned</div>
+    </div>
+
+    <div class="profile-row">
+        <span class="profile-label">Reach</span>
+        <div class="profile-value">To be assigned</div>
+    </div>
+
+    <div class="sidebar-rule"></div>
+
+    <p class="dm-note">
+        Replace placeholders as the guild is developed.
+        Local chapters should keep both a Head of Operations
+        and a Front Desk NPC.
+    </p>
+</aside>
+
+</div>
+
+<script>
+function goBack() {
+    if (document.referrer) {
+        history.back();
+    } else {
+        window.location.href = "../index.html";
+    }
+}
+</script>
+
+</body>
+</html>

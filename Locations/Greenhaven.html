@@ -2,88 +2,123 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Greenhaven Interactive Town Map</title>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Greenhaven Interactive City Map</title>
+
 
     <style>
+
+        /* =========================================================
+           GENERAL
+        ========================================================= */
 
         * {
             box-sizing: border-box;
         }
 
+        html,
         body {
             margin: 0;
+            width: 100%;
+            height: 100%;
+        }
 
+        body {
             background: #1b1814;
             color: #e7ddc7;
 
             font-family: Georgia, "Times New Roman", serif;
+
+            overflow: hidden;
         }
 
 
-        /* =========================
+        /* =========================================================
            HEADER
-        ========================= */
+        ========================================================= */
 
         header {
             height: 70px;
 
             display: flex;
             align-items: center;
+
             gap: 30px;
 
             padding: 0 30px;
 
-            background: #211d18;
+            background:
+                linear-gradient(
+                    to bottom,
+                    #241f19,
+                    #18140f
+                );
 
-            border-bottom: 1px solid #665944;
+            border-bottom: 1px solid #80683d;
+
+            box-shadow:
+                0 2px 6px rgba(0,0,0,.75);
+
+            position: relative;
+            z-index: 100;
         }
+
 
         header h1 {
             margin: 0;
+
+            color: #ead9b5;
 
             letter-spacing: 4px;
             font-size: 24px;
         }
 
+
         header .subtitle {
-            color: #a99a80;
+            color: #aa9876;
 
             font-size: 14px;
+            font-style: italic;
 
             margin-right: auto;
         }
 
 
-        /* =========================
+        /* =========================================================
            HEADER CONTROLS
-        ========================= */
+        ========================================================= */
 
         .header-controls {
             display: flex;
-
             align-items: center;
 
-            gap: 10px;
+            gap: 8px;
         }
+
 
         .zoom-controls {
             display: flex;
-
             gap: 6px;
         }
 
+
         .zoom-controls button,
-        .panel-toggle,
         .return-button {
+            min-height: 36px;
+
             padding: 8px 12px;
 
-            background: #322b22;
+            background: #30291f;
             color: #e7ddc7;
 
-            border: 1px solid #88775a;
+            border: 1px solid #806c4c;
 
             font-family: Georgia, "Times New Roman", serif;
             font-size: 14px;
@@ -93,53 +128,64 @@
             text-decoration: none;
         }
 
+
         .zoom-controls button:hover,
-        .panel-toggle:hover,
         .return-button:hover {
             background: #44392d;
         }
 
 
-        /* =========================
+        #zoom-display {
+            min-width: 62px;
+        }
+
+
+        /* =========================================================
            MAIN LAYOUT
-        ========================= */
+        ========================================================= */
 
         .layout {
             display: grid;
 
-            grid-template-columns: 1fr 360px;
+            grid-template-columns:
+                minmax(0, 1fr)
+                360px;
 
             height: calc(100vh - 70px);
+
+            position: relative;
         }
+
 
         .layout.panel-hidden {
-            grid-template-columns: 1fr;
+            grid-template-columns:
+                minmax(0, 1fr)
+                0;
         }
 
-        .layout.panel-hidden aside {
-            display: none;
-        }
 
-
-        /* =========================
-           MAP
-        ========================= */
+        /* =========================================================
+           MAP AREA
+        ========================================================= */
 
         .map-container {
             position: relative;
+
+            min-width: 0;
 
             overflow: auto;
 
             background: #111;
         }
 
+
         .map-stage {
             position: relative;
 
             width: 1400px;
-
-            min-height: 900px;
+            height: 900px;
         }
+
 
         .map-wrapper {
             position: relative;
@@ -149,101 +195,254 @@
             transform-origin: top left;
         }
 
+
         .town-map {
             display: block;
 
             width: 100%;
             height: auto;
+
+            user-select: none;
+
+            -webkit-user-drag: none;
         }
 
 
-        /* =========================
-           MAP MARKERS
-        ========================= */
+        /* =========================================================
+           GREENHAVEN MAP MARKERS
+        ========================================================= */
 
-        .marker {
+        .city-marker {
             position: absolute;
 
-            width: 28px;
-            height: 28px;
+            width: 18px;
+            height: 18px;
 
-            border: 2px solid #e9d9b5;
-
-            background: #463728;
+            transform:
+                translate(-50%, -50%);
 
             border-radius: 50%;
 
-            color: #f1e5ca;
+            background: #7f3f2d;
 
-            display: flex;
+            border:
+                2px solid #ead9b5;
 
-            align-items: center;
-            justify-content: center;
-
-            font-size: 13px;
-            font-weight: bold;
+            box-shadow:
+                0 0 0 1px rgba(0,0,0,.8),
+                0 2px 5px rgba(0,0,0,.7);
 
             cursor: pointer;
 
-            transform: translate(-50%, -50%);
-
-            transition:
-                transform 0.15s,
-                background 0.15s;
+            z-index: 20;
         }
 
-        .marker:hover {
+
+        .city-marker:hover {
+            filter: brightness(1.3);
+
+            z-index: 50;
+        }
+
+
+        /* ---------------------------------------------------------
+           CIVIC
+        --------------------------------------------------------- */
+
+        .city-marker.civic {
+            border-radius: 2px;
+
+            background: #80662f;
+        }
+
+
+        /* ---------------------------------------------------------
+           TRADE
+        --------------------------------------------------------- */
+
+        .city-marker.trade {
+            background: #476442;
+        }
+
+
+        /* ---------------------------------------------------------
+           DOCK
+        --------------------------------------------------------- */
+
+        .city-marker.dock {
+            background: #36596a;
+        }
+
+
+        /* ---------------------------------------------------------
+           INN
+        --------------------------------------------------------- */
+
+        .city-marker.inn {
+            background: #864b32;
+        }
+
+
+        /* ---------------------------------------------------------
+           GUILD
+        --------------------------------------------------------- */
+
+        .city-marker.guild {
+            border-radius: 2px;
+
+            background: #55456b;
+
             transform:
                 translate(-50%, -50%)
-                scale(1.25);
-
-            background: #6d3528;
+                rotate(45deg);
         }
 
 
-        /* =========================
+        /* =========================================================
+           MARKER LABELS
+        ========================================================= */
+
+        .marker-label {
+            position: absolute;
+
+            left: 23px;
+            top: 50%;
+
+            transform:
+                translateY(-50%);
+
+            padding:
+                3px 7px;
+
+            color: #ead9b5;
+
+            background:
+                rgba(24,18,12,.95);
+
+            border:
+                1px solid #665033;
+
+            box-shadow:
+                0 2px 4px rgba(0,0,0,.6);
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 12px;
+
+            font-weight: normal;
+
+            white-space: nowrap;
+
+            pointer-events: none;
+        }
+
+
+        /* Keep guild labels horizontal and directly beside diamond tokens */
+
+        .city-marker.guild .marker-label {
+            left: 21px;
+            top: -10px;
+
+            transform: rotate(-45deg);
+            transform-origin: left center;
+        }
+
+
+        /* =========================================================
            INFORMATION PANEL
-        ========================= */
+        ========================================================= */
 
         aside {
+            position: relative;
+
+            min-width: 0;
+
             overflow-y: auto;
 
-            padding: 25px;
+            padding:
+                28px 28px 40px 30px;
 
-            background: #252019;
+            background:
+                linear-gradient(
+                    90deg,
+                    #211b14,
+                    #292219
+                );
 
-            border-left: 1px solid #665944;
+            border-left:
+                1px solid #80683d;
+
+            box-shadow:
+                -3px 0 8px rgba(0,0,0,.45);
+
+            transition:
+                opacity .2s ease;
+
+            z-index: 40;
         }
 
+
+        .layout.panel-hidden aside {
+            opacity: 0;
+
+            pointer-events: none;
+
+            overflow: hidden;
+
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+
         aside h2 {
-            margin-top: 0;
+            margin:
+                0 0 12px 0;
+
+            padding-bottom: 10px;
+
+            color: #ead9b5;
 
             border-bottom:
                 1px solid #665944;
 
-            padding-bottom: 10px;
-
             letter-spacing: 1px;
+
+            font-size: 26px;
         }
+
 
         .location-type {
             color: #aa9b82;
 
             font-style: italic;
+
+            margin-top: 0;
         }
 
+
         .section-title {
-            margin-top: 25px;
-            margin-bottom: 5px;
+            margin-top: 24px;
+            margin-bottom: 6px;
 
             color: #c8b78f;
 
-            font-size: 14px;
+            font-size: 13px;
 
             text-transform: uppercase;
 
             letter-spacing: 2px;
         }
+
+
+        .info-text {
+            line-height: 1.4;
+
+            margin-top: 5px;
+        }
+
 
         .placeholder {
             color: #938872;
@@ -251,74 +450,663 @@
             font-style: italic;
         }
 
+
+        /* =========================================================
+           PANEL ARROW
+        ========================================================= */
+
+        .panel-arrow {
+            position: absolute;
+
+            right: 360px;
+            top: 50%;
+
+            transform:
+                translateY(-50%);
+
+            width: 34px;
+            height: 70px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background:
+                #30271c;
+
+            color: #e6c88c;
+
+            border:
+                1px solid #80683d;
+
+            border-right: none;
+
+            font-size: 24px;
+
+            cursor: pointer;
+
+            z-index: 90;
+
+            transition:
+                right .2s ease,
+                background .15s ease;
+        }
+
+
+        .panel-arrow:hover {
+            background: #493a28;
+        }
+
+
+        .layout.panel-hidden
+        .panel-arrow {
+            right: 0;
+        }
+
+
+        /* =========================================================
+           SMALL SCREEN
+        ========================================================= */
+
+        @media (max-width: 900px) {
+
+            header {
+                padding:
+                    0 12px;
+
+                gap: 12px;
+            }
+
+            header h1 {
+                font-size: 18px;
+
+                letter-spacing: 2px;
+            }
+
+            header .subtitle {
+                display: none;
+            }
+
+            .layout {
+                grid-template-columns:
+                    minmax(0, 1fr)
+                    300px;
+            }
+
+            .panel-arrow {
+                right: 300px;
+            }
+
+            .layout.panel-hidden
+            .panel-arrow {
+                right: 0;
+            }
+
+        }
+
+
+    
+        /* =========================================================
+           SHARED ELLOND ATLAS STYLE
+           Keeps location pages visually aligned with the main Atlas.
+        ========================================================= */
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        header {
+            position: relative;
+            height: 86px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding: 0 22px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #211a12 0%,
+                    #17120d 55%,
+                    #100d09 100%
+                );
+
+            border-top: 2px solid #8d7042;
+            border-bottom: 3px solid #6e542f;
+
+            box-shadow:
+                inset 0 1px 0 #b89a63,
+                inset 0 -1px 0 #2a1d10,
+                0 4px 10px rgba(0,0,0,.65);
+
+            z-index: 100;
+        }
+
+        header::after {
+            content: "";
+            position: absolute;
+            left: 8px;
+            right: 8px;
+            bottom: 5px;
+            height: 1px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    #8d7042 10%,
+                    #b79a63 50%,
+                    #8d7042 90%,
+                    transparent
+                );
+
+            pointer-events: none;
+        }
+
+        .header-emblem {
+            position: relative;
+            width: 58px;
+            height: 58px;
+            flex: 0 0 58px;
+
+            border: 2px solid #9d7b45;
+            border-radius: 50%;
+
+            box-shadow:
+                inset 0 0 0 3px #1a140e,
+                inset 0 0 0 4px #67502e,
+                0 0 6px rgba(0,0,0,.8);
+        }
+
+        .header-emblem::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 5px;
+            width: 2px;
+            height: 44px;
+            background: #b89758;
+            transform: translateX(-50%);
+        }
+
+        .header-emblem::after {
+            content: "";
+            position: absolute;
+            left: 5px;
+            top: 50%;
+            width: 44px;
+            height: 2px;
+            background: #b89758;
+            transform: translateY(-50%);
+        }
+
+        .header-title {
+            display: flex;
+            align-items: baseline;
+            gap: 18px;
+            margin-right: auto;
+            min-width: 0;
+        }
+
+        .header-title h1 {
+            margin: 0;
+            color: #ead8b4;
+            font-size: 27px;
+            letter-spacing: 5px;
+
+            text-shadow:
+                0 2px 2px #000,
+                0 0 4px rgba(194,152,86,.25);
+        }
+
+        .header-title .subtitle {
+            margin: 0;
+            color: #b99a68;
+            font-size: 14px;
+            font-style: italic;
+            letter-spacing: .5px;
+            white-space: nowrap;
+        }
+
+        .header-controls {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 10px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #2a2116,
+                    #18120c
+                );
+
+            border: 1px solid #755b35;
+
+            box-shadow:
+                inset 0 0 0 1px #342619,
+                0 2px 6px rgba(0,0,0,.6);
+        }
+
+        .header-controls::before,
+        .header-controls::after {
+            content: "◆";
+            position: absolute;
+            top: 50%;
+            color: #987545;
+            font-size: 9px;
+            transform: translateY(-50%);
+        }
+
+        .header-controls::before {
+            left: -7px;
+        }
+
+        .header-controls::after {
+            right: -7px;
+        }
+
+        .atlas-nav,
+        .zoom-controls {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .atlas-nav {
+            padding-right: 7px;
+            margin-right: 2px;
+            border-right: 1px solid #5d472a;
+        }
+
+        .nav-button,
+        .zoom-controls button {
+            min-width: 40px;
+            height: 38px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 11px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #302518,
+                    #1c150e
+                );
+
+            color: #ead8b4;
+            border: 1px solid #81643a;
+
+            box-shadow:
+                inset 0 1px 0 rgba(255,225,170,.12),
+                inset 0 -1px 0 rgba(0,0,0,.8);
+
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 13px;
+            text-decoration: none;
+            cursor: pointer;
+
+            transition:
+                background .15s,
+                border-color .15s;
+        }
+
+        .nav-button:hover,
+        .zoom-controls button:hover {
+            background:
+                linear-gradient(
+                    180deg,
+                    #49371f,
+                    #2a1e12
+                );
+
+            border-color: #b18c52;
+        }
+
+        #zoom-display {
+            min-width: 68px;
+            font-size: 15px;
+        }
+
+        .layout {
+            height: calc(100vh - 86px);
+            grid-template-columns: minmax(0,1fr) 400px;
+        }
+
+        .layout.panel-hidden {
+            grid-template-columns: minmax(0,1fr) 0;
+        }
+
+        .map-container {
+            scrollbar-color: #735a36 #1b150e;
+            scrollbar-width: thin;
+        }
+
+        .map-container::-webkit-scrollbar {
+            width: 14px;
+            height: 14px;
+        }
+
+        .map-container::-webkit-scrollbar-track {
+            background: #17110b;
+            border: 1px solid #42311d;
+        }
+
+        .map-container::-webkit-scrollbar-thumb {
+            background:
+                linear-gradient(
+                    90deg,
+                    #4c3820,
+                    #8b6a3c,
+                    #4c3820
+                );
+
+            border: 2px solid #21170e;
+            border-radius: 5px;
+        }
+
+        aside {
+            position: relative;
+            min-width: 0;
+            overflow-y: auto;
+            padding: 30px 31px 45px;
+
+            background:
+                radial-gradient(
+                    circle at 30% 20%,
+                    rgba(96,72,42,.13),
+                    transparent 34%
+                ),
+                linear-gradient(
+                    90deg,
+                    #1d1710,
+                    #2a2117 48%,
+                    #211910
+                );
+
+            border-left: 2px solid #73562f;
+
+            box-shadow:
+                inset 4px 0 9px rgba(0,0,0,.35),
+                -4px 0 10px rgba(0,0,0,.45);
+        }
+
+        aside h2 {
+            margin-top: 0;
+            padding-bottom: 11px;
+            color: #ead8b4;
+
+            border-bottom: 1px solid #6f5737;
+
+            font-size: 25px;
+            letter-spacing: 1.5px;
+        }
+
+        .location-type {
+            color: #b39b73;
+            font-style: italic;
+        }
+
+        .section-title {
+            margin-top: 24px;
+            margin-bottom: 6px;
+            color: #c9a96d;
+            font-size: 13px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        aside p {
+            line-height: 1.45;
+        }
+
+        .sidebar-button,
+        .deep-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 34px;
+            padding: 7px 10px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #302518,
+                    #1c150e
+                );
+
+            color: #ead8b4;
+            border: 1px solid #81643a;
+
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 12px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .sidebar-button:hover,
+        .deep-link:hover {
+            background:
+                linear-gradient(
+                    180deg,
+                    #49371f,
+                    #2a1e12
+                );
+
+            border-color: #b18c52;
+        }
+
+        .guild-context {
+            margin-top: 23px;
+            padding: 13px 14px 14px;
+
+            background: rgba(11,8,5,.26);
+            border: 1px solid #5f482b;
+
+            box-shadow:
+                inset 0 0 0 1px rgba(181,142,78,.08);
+        }
+
+        .guild-staff {
+            margin: 8px 0 13px;
+        }
+
+        .staff-row {
+            display: grid;
+            grid-template-columns: 118px 1fr;
+            gap: 8px;
+            margin: 5px 0;
+            font-size: 13px;
+        }
+
+        .staff-label {
+            color: #aa8e60;
+            text-transform: uppercase;
+            font-size: 10px;
+            letter-spacing: 1px;
+        }
+
+        .staff-name {
+            color: #e5d7b9;
+        }
+
+        .panel-arrow {
+            position: absolute;
+            right: 400px;
+            top: 50%;
+            transform: translateY(-50%);
+
+            width: 34px;
+            height: 70px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 0;
+            background:
+                linear-gradient(
+                    90deg,
+                    #1b140d,
+                    #342719
+                );
+
+            color: #d6b270;
+            border: 1px solid #80623a;
+            border-right: none;
+
+            box-shadow:
+                -2px 2px 6px rgba(0,0,0,.5);
+
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 22px;
+            cursor: pointer;
+            z-index: 90;
+
+            transition:
+                right .2s ease,
+                background .15s ease;
+        }
+
+        .panel-arrow:hover {
+            background:
+                linear-gradient(
+                    90deg,
+                    #2a1e12,
+                    #49371f
+                );
+        }
+
+        .layout.panel-hidden .panel-arrow {
+            right: 0;
+        }
+
+        .layout.panel-hidden aside {
+            display: none;
+        }
+
+        @media (max-width: 1180px) {
+            .header-title .subtitle {
+                display: none;
+            }
+
+            .header-title h1 {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+
+            .header-emblem {
+                width: 48px;
+                height: 48px;
+                flex-basis: 48px;
+            }
+
+            .header-emblem::before {
+                height: 34px;
+            }
+
+            .header-emblem::after {
+                width: 34px;
+            }
+
+            .nav-button {
+                padding: 0 8px;
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            header {
+                padding: 0 10px;
+                gap: 9px;
+            }
+
+            .header-emblem {
+                display: none;
+            }
+
+            .layout {
+                grid-template-columns: minmax(0,1fr) 300px;
+            }
+
+            .panel-arrow {
+                right: 300px;
+            }
+
+            .layout.panel-hidden .panel-arrow {
+                right: 0;
+            }
+        }
+
+
     </style>
 
 </head>
 
 
+
 <body>
 
 
-<!-- =========================
+<!-- =========================================================
      HEADER
-========================= -->
+========================================================= -->
 
 <header>
 
-    <h1>
-        GREENHAVEN
-    </h1>
+    <div class="header-emblem"></div>
 
-    <span class="subtitle">
-        Interactive Town Map
-    </span>
-
+    <div class="header-title">
+        <h1>GREENHAVEN</h1>
+        <span class="subtitle">Interactive City Map</span>
+    </div>
 
     <div class="header-controls">
 
-
-        <!-- ZOOM -->
-
-        <div class="zoom-controls">
-
-            <button onclick="zoomOut()">
-                −
+        <nav class="atlas-nav" aria-label="Atlas navigation">
+            <button
+                class="nav-button"
+                type="button"
+                onclick="goBack()"
+                title="Return to previous page"
+            >
+                ← Back
             </button>
 
+            <a class="nav-button" href="../index.html">
+                Atlas
+            </a>
+
+            <a class="nav-button" href="../Guilds/index.html">
+                Guilds
+            </a>
+
+            <a class="nav-button" href="../Npc/index.html">
+                NPCs
+            </a>
+        </nav>
+
+        <div class="zoom-controls">
+            <button type="button" onclick="zoomOut()">−</button>
+
             <button
+                type="button"
                 id="zoom-display"
                 onclick="resetZoom()"
+                title="Reset zoom"
             >
                 100%
             </button>
 
-            <button onclick="zoomIn()">
-                +
-            </button>
-
+            <button type="button" onclick="zoomIn()">+</button>
         </div>
-
-
-        <!-- PANEL -->
-
-        <button
-            class="panel-toggle"
-            id="panel-toggle"
-            onclick="togglePanel()"
-        >
-            Hide Panel
-        </button>
-
-
-        <!-- RETURN -->
-
-        <a
-            class="return-button"
-            href="../Interactive map execute.html"
-        >
-            Return to Atlas
-        </a>
-
 
     </div>
 
@@ -326,9 +1114,9 @@
 
 
 
-<!-- =========================
+<!-- =========================================================
      MAIN LAYOUT
-========================= -->
+========================================================= -->
 
 <div
     class="layout"
@@ -336,19 +1124,21 @@
 >
 
 
-    <!-- =========================
-         GREENHAVEN MAP
-    ========================= -->
+    <!-- =====================================================
+         MAP
+    ====================================================== -->
 
     <main
         class="map-container"
         id="map-container"
     >
 
+
         <div
             class="map-stage"
             id="map-stage"
         >
+
 
             <div
                 class="map-wrapper"
@@ -359,27 +1149,249 @@
                 <img
                     src="../maps/Greenhaven.png"
                     class="town-map"
+                    id="greenhaven-map"
                     alt="Map of Greenhaven"
                 >
 
 
-                <!-- =========================
-                     GREENHAVEN LOCATIONS
-                =========================
 
-                Future tokens go here.
+                <!-- =========================================
+                     GREENHAVEN MARKERS
 
-                Example:
+                     City locations and guild presences.
+                ========================================== -->
+
+
+                <!-- GRAND MARKET -->
 
                 <div
-                    class="marker"
-                    style="left: 50%; top: 50%;"
+                    class="city-marker trade"
+                    style="left: 25%; top: 43%;"
+                    onclick="showCityLocation('grandmarket')"
                     title="Grand Market"
                 >
-                    M
+                    <span class="marker-label">
+                        Grand Market
+                    </span>
                 </div>
 
-                -->
+
+
+                <!-- MERCHANT DOCKS -->
+
+                <div
+                    class="city-marker dock"
+                    style="left: 38%; top: 10%;"
+                    onclick="showCityLocation('merchantdocks')"
+                    title="Merchant Docks"
+                >
+                    <span class="marker-label">
+                        Merchant Docks
+                    </span>
+                </div>
+
+
+
+                <!-- HARBOURMASTER -->
+
+                <div
+                    class="city-marker civic"
+                    style="left: 41%; top: 16%;"
+                    onclick="showCityLocation('harbourmaster')"
+                    title="Harbourmaster's Office"
+                >
+                    <span class="marker-label">
+                        Harbourmaster
+                    </span>
+                </div>
+
+
+
+                <!-- GILDED TORTOISE -->
+
+                <div
+                    class="city-marker inn"
+                    style="left: 66%; top: 45%;"
+                    onclick="showCityLocation('gildedtortoise')"
+                    title="The Gilded Tortoise"
+                >
+                    <span class="marker-label">
+                        The Gilded Tortoise
+                    </span>
+                </div>
+
+
+
+                <!-- =========================================
+                     GUILDS
+                ========================================== -->
+
+
+                <!-- ADVENTURER'S GUILD -->
+
+                <div
+                    class="city-marker guild"
+                    style="left: 45%; top: 55%;"
+                    onclick="showCityLocation('adventurersguild')"
+                >
+                    <span class="marker-label">
+                        Adventurer's Guild
+                    </span>
+                </div>
+
+
+
+                <!-- GENTLEMAN'S LEAGUE -->
+
+                <div
+                    class="city-marker guild"
+                    style="left: 70%; top: 55%;"
+                    onclick="showCityLocation('gentlemansleague')"
+                >
+                    <span class="marker-label">
+                        Gentleman's League
+                    </span>
+                </div>
+
+
+
+                <!-- MERCHANT GUILD -->
+
+                <div
+                    class="city-marker guild"
+                    style="left: 59%; top: 55%;"
+                    onclick="showCityLocation('merchantguild')"
+                >
+                    <span class="marker-label">
+                        Merchant Guild
+                    </span>
+                </div>
+
+
+
+                <!-- THE GILDED VAULT -->
+
+                <div
+                    class="city-marker guild"
+                    style="left: 62%; top: 35%;"
+                    onclick="showCityLocation('gildedvault')"
+                >
+                    <span class="marker-label">
+                        The Gilded Vault
+                    </span>
+                </div>
+
+
+
+                <!-- MARINERS' GUILD -->
+
+                <div
+                    class="city-marker guild"
+                    style="left: 45%; top: 65%;"
+                    onclick="showCityLocation('marinersguild')"
+                >
+                    <span class="marker-label">
+                        Mariners' Guild
+                    </span>
+                </div>
+
+
+
+                <!-- FARMERS' GUILD -->
+
+                <div
+                    class="city-marker guild"
+                    style="left: 52%; top: 65%;"
+                    onclick="showCityLocation('farmersguild')"
+                >
+                    <span class="marker-label">
+                        Farmers' Guild
+                    </span>
+                </div>
+
+
+
+                <!-- MINERS' GUILD -->
+
+                <div
+                    class="city-marker guild"
+                    style="left: 59%; top: 65%;"
+                    onclick="showCityLocation('minersguild')"
+                >
+                    <span class="marker-label">
+                        Miners' Guild
+                    </span>
+                </div>
+
+
+
+                <!-- BLACK FORGE -->
+
+                <div
+                    class="city-marker guild"
+                    style="left: 66%; top: 65%;"
+                    onclick="showCityLocation('blackforge')"
+                >
+                    <span class="marker-label">
+                        League of the Black Forge
+                    </span>
+                </div>
+
+
+
+                <!-- ARTS GUILD -->
+
+                <div
+                    class="city-marker guild"
+                    style="left: 45%; top: 75%;"
+                    onclick="showCityLocation('artsguild')"
+                >
+                    <span class="marker-label">
+                        Arts Guild
+                    </span>
+                </div>
+
+
+
+                <!-- THE WHITE HAND -->
+
+                <div
+                    class="city-marker guild"
+                    style="left: 37%; top: 35%;"
+                    onclick="showCityLocation('whitehand')"
+                >
+                    <span class="marker-label">
+                        The White Hand
+                    </span>
+                </div>
+
+
+
+                <!-- THE ORDER OF STONE & BEAM -->
+
+                <div
+                    class="city-marker guild"
+                    style="left: 59%; top: 75%;"
+                    onclick="showCityLocation('stoneandbeam')"
+                >
+                    <span class="marker-label">
+                        The Order of Stone & Beam
+                    </span>
+                </div>
+
+
+
+                <!-- LEAGUE OF CHALLENGE -->
+
+                <div
+                    class="city-marker guild"
+                    style="left: 73%; top: 86%;"
+                    onclick="showCityLocation('leagueofchallenge')"
+                >
+                    <span class="marker-label">
+                        League of Challenge
+                    </span>
+                </div>
 
 
             </div>
@@ -390,98 +1402,102 @@
 
 
 
-    <!-- =========================
+    <!-- =====================================================
+         PANEL ARROW
+    ====================================================== -->
+
+    <button
+        class="panel-arrow"
+        id="panel-arrow"
+        type="button"
+        onclick="togglePanel()"
+        title="Hide information panel"
+    >
+        ›
+    </button>
+
+
+
+    <!-- =====================================================
          INFORMATION PANEL
-    ========================= -->
+    ====================================================== -->
 
     <aside id="info-panel">
 
 
-        <h2>
+        <h2 id="location-name">
             Greenhaven
         </h2>
 
 
-        <p class="location-type">
-            Human Capital — Southern Empire
+        <p
+            class="location-type"
+            id="location-type"
+        >
+            Major Trade City — Southern Empire
         </p>
 
 
-        <p>
-            Greenhaven is a prosperous farming and harbour town
-            surrounded by some of the most fertile land in the
-            Southern Empire.
+        <p
+            class="info-text"
+            id="location-description"
+        >
+            Greenhaven is a prosperous harbour city of approximately
+            15,000 permanent inhabitants. Its position on the northern
+            edge of the Southern Empire makes it an important meeting
+            point for merchants, sailors, farmers, caravans and
+            travellers from across Ellond.
         </p>
+
 
 
         <div class="section-title">
-            Agriculture
+            Population
         </div>
 
-        <p>
-            Vast fields, orchards, grazing lands, farmsteads,
-            mills and agricultural villages surround the town.
-            Wheat, barley, oats, vegetables and fruit are produced
-            here in enormous quantities.
+        <p
+            class="info-text"
+            id="location-population"
+        >
+            Approximately 15,000 permanent inhabitants, with the
+            population frequently swelling as traders, sailors and
+            travellers pass through the city.
         </p>
+
 
 
         <div class="section-title">
             Known For
         </div>
 
-        <p>
-            The Grand Market, extensive farmland, grain production
-            and its reputation as the Granary of the South.
+        <p
+            class="info-text"
+            id="location-known"
+        >
+            The Grand Market, busy docks, regional trade, surrounding
+            farmland and the constant movement of goods between the
+            Southern Empire and the rest of Ellond.
         </p>
+
 
 
         <div class="section-title">
-            History
+            Details
         </div>
 
-        <p>
-            Greenhaven began as a frontier settlement near the
-            southern edge of the Empire, founded to support trade,
-            farming and travel between the settled lands and the
-            wilder regions beyond.
-        </p>
-
-        <p>
-            Over time, merchants, hunters, farmers and travelers
-            turned the settlement into a steady stopping point
-            rather than a major city. Its position made it valuable
-            without ever making it crowded.
-        </p>
-
-        <p>
-            Today, Greenhaven is known as a practical and welcoming
-            town where caravans resupply, travelers rest and much
-            of the Southern Empire's food passes through its markets.
+        <p
+            class="info-text"
+            id="location-details"
+        >
+            Select a marker on the city map to inspect a district,
+            guildhall, business or important location.
         </p>
 
 
-        <div class="section-title">
-            Explore
-        </div>
+    
+        <div id="location-links"></div>
 
-        <p>
-            Select a location on the town map to view more
-            information.
-        </p>
-
-
-        <div class="section-title">
-            DM Notes
-        </div>
-
-        <p class="placeholder">
-            Town secrets, quests and hidden information can be
-            placed here.
-        </p>
-
-
-    </aside>
+</aside>
 
 
 </div>
@@ -490,10 +1506,23 @@
 
 <script>
 
+    /* =========================================================
+       BACK NAVIGATION
+    ========================================================= */
 
-    /* =========================
+    function goBack() {
+        if (document.referrer) {
+            history.back();
+        } else {
+            window.location.href = "../index.html";
+        }
+    }
+
+
+
+    /* =========================================================
        ZOOM
-    ========================= */
+    ========================================================= */
 
     let currentZoom = 1;
 
@@ -513,22 +1542,33 @@
         const display =
             document.getElementById("zoom-display");
 
+        const map =
+            document.getElementById("greenhaven-map");
+
 
         wrapper.style.transform =
             `scale(${currentZoom})`;
 
 
+        const naturalWidth =
+            map.offsetWidth || 1400;
+
+        const naturalHeight =
+            map.offsetHeight || 900;
+
+
         stage.style.width =
-            `${1400 * currentZoom}px`;
+            `${naturalWidth * currentZoom}px`;
 
         stage.style.height =
-            `${900 * currentZoom}px`;
+            `${naturalHeight * currentZoom}px`;
 
 
         display.textContent =
             `${Math.round(currentZoom * 100)}%`;
 
     }
+
 
 
     function zoomIn() {
@@ -544,6 +1584,7 @@
     }
 
 
+
     function zoomOut() {
 
         currentZoom -= zoomStep;
@@ -557,6 +1598,7 @@
     }
 
 
+
     function resetZoom() {
 
         currentZoom = 1;
@@ -567,49 +1609,624 @@
 
 
 
-    /* =========================
-       HIDE / SHOW PANEL
-    ========================= */
+    /* =========================================================
+       PANEL
+    ========================================================= */
 
     function togglePanel() {
 
         const layout =
             document.getElementById("main-layout");
 
-        const button =
-            document.getElementById("panel-toggle");
+        const arrow =
+            document.getElementById("panel-arrow");
+
+        layout.classList.toggle("panel-hidden");
+
+        if (arrow) {
+            const hidden =
+                layout.classList.contains("panel-hidden");
+
+            arrow.textContent =
+                hidden ? "‹" : "›";
+
+            arrow.title =
+                hidden
+                ? "Show information panel"
+                : "Hide information panel";
+        }
+    }
 
 
-        layout.classList.toggle(
-            "panel-hidden"
-        );
+
+    /* =========================================================
+       LOCATION INFORMATION
+    ========================================================= */
 
 
-        if (
-            layout.classList.contains(
-                "panel-hidden"
-            )
-        ) {
+    const greenhavenGuildLinks = {
+        adventurersguild: {
+            guildName: "Adventurer's Guild",
+            guildPage: "../Guilds/adventurers-guild.html",
+            head: "To be assigned",
+            frontDesk: "To be assigned"
+        },
+        gentlemansleague: {
+            guildName: "Gentleman's League of Magical Excellence",
+            guildPage: "../Guilds/gentlemans-league.html",
+            head: "To be assigned",
+            frontDesk: "To be assigned"
+        },
+        merchantguild: {
+            guildName: "Merchant Guild",
+            guildPage: "../Guilds/merchant-guild.html",
+            head: "To be assigned",
+            frontDesk: "To be assigned"
+        },
+        gildedvault: {
+            guildName: "The Gilded Vault",
+            guildPage: "../Guilds/gilded-vault.html",
+            head: "To be assigned",
+            frontDesk: "To be assigned"
+        },
+        marinersguild: {
+            guildName: "Mariners' Guild",
+            guildPage: "../Guilds/mariners-guild.html",
+            head: "To be assigned",
+            frontDesk: "To be assigned"
+        },
+        farmersguild: {
+            guildName: "Farmers' Guild",
+            guildPage: "../Guilds/farmers-guild.html",
+            head: "To be assigned",
+            frontDesk: "To be assigned"
+        },
+        minersguild: {
+            guildName: "Miners' Guild",
+            guildPage: "../Guilds/miners-guild.html",
+            head: "To be assigned",
+            frontDesk: "To be assigned"
+        },
+        blackforge: {
+            guildName: "League of the Black Forge",
+            guildPage: "../Guilds/league-of-the-black-forge.html",
+            head: "To be assigned",
+            frontDesk: "To be assigned"
+        },
+        artsguild: {
+            guildName: "Arts Guild",
+            guildPage: "../Guilds/arts-guild.html",
+            head: "To be assigned",
+            frontDesk: "To be assigned"
+        },
+        whitehand: {
+            guildName: "The White Hand",
+            guildPage: "../Guilds/white-hand.html",
+            head: "To be assigned",
+            frontDesk: "To be assigned"
+        },
+        stoneandbeam: {
+            guildName: "The Order of Stone & Beam",
+            guildPage: "../Guilds/order-stone-beam.html",
+            head: "To be assigned",
+            frontDesk: "To be assigned"
+        },
+        leagueofchallenge: {
+            guildName: "League of Challenge",
+            guildPage: "../Guilds/league-of-challenge.html",
+            head: "To be assigned",
+            frontDesk: "To be assigned"
+        },
+    };
 
-            button.textContent =
-                "Show Panel";
+    function renderGreenhavenGuildLinks(id) {
 
-        } else {
+        const target =
+            document.getElementById("location-links");
 
-            button.textContent =
-                "Hide Panel";
+        if (!target) {
+            return;
+        }
+
+        const guild =
+            greenhavenGuildLinks[id];
+
+        if (!guild) {
+            target.innerHTML = "";
+            return;
+        }
+
+        target.innerHTML = `
+            <div class="guild-context">
+
+                <div class="section-title">
+                    Local Guild Staff
+                </div>
+
+                <div class="guild-staff">
+
+                    <div class="staff-row">
+                        <span class="staff-label">
+                            Head of Operations
+                        </span>
+
+                        <span class="staff-name">
+                            ${guild.head}
+                        </span>
+                    </div>
+
+                    <div class="staff-row">
+                        <span class="staff-label">
+                            Front Desk
+                        </span>
+
+                        <span class="staff-name">
+                            ${guild.frontDesk}
+                        </span>
+                    </div>
+
+                </div>
+
+                <a
+                    class="deep-link"
+                    href="${guild.guildPage}"
+                >
+                    Open Guild Page
+                </a>
+
+            </div>
+        `;
+    }
+
+    const cityLocations = {
+
+
+        grandmarket: {
+
+            name:
+                "Grand Market",
+
+            type:
+                "Market District",
+
+            description:
+                "The commercial heart of Greenhaven. Permanent shops stand beside rows of temporary stalls used by visiting merchants, farmers and travelling traders.",
+
+            population:
+                "Crowded throughout the day by residents, merchants, caravan crews and visitors.",
+
+            known:
+                "Imported goods, agricultural produce, tools, livestock, textiles and goods arriving through the harbour.",
+
+            details:
+                "The market is one of the principal reasons travellers from across the region come to Greenhaven."
+
+        },
+
+
+        merchantdocks: {
+
+            name:
+                "Merchant Docks",
+
+            type:
+                "Harbour District",
+
+            description:
+                "Greenhaven's principal commercial docks handle merchant vessels, coastal traders and cargo moving between the Southern Empire and the wider lands of Ellond.",
+
+            population:
+                "Sailors, dockworkers, merchants, porters and warehouse crews.",
+
+            known:
+                "Cargo ships, warehouses, cranes, customs inspections and constant commercial activity.",
+
+            details:
+                "The docks are among the busiest parts of Greenhaven and directly feed goods into the city's markets."
+
+        },
+
+
+        harbourmaster: {
+
+            name:
+                "Harbourmaster's Office",
+
+            type:
+                "Civic Office",
+
+            description:
+                "The administrative centre of Greenhaven's harbour.",
+
+            population:
+                "Harbour officials, clerks, inspectors and messengers.",
+
+            known:
+                "Berthing assignments, harbour records, ship movements and port regulations.",
+
+            details:
+                "Captains arriving in Greenhaven normally have business here before cargo can be unloaded."
+
+        },
+
+
+        gildedtortoise: {
+
+            name:
+                "The Gilded Tortoise",
+
+            type:
+                "Inn & Tavern",
+
+            description:
+                "A well-known Greenhaven inn serving travellers, merchants and locals.",
+
+            population:
+                "Travellers, merchants, adventurers and Greenhaven residents.",
+
+            known:
+                "Food, drink, lodging and the steady exchange of rumours brought in from the roads and harbour.",
+
+            details:
+                "The Gilded Tortoise is a useful meeting place for visitors who have only recently arrived in the city."
+
+        },
+
+
+        adventurersguild: {
+
+            name:
+                "Adventurer's Guild",
+
+            type:
+                "Guild Chapter",
+
+            description:
+                "Greenhaven's chapter of the Adventurer's Guild provides work, information and support to adventurers passing through the city.",
+
+            population:
+                "Guild staff, adventurers, guides and prospective clients.",
+
+            known:
+                "Contracts, notices, expeditions and local work.",
+
+            details:
+                "Its presence reflects Greenhaven's importance as a crossroads between settled lands and more distant regions."
+
+        },
+
+
+        gentlemansleague: {
+
+            name:
+                "Gentleman's League of Magical Excellence",
+
+            type:
+                "Magical Guild Chapter",
+
+            description:
+                "A respected local chapter of the prestigious magical guild.",
+
+            population:
+                "Guild mages, apprentices and visiting scholars.",
+
+            known:
+                "Magical expertise, consultation, education and connections to the wider guild.",
+
+            details:
+                "The chapter is smaller than the guild's major centres but remains influential within Greenhaven."
+
+        },
+
+
+        merchantguild: {
+
+            name:
+                "Merchant Guild",
+
+            type:
+                "Major Guildhall",
+
+            description:
+                "One of Greenhaven's most influential guild presences, representing merchants involved in the city's extensive trade.",
+
+            population:
+                "Merchants, factors, clerks, agents and caravan masters.",
+
+            known:
+                "Trade agreements, commercial disputes, contracts and merchant representation.",
+
+            details:
+                "Few organizations have as much day-to-day influence over Greenhaven's economy."
+
+        },
+
+        gildedvault: {
+
+            name:
+                "The Gilded Vault",
+
+            type:
+                "Guildhall & Financial House",
+
+            description:
+                "The Gilded Vault supports Greenhaven's considerable flow of trade and travelling wealth.",
+
+            population:
+                "Bankers, clerks, guards and commercial agents.",
+
+            known:
+                "Deposits, withdrawals, commercial accounts and financial services.",
+
+            details:
+                "Its presence allows merchants to conduct large transactions without carrying all of their wealth through the city."
+
+        },
+
+
+        marinersguild: {
+
+            name:
+                "Mariners' Guild",
+
+            type:
+                "Major Guildhall",
+
+            description:
+                "A powerful harbour guild representing sailors and maritime workers operating through Greenhaven.",
+
+            population:
+                "Sailors, captains, navigators and guild representatives.",
+
+            known:
+                "Crews, maritime contracts, harbour knowledge and seafaring expertise.",
+
+            details:
+                "Because of Greenhaven's large harbour, this is one of the city's more important guild chapters."
+
+        },
+
+
+        farmersguild: {
+
+            name:
+                "Farmers' Guild",
+
+            type:
+                "Guild Chapter",
+
+            description:
+                "The Farmers' Guild represents the farms and agricultural communities surrounding Greenhaven.",
+
+            population:
+                "Farmers, landholders, factors and produce merchants.",
+
+            known:
+                "Agricultural trade, crop sales and coordination between rural producers and city markets.",
+
+            details:
+                "Much of the produce entering the Grand Market passes through members of this guild."
+
+        },
+
+
+        minersguild: {
+
+            name:
+                "Miners' Guild",
+
+            type:
+                "Guild Office",
+
+            description:
+                "A smaller Greenhaven office serving miners and merchants transporting stone, ore and mineral goods through the city.",
+
+            population:
+                "Guild representatives, traders and visiting miners.",
+
+            known:
+                "Ore contracts, mineral trade and connections with mining regions.",
+
+            details:
+                "Greenhaven is primarily a trading centre for the guild rather than a major mining settlement."
+
+        },
+
+
+        blackforge: {
+
+            name:
+                "League of the Black Forge",
+
+            type:
+                "Guild Chapter",
+
+            description:
+                "A local chapter representing smiths and metalworkers involved in Greenhaven's trade economy.",
+
+            population:
+                "Smiths, armourers, metalworkers and guild representatives.",
+
+            known:
+                "Metalworking, tools, repairs and trade in worked metal.",
+
+            details:
+                "Its workshops benefit heavily from imported materials arriving through the harbour."
+
+        },
+
+
+        artsguild: {
+
+            name:
+                "Arts Guild",
+
+            type:
+                "Guild Chapter",
+
+            description:
+                "Greenhaven's Arts Guild represents performers, writers, artists and travelling entertainers.",
+
+            population:
+                "Artists, performers, writers and visiting entertainers.",
+
+            known:
+                "Performances, artistic work and connections between travelling entertainers.",
+
+            details:
+                "The city's large transient population provides a steady audience for guild members."
+
+        },
+
+        whitehand: {
+
+            name:
+                "The White Hand",
+
+            type:
+                "Guild Chapter",
+
+            description:
+                "The White Hand maintains a permanent presence serving residents, travellers and harbour workers.",
+
+            population:
+                "Healers, assistants and patients.",
+
+            known:
+                "Treatment, practical medicine and care for injuries and illness.",
+
+            details:
+                "Harbour accidents and the constant arrival of travellers keep the guild busy."
+
+        },
+
+        stoneandbeam: {
+
+            name:
+                "The Order of Stone & Beam",
+
+            type:
+                "Guild Chapter",
+
+            description:
+                "The Order of Stone & Beam represents builders and stoneworkers responsible for maintaining and expanding the growing city.",
+
+            population:
+                "Masons, builders, apprentices and contractors.",
+
+            known:
+                "Construction, stonework and maintenance.",
+
+            details:
+                "The harbour, warehouses and expanding commercial districts provide steady work."
+
+        },
+
+
+        leagueofchallenge: {
+
+            name:
+                "League of Challenge",
+
+            type:
+                "Guild Chapter",
+
+            description:
+                "A local presence of the League of Challenge serving those who seek organized contests and tests of skill.",
+
+            population:
+                "Competitors, organizers and spectators.",
+
+            known:
+                "Challenges, competitions and organized contests.",
+
+            details:
+                "Greenhaven's crowds and visiting population make it a natural stopping point for competitors."
 
         }
+
+    };
+
+
+
+    /* =========================================================
+       SHOW LOCATION
+    ========================================================= */
+
+    function showCityLocation(id) {
+
+        const location =
+            cityLocations[id];
+
+
+        if (!location) {
+            return;
+        }
+
+
+        document.getElementById(
+            "location-name"
+        ).textContent =
+            location.name;
+
+
+        document.getElementById(
+            "location-type"
+        ).textContent =
+            location.type;
+
+
+        document.getElementById(
+            "location-description"
+        ).textContent =
+            location.description;
+
+
+        document.getElementById(
+            "location-population"
+        ).textContent =
+            location.population;
+
+
+        document.getElementById(
+            "location-known"
+        ).textContent =
+            location.known;
+
+
+        document.getElementById(
+            "location-details"
+        ).textContent =
+            location.details;
+
+        renderGreenhavenGuildLinks(id);
 
     }
 
 
 
-    /* =========================
+    /* =========================================================
        INITIALIZE
-    ========================= */
+    ========================================================= */
 
-    updateZoom();
+    const greenhavenMap =
+        document.getElementById(
+            "greenhaven-map"
+        );
+
+
+    if (greenhavenMap.complete) {
+
+        updateZoom();
+
+    } else {
+
+        greenhavenMap.addEventListener(
+            "load",
+            updateZoom
+        );
+
+    }
 
 
 </script>
