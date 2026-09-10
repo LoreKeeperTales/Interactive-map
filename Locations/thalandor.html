@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Thalandor — Ellond Atlas</title>
+
+    <style>
+
+* { box-sizing: border-box; }
+
+html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    background: #1b1814;
+    color: #e7ddc7;
+    font-family: Georgia, "Times New Roman", serif;
+    overflow: hidden;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+header {
+    position: relative;
+    height: 86px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 0 22px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #211a12 0%,
+            #17120d 55%,
+            #100d09 100%
+        );
+
+    border-top: 2px solid #8d7042;
+    border-bottom: 3px solid #6e542f;
+
+    box-shadow:
+        inset 0 1px 0 #b89a63,
+        inset 0 -1px 0 #2a1d10,
+        0 4px 10px rgba(0,0,0,.65);
+
+    z-index: 100;
+}
+
+header::after {
+    content: "";
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    bottom: 5px;
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #8d7042 10%,
+            #b79a63 50%,
+            #8d7042 90%,
+            transparent
+        );
+
+    pointer-events: none;
+}
+
+.header-emblem {
+    position: relative;
+    width: 58px;
+    height: 58px;
+    flex: 0 0 58px;
+
+    border: 2px solid #9d7b45;
+    border-radius: 50%;
+
+    box-shadow:
+        inset 0 0 0 3px #1a140e,
+        inset 0 0 0 4px #67502e,
+        0 0 6px rgba(0,0,0,.8);
+}
+
+.header-emblem::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 5px;
+    width: 2px;
+    height: 44px;
+    background: #b89758;
+    transform: translateX(-50%);
+}
+
+.header-emblem::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    width: 44px;
+    height: 2px;
+    background: #b89758;
+    transform: translateY(-50%);
+}
+
+.header-title {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    margin-right: auto;
+    min-width: 0;
+}
+
+.header-title h1 {
+    margin: 0;
+    color: #ead8b4;
+    font-size: 27px;
+    letter-spacing: 4px;
+}
+
+.header-title .subtitle {
+    margin: 0;
+    color: #b99a68;
+    font-size: 14px;
+    font-style: italic;
+}
+
+.header-controls {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 10px;
+
+    background: linear-gradient(180deg,#2a2116,#18120c);
+    border: 1px solid #755b35;
+
+    box-shadow:
+        inset 0 0 0 1px #342619,
+        0 2px 6px rgba(0,0,0,.6);
+}
+
+.header-controls::before,
+.header-controls::after {
+    content: "◆";
+    position: absolute;
+    top: 50%;
+    color: #987545;
+    font-size: 9px;
+    transform: translateY(-50%);
+}
+
+.header-controls::before { left: -7px; }
+.header-controls::after { right: -7px; }
+
+.nav-button {
+    min-width: 64px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 11px;
+
+    background: linear-gradient(180deg,#302518,#1c150e);
+    color: #ead8b4;
+    border: 1px solid #81643a;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 13px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.nav-button:hover {
+    background: linear-gradient(180deg,#49371f,#2a1e12);
+    border-color: #b18c52;
+}
+
+/* =========================================================
+   LAYOUT
+========================================================= */
+
+.layout {
+    display: grid;
+    grid-template-columns: minmax(0,1fr) 400px;
+    height: calc(100vh - 86px);
+}
+
+.main-content {
+    overflow-y: auto;
+    padding: 46px clamp(30px,5vw,78px) 70px;
+
+    background:
+        radial-gradient(circle at 25% 15%, rgba(100,75,43,.10), transparent 30%),
+        #18130e;
+}
+
+.location-hero {
+    max-width: 980px;
+    margin: 0 auto 26px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid #705736;
+}
+
+.location-kicker {
+    margin-bottom: 8px;
+    color: #b99a68;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+.location-hero h2 {
+    margin: 0;
+    color: #ead8b4;
+    font-size: clamp(36px,5vw,54px);
+    font-weight: normal;
+}
+
+.location-region {
+    margin-top: 10px;
+    color: #baa178;
+    font-style: italic;
+}
+
+.content-grid {
+    max-width: 980px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 18px;
+}
+
+.card {
+    padding: 20px 22px 22px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(50,39,26,.82),
+            rgba(28,21,14,.88)
+        );
+
+    border: 1px solid #674f31;
+    box-shadow:
+        inset 0 0 0 1px rgba(191,150,84,.06),
+        0 3px 8px rgba(0,0,0,.24);
+}
+
+.card.wide {
+    grid-column: 1 / -1;
+}
+
+.section-title {
+    margin: 0 0 12px;
+    padding-bottom: 8px;
+    color: #d2b57d;
+    border-bottom: 1px solid #5d482f;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.card p {
+    margin: 0;
+    line-height: 1.55;
+}
+
+.placeholder {
+    color: #9d9079;
+    font-style: italic;
+}
+
+.map-placeholder {
+    min-height: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    color: #95866e;
+    background:
+        radial-gradient(circle at center, rgba(130,100,58,.09), transparent 52%),
+        #120e0a;
+
+    border: 1px dashed #6b5333;
+}
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+aside {
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+    overflow-y: auto;
+
+    padding: 30px 31px 45px;
+
+    background:
+        radial-gradient(circle at 30% 20%,rgba(96,72,42,.13),transparent 34%),
+        linear-gradient(90deg,#1d1710,#2a2117 48%,#211910);
+
+    border-left: 2px solid #73562f;
+
+    box-shadow:
+        inset 4px 0 9px rgba(0,0,0,.35),
+        -4px 0 10px rgba(0,0,0,.45);
+}
+
+aside h2 {
+    margin-top: 0;
+    padding-bottom: 11px;
+    color: #ead8b4;
+    border-bottom: 1px solid #6f5737;
+    font-size: 25px;
+    letter-spacing: 1.5px;
+}
+
+.profile-row {
+    margin: 21px 0;
+}
+
+.profile-label {
+    display: block;
+    margin-bottom: 5px;
+    color: #b99a68;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.profile-value {
+    color: #e4d6b8;
+    line-height: 1.45;
+}
+
+.sidebar-rule {
+    height: 1px;
+    margin: 23px 0;
+    background: linear-gradient(90deg,transparent,#735b38,transparent);
+}
+
+.main-content::-webkit-scrollbar,
+aside::-webkit-scrollbar {
+    width: 12px;
+}
+
+.main-content::-webkit-scrollbar-track,
+aside::-webkit-scrollbar-track {
+    background: #17110b;
+}
+
+.main-content::-webkit-scrollbar-thumb,
+aside::-webkit-scrollbar-thumb {
+    background: linear-gradient(90deg,#4c3820,#8b6a3c,#4c3820);
+    border: 2px solid #21170e;
+    border-radius: 5px;
+}
+
+@media (max-width: 900px) {
+    header {
+        height: auto;
+        min-height: 86px;
+        flex-wrap: wrap;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .header-emblem {
+        display: none;
+    }
+
+    .header-title {
+        display: block;
+    }
+
+    .header-title h1 {
+        font-size: 20px;
+    }
+
+    .header-title .subtitle {
+        display: none;
+    }
+
+    .layout {
+        display: block;
+        height: auto;
+    }
+
+    .main-content,
+    aside {
+        overflow: visible;
+    }
+
+    aside {
+        height: auto;
+        border-left: none;
+        border-top: 2px solid #73562f;
+    }
+
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card.wide {
+        grid-column: auto;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="header-emblem"></div>
+
+    <div class="header-title">
+        <h1>THALANDOR</h1>
+        <span class="subtitle">Settlement Record — 451 COD</span>
+    </div>
+
+    <nav class="header-controls" aria-label="Atlas navigation">
+
+        <button
+            class="nav-button"
+            type="button"
+            onclick="goBack()"
+        >
+            ← Back
+        </button>
+
+        <a class="nav-button" href="../index.html">
+            Atlas
+        </a>
+
+        <a class="nav-button" href="../Guilds/index.html">
+            Guilds
+        </a>
+
+        <a class="nav-button" href="../Npc/index.html">
+            NPCs
+        </a>
+
+    </nav>
+
+</header>
+
+
+<div class="layout">
+
+    <main class="main-content">
+
+        <section class="location-hero">
+
+            <div class="location-kicker">
+                Location Record • 451 COD
+            </div>
+
+            <h2>Thalandor</h2>
+
+            <div class="location-region">
+                Northern Settlement — Northern Crown
+            </div>
+
+        </section>
+
+
+        <div class="content-grid">
+
+            <section class="card wide">
+
+                <h3 class="section-title">
+                    Overview
+                </h3>
+
+                <p>
+                    A northern settlement of Ellond situated beneath the frozen reaches of the Northern Crown.
+                </p>
+
+            </section>
+
+
+            <section class="card">
+
+                <h3 class="section-title">
+                    Population
+                </h3>
+
+                <p>
+                    To be defined
+                </p>
+
+            </section>
+
+
+            <section class="card">
+
+                <h3 class="section-title">
+                    Known For
+                </h3>
+
+                <p>
+                    Northern trade, travel and its position within the Northern Crown.
+                </p>
+
+            </section>
+
+
+            <section class="card">
+
+                <h3 class="section-title">
+                    Districts & Important Places
+                </h3>
+
+                <p class="placeholder">
+                    Add districts, markets, inns, temples, guild houses,
+                    government buildings and other important locations.
+                </p>
+
+            </section>
+
+
+            <section class="card">
+
+                <h3 class="section-title">
+                    Government & Authority
+                </h3>
+
+                <p class="placeholder">
+                    Add the settlement's ruler, council, local authority
+                    and political connections.
+                </p>
+
+            </section>
+
+
+            <section class="card">
+
+                <h3 class="section-title">
+                    Guilds
+                </h3>
+
+                <p class="placeholder">
+                    Add guilds with a local presence here, including their
+                    Head of Operations and Front Desk NPC.
+                </p>
+
+            </section>
+
+
+            <section class="card">
+
+                <h3 class="section-title">
+                    Notable NPCs
+                </h3>
+
+                <p class="placeholder">
+                    Add important residents, officials, merchants,
+                    guild representatives and recurring NPCs.
+                </p>
+
+            </section>
+
+
+            <section class="card wide">
+
+                <h3 class="section-title">
+                    Map
+                </h3>
+
+                <div class="map-placeholder">
+                    Local map not yet added.<br>
+                    This area can later be replaced with the interactive settlement map.
+                </div>
+
+            </section>
+
+
+            <section class="card wide">
+
+                <h3 class="section-title">
+                    History
+                </h3>
+
+                <p class="placeholder">
+                    Add the settlement's history, founding and major events.
+                </p>
+
+            </section>
+
+
+            <section class="card wide">
+
+                <h3 class="section-title">
+                    DM Notes
+                </h3>
+
+                <p class="placeholder">
+                    Add hidden information, adventure hooks, secrets,
+                    factions and campaign-specific material.
+                </p>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <aside>
+
+        <h2>
+            Thalandor
+        </h2>
+
+        <div class="profile-row">
+            <span class="profile-label">
+                Type
+            </span>
+
+            <div class="profile-value">
+                Northern Settlement
+            </div>
+        </div>
+
+        <div class="profile-row">
+            <span class="profile-label">
+                Region
+            </span>
+
+            <div class="profile-value">
+                Northern Crown
+            </div>
+        </div>
+
+        <div class="profile-row">
+            <span class="profile-label">
+                Population
+            </span>
+
+            <div class="profile-value">
+                To be defined
+            </div>
+        </div>
+
+        <div class="profile-row">
+            <span class="profile-label">
+                Known For
+            </span>
+
+            <div class="profile-value">
+                Northern trade, travel and its position within the Northern Crown.
+            </div>
+        </div>
+
+        <div class="sidebar-rule"></div>
+
+        <div class="profile-row">
+            <span class="profile-label">
+                Current Era
+            </span>
+
+            <div class="profile-value">
+                451 COD
+            </div>
+        </div>
+
+    </aside>
+
+</div>
+
+
+<script>
+
+function goBack() {
+
+    if (document.referrer) {
+        history.back();
+    } else {
+        window.location.href = "../index.html";
+    }
+
+}
+
+</script>
+
+</body>
+</html>
