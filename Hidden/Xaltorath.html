@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Xal'Torath — Hidden Location</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            min-height: 100%;
+        }
+
+        body {
+            background:
+                radial-gradient(
+                    circle at 25% 15%,
+                    rgba(105, 78, 45, .10),
+                    transparent 32%
+                ),
+                #17120d;
+
+            color: #e7ddc7;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+        }
+
+        body.locked .page-content {
+            filter:
+                blur(7px);
+
+            pointer-events:
+                none;
+
+            user-select:
+                none;
+        }
+
+
+        /* =========================================================
+           HEADER
+        ========================================================= */
+
+        header {
+            position: sticky;
+            top: 0;
+
+            height: 86px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 18px;
+
+            padding:
+                0 22px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #211a12 0%,
+                    #17120d 55%,
+                    #100d09 100%
+                );
+
+            border-top:
+                2px solid #8d7042;
+
+            border-bottom:
+                3px solid #6e542f;
+
+            box-shadow:
+                inset 0 1px 0 #b89a63,
+                inset 0 -1px 0 #2a1d10,
+                0 4px 10px rgba(0,0,0,.65);
+
+            z-index: 100;
+        }
+
+        header::after {
+            content: "";
+
+            position: absolute;
+
+            left: 8px;
+            right: 8px;
+            bottom: 5px;
+
+            height: 1px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    #8d7042 10%,
+                    #b79a63 50%,
+                    #8d7042 90%,
+                    transparent
+                );
+        }
+
+        .header-compass {
+            width: 72px;
+            height: 72px;
+
+            object-fit:
+                contain;
+
+            flex-shrink:
+                0;
+
+            filter:
+                drop-shadow(
+                    0 2px 2px rgba(0,0,0,.8)
+                );
+        }
+
+        .header-title {
+            margin-right:
+                auto;
+        }
+
+        .header-title h1 {
+            margin: 0;
+
+            color: #ead8b4;
+
+            font-size: 27px;
+
+            letter-spacing:
+                5px;
+        }
+
+        .header-title .subtitle {
+            color: #b99a68;
+
+            font-size: 14px;
+
+            font-style:
+                italic;
+        }
+
+        .header-controls {
+            display: flex;
+
+            gap: 5px;
+
+            padding:
+                8px 10px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #2a2116,
+                    #18120c
+                );
+
+            border:
+                1px solid #755b35;
+        }
+
+        .nav-button {
+            min-height: 38px;
+
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            padding:
+                0 12px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #302518,
+                    #1c150e
+                );
+
+            color: #ead8b4;
+
+            border:
+                1px solid #81643a;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 13px;
+
+            text-decoration:
+                none;
+
+            cursor:
+                pointer;
+        }
+
+        .nav-button:hover {
+            background:
+                linear-gradient(
+                    180deg,
+                    #49371f,
+                    #2a1e12
+                );
+
+            border-color:
+                #b18c52;
+        }
+
+
+        /* =========================================================
+           PAGE
+        ========================================================= */
+
+        .page-content {
+            max-width: 1120px;
+
+            margin:
+                0 auto;
+
+            padding:
+                45px 32px 70px;
+        }
+
+        .kicker {
+            color: #c18b6f;
+
+            font-size: 12px;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                3px;
+        }
+
+        h2 {
+            margin:
+                8px 0 12px;
+
+            color: #ead8b4;
+
+            font-size:
+                clamp(
+                    36px,
+                    5vw,
+                    54px
+                );
+
+            font-weight:
+                normal;
+        }
+
+        .subtitle {
+            color: #bca47c;
+
+            font-size: 16px;
+
+            font-style:
+                italic;
+        }
+
+        .rule {
+            height: 1px;
+
+            margin:
+                24px 0 28px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #755738,
+                    transparent
+                );
+        }
+
+        .grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    2,
+                    minmax(0, 1fr)
+                );
+
+            gap: 18px;
+        }
+
+        .card {
+            padding:
+                20px 22px 22px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(50,39,26,.82),
+                    rgba(28,21,14,.88)
+                );
+
+            border:
+                1px solid #674f31;
+
+            box-shadow:
+                inset 0 0 0 1px rgba(191,150,84,.06),
+                0 3px 8px rgba(0,0,0,.24);
+        }
+
+        .card.wide {
+            grid-column:
+                1 / -1;
+        }
+
+        .card h3 {
+            margin:
+                0 0 12px;
+
+            padding-bottom:
+                8px;
+
+            color: #d2b57d;
+
+            border-bottom:
+                1px solid #5d482f;
+
+            font-size: 13px;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                2px;
+        }
+
+        .card p {
+            margin:
+                0;
+
+            line-height:
+                1.55;
+        }
+
+        .placeholder {
+            color: #9d9079;
+
+            font-style:
+                italic;
+        }
+
+        .dm-warning {
+            color: #d7ad89;
+        }
+
+
+        /* =========================================================
+           LOCK SCREEN
+        ========================================================= */
+
+        .lock-screen {
+            display: none;
+
+            position: fixed;
+            inset: 0;
+
+            z-index: 1000;
+
+            align-items: center;
+            justify-content: center;
+
+            background:
+                rgba(0,0,0,.82);
+        }
+
+        body.locked .lock-screen {
+            display:
+                flex;
+        }
+
+        .lock-box {
+            width:
+                min(
+                    410px,
+                    calc(100vw - 30px)
+                );
+
+            padding: 26px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #2b2118,
+                    #17100c
+                );
+
+            border:
+                1px solid #8d6640;
+
+            box-shadow:
+                0 12px 30px rgba(0,0,0,.8);
+        }
+
+        .lock-box h3 {
+            margin:
+                0 0 8px;
+
+            color: #ead8b4;
+
+            font-size: 23px;
+
+            font-weight:
+                normal;
+        }
+
+        .lock-box p {
+            color: #bba68a;
+
+            line-height: 1.45;
+        }
+
+        .lock-box input {
+            width: 100%;
+            height: 42px;
+
+            padding:
+                8px 10px;
+
+            background: #120d09;
+            color: #ead8b4;
+
+            border:
+                1px solid #73583a;
+
+            outline: none;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+        }
+
+        .lock-actions {
+            display: flex;
+
+            gap: 8px;
+
+            justify-content:
+                flex-end;
+
+            margin-top: 14px;
+        }
+
+        .lock-error {
+            min-height: 18px;
+
+            margin-top: 8px;
+
+            color: #d88f76;
+
+            font-size: 12px;
+        }
+
+
+        @media (
+            max-width: 760px
+        ) {
+
+            header {
+                height: auto;
+                min-height: 86px;
+
+                flex-wrap: wrap;
+
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+
+            .header-compass {
+                display: none;
+            }
+
+            .grid {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .card.wide {
+                grid-column:
+                    auto;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body class="locked">
+
+
+<header>
+
+    <img
+        src="../Design/Compass.png"
+        alt="Ellond Compass"
+        class="header-compass"
+    >
+
+    <div class="header-title">
+
+        <h1>
+            ELLOND
+        </h1>
+
+        <span class="subtitle">
+            Hidden Atlas Record
+        </span>
+
+    </div>
+
+    <nav
+        class="header-controls"
+        aria-label="Atlas navigation"
+    >
+
+        <button
+            class="nav-button"
+            type="button"
+            onclick="goBack()"
+        >
+            ← Back
+        </button>
+
+        <a
+            class="nav-button"
+            href="../index.html"
+        >
+            Atlas
+        </a>
+
+        <a
+            class="nav-button"
+            href="../Guilds/index.html"
+        >
+            Guilds
+        </a>
+
+        <a
+            class="nav-button"
+            href="../Npc/index.html"
+        >
+            NPCs
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="page-content">
+
+    <div class="kicker">
+        DM-Only Hidden Location • 451 COD
+    </div>
+
+    <h2>
+        Xal'Torath
+    </h2>
+
+    <div class="subtitle">
+        Hidden Test Location — West Marches
+    </div>
+
+    <div class="rule"></div>
+
+
+    <div class="grid">
+
+        <section class="card wide">
+
+            <h3>
+                Overview
+            </h3>
+
+            <p>
+                This is the first hidden-location test page for
+                Xal'Torath. It is intended to verify that DM-only
+                locations can exist in the Atlas without being shown
+                to players during normal use.
+            </p>
+
+        </section>
+
+
+        <section class="card">
+
+            <h3>
+                Discovery State
+            </h3>
+
+            <p class="dm-warning">
+                HIDDEN
+            </p>
+
+        </section>
+
+
+        <section class="card">
+
+            <h3>
+                Region
+            </h3>
+
+            <p>
+                West Marches
+            </p>
+
+        </section>
+
+
+        <section class="card wide">
+
+            <h3>
+                Hidden Information
+            </h3>
+
+            <p class="placeholder">
+                Replace this with the ruin, cave, lost settlement,
+                secret guild site, ancient structure, monster lair,
+                or other location you want to hide from the players.
+            </p>
+
+        </section>
+
+
+        <section class="card">
+
+            <h3>
+                Clues & Rumours
+            </h3>
+
+            <p class="placeholder">
+                Add the clues that can eventually move this location
+                from Hidden to Rumoured.
+            </p>
+
+        </section>
+
+
+        <section class="card">
+
+            <h3>
+                Discovery
+            </h3>
+
+            <p class="placeholder">
+                Add the condition that makes this location fully
+                visible to the players.
+            </p>
+
+        </section>
+
+
+        <section class="card wide">
+
+            <h3>
+                DM Notes
+            </h3>
+
+            <p class="placeholder">
+                Add encounter notes, secrets, treasure, history and
+                campaign information here.
+            </p>
+
+        </section>
+
+    </div>
+
+</main>
+
+
+<div class="lock-screen">
+
+    <div class="lock-box">
+
+        <h3>
+            For DM's Eyes Only
+        </h3>
+
+        <p>
+            This is a hidden Atlas location.
+            Enter the DM password to continue.
+        </p>
+
+        <input
+            id="hidden-password"
+            type="password"
+            autocomplete="off"
+            placeholder="Password"
+            onkeydown="handlePasswordKey(event)"
+        >
+
+        <div
+            class="lock-error"
+            id="lock-error"
+        ></div>
+
+        <div class="lock-actions">
+
+            <a
+                class="nav-button"
+                href="../index.html"
+            >
+                Return to Atlas
+            </a>
+
+            <button
+                class="nav-button"
+                type="button"
+                onclick="unlockPage()"
+            >
+                Unlock
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const DM_PASSWORD =
+    "DM451";
+
+
+function goBack() {
+
+    if (
+        document.referrer
+    ) {
+
+        history.back();
+
+    }
+
+    else {
+
+        window.location.href =
+            "../index.html";
+
+    }
+
+}
+
+
+function unlockPage() {
+
+    const input =
+        document.getElementById(
+            "hidden-password"
+        );
+
+    const error =
+        document.getElementById(
+            "lock-error"
+        );
+
+
+    if (
+        input.value ===
+        DM_PASSWORD
+    ) {
+
+        sessionStorage.setItem(
+            "ellondDmMode",
+            "true"
+        );
+
+        document.body.classList.remove(
+            "locked"
+        );
+
+    }
+
+    else {
+
+        error.textContent =
+            "Incorrect password.";
+
+        input.select();
+
+    }
+
+}
+
+
+function handlePasswordKey(
+    event
+) {
+
+    if (
+        event.key ===
+        "Enter"
+    ) {
+
+        unlockPage();
+
+    }
+
+}
+
+
+/*
+    If DM Mode was already unlocked on the main Atlas,
+    do not ask for the password a second time.
+*/
+
+if (
+    sessionStorage.getItem(
+        "ellondDmMode"
+    ) === "true"
+) {
+
+    document.body.classList.remove(
+        "locked"
+    );
+
+}
+
+else {
+
+    setTimeout(
+        () => document
+            .getElementById(
+                "hidden-password"
+            )
+            .focus(),
+        30
+    );
+
+}
+
+</script>
+
+
+</body>
+
+</html>
