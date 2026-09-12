@@ -1162,52 +1162,6 @@
         drop-shadow(0 2px 3px rgba(0, 0, 0, 0.7));
 }
 
-centralhighlands: {
-    name: "Central Highlands",
-    status: "Dwarven Holds",
-    seat: "Ironhall",
-    character: "Stone • Craft • Mining",
-    emblem: "◆",
-    emblemImage: "Tokens/central highland.png"
-},
-
-northernlands: {
-    name: "Northern Crown",
-    status: "Northern Kingdoms",
-    seat: "Thalandor",
-    character: "Cold • Tradition • High Elves",
-    emblem: "✦",
-    emblemImage: "Tokens/Northern crown.png"
-},
-
-southernempire: {
-    name: "Southern Empire",
-    status: "Imperial Territory",
-    seat: "Verdross",
-    character: "Trade • Agriculture • Empire",
-    emblem: "✦",
-    emblemImage: "Tokens/Southern empire.png"
-},
-
-westmarches: {
-    name: "West Marches",
-    status: "Western Territory",
-    seat: "Port Aster",
-    character: "Marsh • Trade • Ancient Stone",
-    emblem: "◇",
-    emblemImage: "Tokens/marchland.png"
-},
-
-easternverdant: {
-    name: "Eastern Verdant Kingdoms",
-    status: "Verdant Kingdoms",
-    seat: "Elarion",
-    character: "Forests • Craft • Old Kingdoms",
-    emblem: "❧",
-    emblemImage: "Tokens/Verdant.png"
-},
-
-
 .region-emblem-placeholder {
     color: #c8a761;
 
@@ -2785,7 +2739,10 @@ easternverdant: {
                 "Stone • Craft • Mining",
 
             emblem:
-                "◆"
+                "◆",
+
+            emblemImage:
+                "Tokens/central highland.png"
 
         },
 
@@ -2805,7 +2762,10 @@ easternverdant: {
                 "Farms • Trade • Grain",
 
             emblem:
-                "✥"
+                "✥",
+
+            emblemImage:
+                "Tokens/Southern empire.png"
 
         },
 
@@ -2813,7 +2773,8 @@ easternverdant: {
         northlands: {
 
             name:
-                "Northern Lands",
+                
+                "Northern Crown",
 
             status:
                 "Northern Territory",
@@ -2825,7 +2786,33 @@ easternverdant: {
                 "Ice • Mountains • Endurance",
 
             emblem:
-                "✦"
+                "✦",
+
+            emblemImage:
+                "Tokens/Northern crown.png"
+
+        },
+
+
+        southernjungle: {
+
+            name:
+                "Southern Jungle",
+
+            status:
+                "Jungle Territory",
+
+            seat:
+                "—",
+
+            character:
+                "Jungle • Rivers • Ancient Wilds",
+
+            emblem:
+                "❧",
+
+            emblemImage:
+                "Tokens/jungle.png"
 
         },
 
@@ -3046,6 +3033,7 @@ easternverdant: {
                 "Xal'Torath",
 
             region:
+                
                 "westmarches",
 
             map:
@@ -3083,6 +3071,7 @@ easternverdant: {
                 "Port Aster",
 
             region:
+                
                 "westmarches",
 
             map:
@@ -3126,7 +3115,8 @@ elarion: {
         "Elarion",
 
     region:
-        "easternverdant",
+        
+                "easternverdant",
 
     map:
         "Locations/elarion.html",
@@ -3161,6 +3151,7 @@ elarion: {
                 "Mosshollow",
 
             region:
+                
                 "westmarches",
 
             map:
@@ -3201,6 +3192,7 @@ elarion: {
                 "Ironhall",
 
             region:
+                
                 "centralhighlands",
 
             map:
@@ -3238,6 +3230,7 @@ elarion: {
                 "Stonereach",
 
             region:
+                
                 "centralhighlands",
 
             map:
@@ -3275,6 +3268,7 @@ elarion: {
                 "Greenhaven",
 
             region:
+                
                 "southernempire",
 
              map:
@@ -3312,6 +3306,7 @@ elarion: {
                 "Glacier's Rest",
 
             region:
+                
                 "northlands",
 
             map:
@@ -3383,7 +3378,8 @@ elarion: {
                 "Verdross",
 
             region:
-                "unknown",
+                
+                "southernjungle",
 
             map:
                 "Locations/verdross.html",
@@ -3457,7 +3453,8 @@ elarion: {
                 "Thalandor",
 
             region:
-                "unknown",
+                
+                "northlands",
 
             map:
                 "Locations/thalandor.html",
