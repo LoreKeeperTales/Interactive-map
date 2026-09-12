@@ -1134,8 +1134,8 @@
 ========================================================= */
 
 .region-emblem {
-    width: 64px;
-    height: 64px;
+    width: 70px;
+    height: 70px;
 
     margin:
         5px auto
@@ -1148,6 +1148,18 @@
     background: transparent;
     border: none;
     box-shadow: none;
+}
+
+.region-emblem-image {
+    display: none;
+
+    width: 80px;
+    height: 80px;
+
+    object-fit: contain;
+
+    filter:
+        drop-shadow(0 2px 3px rgba(0, 0, 0, 0.7));
 }
 
 .region-emblem-placeholder {
@@ -1838,7 +1850,7 @@
 
 <div
     class="marker city-marker"
-    style="left: 79%; top: 31%;"
+    style="left: 76%; top: 28%;"
     onclick="showLocation('elarion')"
 >
     <span class="marker-label">
@@ -2068,9 +2080,16 @@
 
             <div class="region-emblem">
 
+                <img
+                    class="region-emblem-image"
+                    id="region-emblem-image"
+                    src=""
+                    alt=""
+                >
+
                 <span
                     class="region-emblem-placeholder"
-                    id="region-emblem"
+                    id="region-emblem-placeholder"
                 >
                     ✦
                 </span>
@@ -2674,7 +2693,10 @@ easternverdant: {
         "Forests • Craft • Old Kingdoms",
 
     emblem:
-        "❧"
+        "❧",
+
+    emblemImage:
+        "Tokens/Verdant.png"
 
 },
 
@@ -2694,7 +2716,10 @@ easternverdant: {
                 "Marsh • Trade • Ancient Stone",
 
             emblem:
-                "◇"
+                "◇",
+
+            emblemImage:
+                "Tokens/marchland.png"
 
         },
 
@@ -2978,7 +3003,7 @@ easternverdant: {
                 "westmarches",
 
             map:
-        "Locations/vhalkareth.html",
+        "Locations/XalTorath.html",
 
             type:
                 "Lizardfolk City — West Marches",
@@ -3513,9 +3538,52 @@ elarion: {
             "region-character"
         ).textContent = region.character;
 
-        document.getElementById(
-            "region-emblem"
-        ).textContent = region.emblem;
+        const emblemImage =
+            document.getElementById(
+                "region-emblem-image"
+            );
+
+        const emblemPlaceholder =
+            document.getElementById(
+                "region-emblem-placeholder"
+            );
+
+
+        if (region.emblemImage) {
+
+            emblemImage.src =
+                region.emblemImage;
+
+            emblemImage.alt =
+                `${region.name} emblem`;
+
+            emblemImage.style.display =
+                "block";
+
+            emblemPlaceholder.style.display =
+                "none";
+
+        }
+
+        else {
+
+            emblemImage.removeAttribute(
+                "src"
+            );
+
+            emblemImage.alt =
+                "";
+
+            emblemImage.style.display =
+                "none";
+
+            emblemPlaceholder.textContent =
+                region.emblem || "✦";
+
+            emblemPlaceholder.style.display =
+                "inline";
+
+        }
 
     }
 
