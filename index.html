@@ -436,20 +436,23 @@
 
 
         .map-wrapper {
-            position: relative;
+    position: relative;
 
-            width: 1400px;
+    width: 1400px;
+    height: 900px;
 
-            transform-origin:
-                top left;
+    transform-origin:
+        top left;
         }
 
 
         .world-map {
-            display: block;
+    display: block;
 
-            width: 100%;
-            height: auto;
+    width: 1400px;
+    height: 900px;
+
+    object-fit: fill;
         }
 
 
@@ -1507,7 +1510,191 @@
         }
 
 
-    </style>
+    
+
+        /* =========================================================
+           LANDMARK MARKERS
+        ========================================================= */
+
+        /* =========================================================
+   LANDMARK MARKERS
+========================================================= */
+
+.landmark-marker {
+    position: absolute;
+
+    width: 36px;
+    height: 36px;
+
+    transform:
+        translate(-50%, -50%);
+
+    cursor: pointer;
+
+    z-index: 18;
+
+    transition:
+        transform 0.15s ease;
+}
+
+.landmark-marker:hover {
+    transform:
+        translate(-50%, -50%)
+        scale(1.2);
+
+    z-index: 50;
+}
+
+.landmark-marker img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    pointer-events: none;
+}
+
+.landmark-marker .marker-label {
+    left: 42px;
+    top: 7px;
+}
+
+
+        /* =========================================================
+           LEGEND / MAP FILTERS
+        ========================================================= */
+
+        .legend-wrap {
+            position: relative;
+        }
+
+        .legend-menu {
+            display: none;
+
+            position: absolute;
+
+            right: 0;
+            top: calc(100% + 10px);
+
+            width: 190px;
+
+            padding: 10px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #2b2117,
+                    #17110c
+                );
+
+            border:
+                1px solid #81643a;
+
+            box-shadow:
+                0 8px 18px rgba(0, 0, 0, .72);
+
+            z-index: 400;
+        }
+
+        .legend-menu.open {
+            display: block;
+        }
+
+        .legend-title {
+            margin:
+                2px 4px 9px;
+
+            color: #c8b78f;
+
+            font-size: 11px;
+
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .legend-filter {
+            width: 100%;
+            min-height: 34px;
+
+            margin: 3px 0;
+            padding: 6px 9px;
+
+            background: #221a12;
+            color: #e7ddc7;
+
+            border:
+                1px solid #5f482c;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            text-align: left;
+
+            cursor: pointer;
+        }
+
+        .legend-filter:hover,
+        .legend-filter.active {
+            background: #49371f;
+
+            border-color: #b18c52;
+        }
+
+        .legend-swatch {
+            display: inline-block;
+
+            width: 11px;
+            height: 11px;
+
+            margin-right: 8px;
+
+            vertical-align: -1px;
+
+            border:
+                2px solid #e7d4ad;
+
+            background: #6d3528;
+        }
+
+        .legend-swatch.city {
+            border-width: 3px;
+            border-radius: 50%;
+        }
+
+        .legend-swatch.town {
+            border-radius: 50%;
+        }
+
+        .legend-swatch.village {
+            width: 9px;
+            height: 9px;
+
+            border-radius: 50%;
+        }
+
+        .legend-swatch.guild {
+            background: #55456b;
+
+            transform:
+                rotate(45deg);
+        }
+
+        .legend-swatch.landmark {
+            background: #9b7137;
+
+            transform:
+                rotate(45deg);
+        }
+
+        .filtered-out {
+            display: none !important;
+        }
+
+</style>
 
 </head>
 
@@ -1573,6 +1760,98 @@
             >
                 NPCs
             </a>
+
+            <div class="legend-wrap">
+
+                <button
+                    class="nav-button"
+                    id="legend-button"
+                    type="button"
+                    onclick="toggleLegendMenu(event)"
+                >
+                    Legend
+                </button>
+
+                <div
+                    class="legend-menu"
+                    id="legend-menu"
+                >
+
+                    <div class="legend-title">
+                        Show on Map
+                    </div>
+
+                    <button
+                        class="legend-filter active"
+                        type="button"
+                        data-filter="all"
+                        onclick="filterMap('all')"
+                    >
+                        All Markers
+                    </button>
+
+                    <button
+                        class="legend-filter"
+                        type="button"
+                        data-filter="settlements"
+                        onclick="filterMap('settlements')"
+                    >
+                        Settlements
+                    </button>
+
+                    <button
+                        class="legend-filter"
+                        type="button"
+                        data-filter="city"
+                        onclick="filterMap('city')"
+                    >
+                        <span class="legend-swatch city"></span>
+                        Cities
+                    </button>
+
+                    <button
+                        class="legend-filter"
+                        type="button"
+                        data-filter="town"
+                        onclick="filterMap('town')"
+                    >
+                        <span class="legend-swatch town"></span>
+                        Towns
+                    </button>
+
+                    <button
+                        class="legend-filter"
+                        type="button"
+                        data-filter="village"
+                        onclick="filterMap('village')"
+                    >
+                        <span class="legend-swatch village"></span>
+                        Villages
+                    </button>
+
+                    <button
+                        class="legend-filter"
+                        type="button"
+                        data-filter="guild"
+                        onclick="filterMap('guild')"
+                    >
+                        <span class="legend-swatch guild"></span>
+                        Guilds
+                    </button>
+
+                    <button
+                        class="legend-filter"
+                        type="button"
+                        data-filter="landmark"
+                        onclick="filterMap('landmark')"
+                    >
+                        <span class="legend-swatch landmark"></span>
+                        Landmarks
+                    </button>
+
+                </div>
+
+            </div>
 
             <button
                 class="nav-button dm-nav-button"
@@ -1983,6 +2262,70 @@
                 </div>
 
 
+                <!-- =================================================
+                     LANDMARKS
+                ================================================= -->
+
+
+                <!-- =================================================
+     LANDMARKS
+================================================= -->
+
+
+<!-- VERDANT LABYRINTH -->
+
+<div
+    class="landmark-marker"
+    style="left: 43%; top: 76%;"
+    onclick="showLocation('verdantlabyrinth')"
+>
+    <img
+        src="Tokens/Landmark.png"
+        alt="Landmark"
+    >
+
+    <span class="marker-label">
+        The Verdant Labyrinth
+    </span>
+</div>
+
+
+<!-- THE DRAGON'S SPINE -->
+
+<div
+    class="landmark-marker"
+    style="left: 65%; top: 24%;"
+    onclick="showLocation('dragonsspine')"
+>
+    <img
+        src="Tokens/Landmark.png"
+        alt="Landmark"
+    >
+
+    <span class="marker-label">
+        The Dragon's Spine
+    </span>
+</div>
+
+
+<!-- LIZARDFOLK RUINS -->
+
+<div
+    class="landmark-marker"
+    style="left: 25%; top: 45%;"
+    onclick="showLocation('lizardfolkruins')"
+>
+    <img
+        src="Tokens/Landmark.png"
+        alt="Landmark"
+    >
+
+    <span class="marker-label">
+        Lizardfolk Ruins
+    </span>
+</div>
+
+
             </div>
             <!-- END MAP WRAPPER -->
 
@@ -1992,7 +2335,7 @@
 
 
     </main>
-
+    <!-- END WORLD MAP -->
 
 
     <!-- =========================================================
@@ -2498,10 +2841,205 @@ document.addEventListener(
 
 
 
+
+/* =========================================================
+   LEGEND / MAP FILTERS
+========================================================= */
+
+function toggleLegendMenu(event) {
+
+    if (event) {
+        event.stopPropagation();
+    }
+
+
+    const menu =
+        document.getElementById(
+            "legend-menu"
+        );
+
+
+    menu.classList.toggle(
+        "open"
+    );
+
+}
+
+
+function getMarkerCategory(marker) {
+
+    if (
+        marker.classList.contains(
+            "landmark-marker"
+        )
+    ) {
+        return "landmark";
+    }
+
+
+    if (
+        marker.classList.contains(
+            "guild-marker"
+        )
+    ) {
+        return "guild";
+    }
+
+
+    if (
+        marker.classList.contains(
+            "city-marker"
+        )
+    ) {
+        return "city";
+    }
+
+
+    if (
+        marker.classList.contains(
+            "town-marker"
+        )
+    ) {
+        return "town";
+    }
+
+
+    if (
+        marker.classList.contains(
+            "village-marker"
+        )
+    ) {
+        return "village";
+    }
+
+
+    if (
+        marker.classList.contains(
+            "dragon-marker"
+        )
+    ) {
+        return "dragon";
+    }
+
+
+    return "other";
+
+}
+
+
+function filterMap(filter) {
+
+    const markers =
+        document.querySelectorAll(
+    "#map-wrapper .marker, #map-wrapper .dragon-marker, #map-wrapper .landmark-marker"
+);
+
+
+    markers.forEach(
+        marker => {
+
+            const category =
+                getMarkerCategory(
+                    marker
+                );
+
+
+            let visible =
+                filter === "all";
+
+
+            if (
+                filter ===
+                "settlements"
+            ) {
+
+                visible =
+                    category === "city" ||
+                    category === "town" ||
+                    category === "village";
+
+            }
+
+            else if (
+                filter !==
+                "all"
+            ) {
+
+                visible =
+                    category === filter;
+
+            }
+
+
+            marker.classList.toggle(
+                "filtered-out",
+                !visible
+            );
+
+        }
+    );
+
+
+    document
+        .querySelectorAll(
+            ".legend-filter"
+        )
+        .forEach(
+            button => {
+
+                button.classList.toggle(
+                    "active",
+                    button.dataset.filter === filter
+                );
+
+            }
+        );
+
+
+    document
+        .getElementById(
+            "legend-menu"
+        )
+        .classList.remove(
+            "open"
+        );
+
+}
+
+
+document.addEventListener(
+    "click",
+    function(event) {
+
+        const wrap =
+            document.querySelector(
+                ".legend-wrap"
+            );
+
+
+        if (
+            wrap &&
+            !wrap.contains(event.target)
+        ) {
+
+            document
+                .getElementById(
+                    "legend-menu"
+                )
+                .classList.remove(
+                    "open"
+                );
+
+        }
+
+    }
+);
+
+
 /* =========================================================
    ZOOM SETTINGS
 
-   1.0 atlas zoom = 80% actual image scale
+   Atlas 100% = 80% actual map size
 ========================================================= */
 
 const baseMapScale = 0.8;
@@ -2511,6 +3049,7 @@ let currentZoom = 1;
 const minimumZoom = 0.5;
 const maximumZoom = 2.5;
 const zoomStep = 0.1;
+
 
 function updateZoom() {
 
@@ -2530,10 +3069,6 @@ function updateZoom() {
         );
 
 
-    /*
-        Atlas 100% = actual scale 0.8
-    */
-
     const actualScale =
         currentZoom * baseMapScale;
 
@@ -2549,56 +3084,52 @@ function updateZoom() {
         `${900 * actualScale}px`;
 
 
-    /*
-        Display atlas-relative zoom,
-        not actual CSS scale
-    */
-
     display.textContent =
         `${Math.round(currentZoom * 100)}%`;
 
 }
 
 
-    function zoomIn() {
+function zoomIn() {
 
-        currentZoom += zoomStep;
+    currentZoom += zoomStep;
 
-        if (currentZoom > maximumZoom) {
+    if (currentZoom > maximumZoom) {
 
-            currentZoom =
-                maximumZoom;
-
-        }
-
-        updateZoom();
+        currentZoom =
+            maximumZoom;
 
     }
 
+    updateZoom();
 
-    function zoomOut() {
-
-        currentZoom -= zoomStep;
-
-        if (currentZoom < minimumZoom) {
-
-            currentZoom =
-                minimumZoom;
-
-        }
-
-        updateZoom();
-
-    }
+}
 
 
-    function resetZoom() {
+function zoomOut() {
 
-        currentZoom = 1;
+    currentZoom -= zoomStep;
 
-        updateZoom();
+    if (currentZoom < minimumZoom) {
+
+        currentZoom =
+            minimumZoom;
 
     }
+
+    updateZoom();
+
+}
+
+
+function resetZoom() {
+
+    currentZoom =
+        1;
+
+    updateZoom();
+
+}
 
 
 
@@ -2886,6 +3417,106 @@ easternverdant: {
     ========================================================= */
 
     const locations = {
+
+
+        /* =====================================================
+           LANDMARKS
+        ===================================================== */
+
+        verdantlabyrinth: {
+
+            name:
+                "The Verdant Labyrinth",
+
+            region:
+                "southernjungle",
+
+            map:
+                "landmarks/verdant-labyrinth.html",
+
+            pageLabel:
+                "Open Landmark",
+
+            type:
+                "Landmark — Shifting Jungle",
+
+            description:
+                "Miles of jungle where the vegetation constantly shifts. Trails disappear overnight.",
+
+            knownFor:
+                "Changing vegetation, unreliable paths and a landscape that refuses to remain still.",
+
+            history:
+                "Much of the Verdant Labyrinth remains undocumented.",
+
+            dm:
+                "Add the cause of the shifting jungle, encounters and hidden routes here."
+
+        },
+
+
+        dragonsspine: {
+
+            name:
+                "The Dragon's Spine",
+
+            region:
+                "centralhighlands",
+
+            map:
+                "landmarks/dragons-spine.html",
+
+            pageLabel:
+                "Open Landmark",
+
+            type:
+                "Landmark — Mountain Ridge",
+
+            description:
+                "A mountain ridge whose shape resembles the skeleton of an enormous dragon.",
+
+            knownFor:
+                "Its unmistakable dragon-like silhouette across the mountains.",
+
+            history:
+                "The origin of the ridge and the stories surrounding its shape are left for the campaign to establish.",
+
+            dm:
+                "Add local legends, routes, dangers and the truth behind the ridge here."
+
+        },
+
+
+        lizardfolkruins: {
+
+            name:
+                "Lizardfolk Ruins",
+
+            region:
+                "westmarches",
+
+            map:
+                "landmarks/lizardfolk-ruins.html",
+
+            pageLabel:
+                "Open Landmark",
+
+            type:
+                "Landmark — Ancient Ruins",
+
+            description:
+                "Old lizardfolk ruins standing in a swampy, forested part of the western lands.",
+
+            knownFor:
+                "Ancient stonework and the remains of an older lizardfolk settlement.",
+
+            history:
+                "The ruins predate the settlements that now surround the western marshlands.",
+
+            dm:
+                "Use this page for dungeon notes, creatures, clues, treasure and the swamp drake encounter."
+
+        },
 
 
         /* =====================================================
@@ -3703,7 +4334,7 @@ elarion: {
                     class="map-button"
                     href="${location.map}"
                 >
-                    View ${location.name} Map
+                    ${location.pageLabel || `View ${location.name} Map`}
                 </a>
 
             ` : ""}
