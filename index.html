@@ -526,6 +526,38 @@
             border-width: 4px;
         }
 
+/* =========================================================
+   MARKER LABEL TOGGLE
+========================================================= */
+
+.marker-label {
+    transition:
+        opacity 0.15s ease;
+}
+
+
+/* Hide labels when label mode is disabled */
+
+body.labels-hidden .marker-label {
+    opacity: 0;
+}
+
+
+/* Show the label while hovering over its marker */
+
+body.labels-hidden .marker:hover .marker-label,
+body.labels-hidden .dragon-marker:hover .marker-label,
+body.labels-hidden .landmark-marker:hover .marker-label {
+    opacity: 1;
+}
+
+
+/* Show that Labels is currently disabled */
+
+#labels-button.labels-off {
+    color: #9c8b70;
+    border-color: #564631;
+}
 
 
         /* =========================================================
@@ -686,15 +718,16 @@
     min-height: 0;
     height: 100%;
 
-    display: grid;
-
-    grid-template-columns:
-        320px
-        125px;
-
+    display: block;
     overflow: hidden;
 
-    background: #17120d;
+    background:
+        linear-gradient(
+            180deg,
+            #2a2015 0%,
+            #20170f 65%,
+            #17100b 100%
+        );
 
     border-left:
         2px solid #715632;
@@ -787,30 +820,39 @@
         ========================================================= */
 
         .info-panel {
+            position: relative;
+
+            width: 100%;
+            height: 100%;
+
             overflow-y: auto;
 
             padding:
                 28px 26px;
 
-            background:
-                linear-gradient(
-                    180deg,
-                    #2a2015 0%,
-                    #20170f 65%,
-                    #17100b 100%
-                );
+            background: transparent;
 
-            border-right:
-                1px solid #6b5232;
+            border-right: none;
 
-            box-shadow:
-                inset -1px 0 0 #3b2b1a;
+            box-shadow: none;
 
             scrollbar-color:
                 #735a36
                 #21170f;
 
             scrollbar-width: thin;
+        }
+
+
+        .location-summary {
+            min-height: 355px;
+
+            padding-right: 145px;
+        }
+
+
+        .location-details {
+            width: 100%;
         }
 
 
@@ -1000,14 +1042,14 @@
 ========================================================= */
 
 .region-banner {
-    position: relative;
-    align-self: start;
+    position: absolute;
 
-    width: 108px;
+    top: 22px;
+    right: 24px;
 
-    margin:
-        18px auto
-        55px;
+    width: 112px;
+
+    margin: 0;
 
     padding:
         24px 10px
@@ -1044,6 +1086,8 @@
         inset 5px 0 8px rgba(0, 0, 0, 0.35),
         inset -5px 0 8px rgba(0, 0, 0, 0.35),
         0 5px 10px rgba(0, 0, 0, 0.55);
+
+    z-index: 40;
 }
 
 
@@ -1129,6 +1173,80 @@
         drop-shadow(
             0 4px 3px rgba(0, 0, 0, 0.45)
         );
+}
+
+
+/* =========================================================
+   FINISHED REGION BANNER ART
+========================================================= */
+
+.region-banner-art {
+    display: none;
+
+    width: 152px;
+    height: auto;
+
+    margin: 0 auto;
+
+    object-fit: contain;
+}
+
+
+.region-banner-overlay-emblem {
+    display: none;
+
+    position: absolute;
+
+    top: 36px;
+    left: 50%;
+
+    width: 82px;
+    height: 82px;
+
+    transform:
+        translateX(-50%);
+
+    object-fit: contain;
+
+    filter:
+        drop-shadow(
+            0 3px 4px rgba(0, 0, 0, 0.78)
+        );
+
+    z-index: 6;
+}
+
+
+.region-banner.has-banner-art {
+    width: 152px;
+
+    padding: 0;
+
+    background: transparent;
+
+    border-left: none;
+    border-right: none;
+
+    outline: none;
+
+    box-shadow: none;
+}
+
+
+/* Keep the existing gold rod. */
+.region-banner.has-banner-art::after {
+    display: none;
+}
+
+
+.region-banner.has-banner-art .region-generated-content {
+    display: none;
+}
+
+
+.region-banner.has-banner-art .region-banner-art,
+.region-banner.has-banner-art .region-banner-overlay-emblem {
+    display: block;
 }
 
 
@@ -1523,8 +1641,8 @@
 .landmark-marker {
     position: absolute;
 
-    width: 36px;
-    height: 36px;
+    width: 26px;
+    height: 26px;
 
     transform:
         translate(-50%, -50%);
@@ -1760,6 +1878,15 @@
             >
                 NPCs
             </a>
+
+<button
+    class="nav-button"
+    id="labels-button"
+    type="button"
+    onclick="toggleLabels()"
+>
+    Labels
+</button>
 
             <div class="legend-wrap">
 
@@ -2276,7 +2403,7 @@
 
 <div
     class="landmark-marker"
-    style="left: 43%; top: 76%;"
+    style="left: 25%; top: 43%;"
     onclick="showLocation('verdantlabyrinth')"
 >
     <img
@@ -2294,7 +2421,7 @@
 
 <div
     class="landmark-marker"
-    style="left: 65%; top: 24%;"
+    style="left: 31%; top: 34%;"
     onclick="showLocation('dragonsspine')"
 >
     <img
@@ -2312,7 +2439,7 @@
 
 <div
     class="landmark-marker"
-    style="left: 25%; top: 45%;"
+    style="left: 28%; top: 33%;"
     onclick="showLocation('lizardfolkruins')"
 >
     <img
@@ -2374,52 +2501,26 @@
         >
 
 
-            <div id="location-panel-content">
-
-
-                <h2>
-                    Ellond
-                </h2>
-
-
-                <p class="location-type">
-                    World Map
-                </p>
-
-
-                <p>
-                    Select a location on the map to view information.
-                </p>
-
-
-                <div class="section-title">
-                    Atlas
-                </div>
-
-
-                <p>
-                    Settlements, regions, ruins, guilds, temples
-                    and other important locations can be accessed
-                    directly from the map.
-                </p>
-
-
-            </div>
-
-
-        </aside>
-
-
-
-        <!-- =====================================================
-             REGIONAL BANNER
-        ===================================================== -->
-
-        <aside
+                    <aside
             class="region-banner"
             id="region-banner"
         >
 
+            <img
+                class="region-banner-art"
+                id="region-banner-art"
+                src=""
+                alt=""
+            >
+
+            <img
+                class="region-banner-overlay-emblem"
+                id="region-banner-overlay-emblem"
+                src=""
+                alt=""
+            >
+
+            <div class="region-generated-content">
 
             <div class="region-emblem">
 
@@ -2490,8 +2591,56 @@
                 MANY LANDS • MANY PEOPLES • ONE STORY
             </div>
 
+            </div>
+
 
         </aside>
+
+
+            <div id="location-panel-content">
+
+                <div class="location-summary">
+
+                    <h2>
+                        Ellond
+                    </h2>
+
+                    <p class="location-type">
+                        World Map
+                    </p>
+
+                    <p>
+                        Select a location on the map to view information.
+                    </p>
+
+                </div>
+
+                <div class="location-details">
+
+                    <div class="section-title">
+                        Atlas
+                    </div>
+
+                    <p>
+                        Settlements, regions, ruins, guilds, temples
+                        and other important locations can be accessed
+                        directly from the map.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </aside>
+
+
+
+        <!-- =====================================================
+             REGIONAL BANNER
+        ===================================================== -->
+
+
 
 
     </div>
@@ -2565,8 +2714,65 @@
 
 </div>
 
-
 <script>
+
+/* =========================================================
+   MARKER LABEL TOGGLE
+========================================================= */
+
+let labelsVisible =
+    true;
+
+
+function toggleLabels() {
+
+    labelsVisible =
+        !labelsVisible;
+
+
+    document.body.classList.toggle(
+        "labels-hidden",
+        !labelsVisible
+    );
+
+
+    const button =
+        document.getElementById(
+            "labels-button"
+        );
+
+
+    if (labelsVisible) {
+
+        button.textContent =
+            "Labels";
+
+        button.classList.remove(
+            "labels-off"
+        );
+
+        button.title =
+            "Hide map labels";
+
+    }
+
+    else {
+
+        button.textContent =
+            "Labels Off";
+
+        button.classList.add(
+            "labels-off"
+        );
+
+        button.title =
+            "Show map labels";
+
+    }
+
+}
+
+
 
 
 /* =========================================================
@@ -3189,224 +3395,157 @@ function resetZoom() {
 
     const regions = {
 
-
         ellond: {
-
-            name:
-                "Ellond",
-
-            status:
-                "The Known World",
-
-            seat:
-                "—",
-
-            character:
-                "Many Lands • Many Peoples • One Story",
-
-            emblem:
-                "✦"
-
+            name: "Ellond",
+            status: "The Known World",
+            seat: "—",
+            character: "Many Lands • Many Peoples • One Story",
+            emblem: "✦"
         },
-
-easternverdant: {
-
-    name:
-        "Eastern Verdant Kingdoms",
-
-    status:
-        "Verdant Kingdoms",
-
-    seat:
-        "Elarion",
-
-    character:
-        "Forests • Craft • Old Kingdoms",
-
-    emblem:
-        "❧",
-
-    emblemImage:
-        "Tokens/Verdant.png"
-
-},
-
 
         westmarches: {
-
-            name:
-                "West Marches",
-
-            status:
-                "Clan Lands",
-
-            seat:
-                "Xal'Torath",
-
-            character:
-                "Marsh • Trade • Ancient Stone",
-
-            emblem:
-                "◇",
-
-            emblemImage:
-                "Tokens/marchland.png"
-
+            name: "West Marches",
+            status: "Clan Lands",
+            seat: "Xal'Torath",
+            character: "Marsh • Trade • Ancient Stone",
+            emblem: "◇",
+            emblemImage: "Tokens/marchland.png",
+            bannerImage: "banners/western marches.png"
         },
 
+        westernarchipelago: {
+            name: "Western Archipelago",
+            status: "Western Isles",
+            seat: "—",
+            character: "Sea • Islands • Voyages",
+            emblem: "◇",
+            emblemImage: "Tokens/archipelago.png"
+        },
+
+        scatteredisles: {
+            name: "Scattered Isles",
+            status: "Island Territories",
+            seat: "—",
+            character: "Islands • Sea • Isolation",
+            emblem: "◇",
+            emblemImage: "Tokens/scattered isles.png"
+        },
 
         centralhighlands: {
-
-            name:
-                "Central Highlands",
-
-            status:
-                "Dwarven Holds",
-
-            seat:
-                "Ironhall",
-
-            character:
-                "Stone • Craft • Mining",
-
-            emblem:
-                "◆",
-
-            emblemImage:
-                "Tokens/central highland.png"
-
+            name: "Central Highlands",
+            status: "Dwarven Holds",
+            seat: "Ironhall",
+            character: "Stone • Craft • Mining",
+            emblem: "◆",
+            emblemImage: "Tokens/central highland.png"
         },
-
-
-        southernempire: {
-
-            name:
-                "Southern Empire",
-
-            status:
-                "Imperial Territory",
-
-            seat:
-                "Greenhaven",
-
-            character:
-                "Farms • Trade • Grain",
-
-            emblem:
-                "✥",
-
-            emblemImage:
-                "Tokens/Southern empire.png"
-
-        },
-
 
         northlands: {
-
-            name:
-                
-                "Northern Crown",
-
-            status:
-                "Northern Territory",
-
-            seat:
-                "—",
-
-            character:
-                "Ice • Mountains • Endurance",
-
-            emblem:
-                "✦",
-
-            emblemImage:
-                "Tokens/Northern crown.png"
-
+            name: "Northern Crown",
+            status: "Northern Territory",
+            seat: "Thalandor",
+            character: "Cold • Crown • Tradition",
+            emblem: "✦",
+            emblemImage: "Tokens/Northern crown.png"
         },
 
+        nilfheim: {
+            name: "Nilfheim Reach",
+            status: "Frozen Reach",
+            seat: "Glacier's Rest",
+            character: "Ice • Mountains • Endurance",
+            emblem: "✦",
+            emblemImage: "Tokens/nilfheim.png"
+        },
+
+        easternverdant: {
+            name: "Eastern Verdant Kingdoms",
+            status: "Verdant Kingdoms",
+            seat: "Elarion",
+            character: "Forests • Craft • Old Kingdoms",
+            emblem: "❧",
+            emblemImage: "Tokens/Verdant.png"
+        },
+
+        enchantedforest: {
+            name: "Enchanted Forest",
+            status: "Ancient Magical Woodland",
+            seat: "—",
+            character: "Magic • Forest • Mystery",
+            emblem: "❧",
+            emblemImage: "Tokens/enchanted forest.png"
+        },
+
+        mistmarch: {
+            name: "The Mistmarch",
+            status: "Mistbound March",
+            seat: "—",
+            character: "Mist • Wetlands • Old Roads",
+            emblem: "◇",
+            emblemImage: "Tokens/mistmarch.png"
+        },
+
+        sovereignmarch: {
+            name: "The Sovereign March",
+            status: "Sovereign Territory",
+            seat: "—",
+            character: "Marches • Roads • Authority",
+            emblem: "◆",
+            emblemImage: "Tokens/sovereign.png"
+        },
+
+        silwindcoast: {
+            name: "Silwind Coast",
+            status: "Western Coast",
+            seat: "—",
+            character: "Sea • Wind • Coastal Trade",
+            emblem: "◇",
+            emblemImage: "Tokens/silwind.png"
+        },
+
+        suncoast: {
+            name: "Suncoast Reach",
+            status: "Eastern Coast",
+            seat: "—",
+            character: "Sun • Sea • Trade",
+            emblem: "✦",
+            emblemImage: "Tokens/suncoast.png"
+        },
+
+        southernempire: {
+            name: "Southern Empire",
+            status: "Imperial Territory",
+            seat: "Greenhaven",
+            character: "Farms • Trade • Grain",
+            emblem: "✥",
+            emblemImage: "Tokens/Southern empire.png"
+        },
 
         southernjungle: {
-
-            name:
-                "Southern Jungle",
-
-            status:
-                "Jungle Territory",
-
-            seat:
-                "—",
-
-            character:
-                "Jungle • Rivers • Ancient Wilds",
-
-            emblem:
-                "❧",
-
-            emblemImage:
-                "Tokens/jungle.png"
-
+            name: "Southern Jungle",
+            status: "Jungle Territory",
+            seat: "Verdross",
+            character: "Jungle • Rivers • Ancient Wilds",
+            emblem: "❧",
+            emblemImage: "Tokens/jungle.png"
         },
 
+        umbralisles: {
+            name: "Umbral Isles",
+            status: "Southern Isles",
+            seat: "—",
+            character: "Moon • Isles • Old Stone",
+            emblem: "◇",
+            emblemImage: "Tokens/umbral isles.png"
+        },
 
         unknown: {
-
-            name:
-                "Ellond",
-
-            status:
-                "Region Not Yet Defined",
-
-            seat:
-                "—",
-
-            character:
-                "Roads • Settlements • Old Lands",
-
-            emblem:
-                "✧"
-
-        },
-
-
-        guild: {
-
-            name:
-                "Magical League",
-
-            status:
-                "Guild Territory",
-
-            seat:
-                "Headquarters",
-
-            character:
-                "Magic • Study • Influence",
-
-            emblem:
-                "◆"
-
-        },
-
-
-        dragon: {
-
-            name:
-                "Ancient Dragon",
-
-            status:
-                "Dragon Domain",
-
-            seat:
-                "Lair",
-
-            character:
-                "Ancient • Powerful • Revered",
-
-            emblem:
-                "✦"
-
+            name: "Ellond",
+            status: "Region Not Yet Defined",
+            seat: "—",
+            character: "Roads • Settlements • Old Lands",
+            emblem: "✧"
         }
-
 
     };
 
@@ -3429,7 +3568,8 @@ easternverdant: {
                 "The Verdant Labyrinth",
 
             region:
-                "southernjungle",
+                
+                "westmarches",
 
             map:
                 "landmarks/verdant-labyrinth.html",
@@ -3461,6 +3601,7 @@ easternverdant: {
                 "The Dragon's Spine",
 
             region:
+                
                 "centralhighlands",
 
             map:
@@ -3493,6 +3634,7 @@ easternverdant: {
                 "Lizardfolk Ruins",
 
             region:
+                
                 "westmarches",
 
             map:
@@ -3531,6 +3673,7 @@ easternverdant: {
                 "Xal'Torath",
 
             region:
+                
                 "westmarches",
 
             map:
@@ -3567,7 +3710,8 @@ easternverdant: {
                 "Mulhaan Ven",
 
             region:
-                "dragon",
+                
+                "westernarchipelago",
 
             type:
                 "Brass Dragon — Dragon of the West",
@@ -3590,7 +3734,8 @@ easternverdant: {
                 "Frin Yol",
 
             region:
-                "dragon",
+                
+                "nilfheim",
 
             type:
                 "Red Dragon — Dragon of the North",
@@ -3613,7 +3758,8 @@ easternverdant: {
                 "Golt Viing",
 
             region:
-                "dragon",
+                
+                "easternverdant",
 
             type:
                 "Rattelry Dragon — Dragon of the East",
@@ -3636,7 +3782,8 @@ easternverdant: {
                 "Gein Okaaz",
 
             region:
-                "dragon",
+                
+                "southernjungle",
 
             type:
                 "Water Dragon — Dragon of the South",
@@ -3664,6 +3811,7 @@ easternverdant: {
                 "Xal'Torath",
 
             region:
+                
                 
                 "westmarches",
 
@@ -3702,6 +3850,7 @@ easternverdant: {
                 "Port Aster",
 
             region:
+                
                 
                 "westmarches",
 
@@ -3747,6 +3896,7 @@ elarion: {
 
     region:
         
+                
                 "easternverdant",
 
     map:
@@ -3782,6 +3932,7 @@ elarion: {
                 "Mosshollow",
 
             region:
+                
                 
                 "westmarches",
 
@@ -3824,6 +3975,7 @@ elarion: {
 
             region:
                 
+                
                 "centralhighlands",
 
             map:
@@ -3861,6 +4013,7 @@ elarion: {
                 "Stonereach",
 
             region:
+                
                 
                 "centralhighlands",
 
@@ -3900,6 +4053,7 @@ elarion: {
 
             region:
                 
+                
                 "southernempire",
 
              map:
@@ -3938,7 +4092,8 @@ elarion: {
 
             region:
                 
-                "northlands",
+                
+                "nilfheim",
 
             map:
                 "Locations/glaciers-rest.html",
@@ -3975,7 +4130,8 @@ elarion: {
                 "Enchanted Forest",
 
             region:
-                "unknown",
+                
+                "enchantedforest",
 
             type:
                 "Ancient Forest",
@@ -4009,6 +4165,7 @@ elarion: {
                 "Verdross",
 
             region:
+                
                 
                 "southernjungle",
 
@@ -4047,7 +4204,8 @@ elarion: {
                 "Lysmarè",
 
             region:
-                "unknown",
+                
+                "silwindcoast",
 
             map:
                 "Locations/lysmare.html",
@@ -4084,6 +4242,7 @@ elarion: {
                 "Thalandor",
 
             region:
+                
                 
                 "northlands",
 
@@ -4122,7 +4281,8 @@ elarion: {
                 "Vhal'Kareth",
 
             region:
-                "unknown",
+                
+                "sovereignmarch",
 
             map:
                 "Locations/vhal-kareth.html",
@@ -4159,7 +4319,8 @@ elarion: {
                 "Gentleman's League of Magical Excellence",
 
             region:
-                "guild",
+                
+                "sovereignmarch",
 
             type:
                 "Mage Guild Headquarters",
@@ -4196,6 +4357,90 @@ elarion: {
             regions[regionId] ||
             regions.unknown;
 
+        const banner =
+            document.getElementById(
+                "region-banner"
+            );
+
+        const bannerArt =
+            document.getElementById(
+                "region-banner-art"
+            );
+
+        const bannerOverlayEmblem =
+            document.getElementById(
+                "region-banner-overlay-emblem"
+            );
+
+        const emblemImage =
+            document.getElementById(
+                "region-emblem-image"
+            );
+
+        const emblemPlaceholder =
+            document.getElementById(
+                "region-emblem-placeholder"
+            );
+
+
+        if (region.bannerImage) {
+
+            banner.classList.add(
+                "has-banner-art"
+            );
+
+            bannerArt.src =
+                region.bannerImage;
+
+            bannerArt.alt =
+                `${region.name} banner`;
+
+            if (region.emblemImage) {
+
+                bannerOverlayEmblem.src =
+                    region.emblemImage;
+
+                bannerOverlayEmblem.alt =
+                    `${region.name} emblem`;
+
+            }
+
+            else {
+
+                bannerOverlayEmblem.removeAttribute(
+                    "src"
+                );
+
+                bannerOverlayEmblem.alt =
+                    "";
+
+            }
+
+        }
+
+        else {
+
+            banner.classList.remove(
+                "has-banner-art"
+            );
+
+            bannerArt.removeAttribute(
+                "src"
+            );
+
+            bannerArt.alt =
+                "";
+
+            bannerOverlayEmblem.removeAttribute(
+                "src"
+            );
+
+            bannerOverlayEmblem.alt =
+                "";
+
+        }
+
+
         document.getElementById(
             "region-name"
         ).textContent = region.name;
@@ -4211,16 +4456,6 @@ elarion: {
         document.getElementById(
             "region-character"
         ).textContent = region.character;
-
-        const emblemImage =
-            document.getElementById(
-                "region-emblem-image"
-            );
-
-        const emblemPlaceholder =
-            document.getElementById(
-                "region-emblem-placeholder"
-            );
 
 
         if (region.emblemImage) {
@@ -4307,6 +4542,7 @@ elarion: {
 
         panel.innerHTML = `
 
+            <div class="location-summary">
 
             <h2>
                 ${location.name}
@@ -4326,6 +4562,11 @@ elarion: {
 
             ` : ""}
 
+
+
+            </div>
+
+            <div class="location-details">
 
 
             ${location.map ? `
@@ -4553,6 +4794,8 @@ elarion: {
             ` : ""}
 
 
+            </div>
+
         `;
 
     }
@@ -4604,4 +4847,4 @@ elarion: {
 
 </body>
 
-</html>
+</htm
