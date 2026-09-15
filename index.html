@@ -1039,67 +1039,329 @@ body.labels-hidden .landmark-marker:hover .marker-label {
 
        /* =========================================================
    HANGING REGION BANNER
-   Fixed LEFT column; generated and image banners share one size.
 ========================================================= */
+
 .region-banner {
     --banner-width: 180px;
+
     position: absolute;
-    top: 28px; left: -35px; right: auto;
-    width: var(--banner-width); margin: 0; padding: 20px 9px 30px;
-    overflow: visible; text-align: center; color: #e6d5ad;
-    background: linear-gradient(90deg,#0d1511 0%,#17251e 10%,#1d2c24 50%,#17251e 90%,#0d1511 100%);
-    border-left: 2px solid #8b7042; border-right: 2px solid #8b7042;
-    outline: 1px solid rgba(192,156,91,.28); outline-offset: -6px;
-    box-shadow: inset 5px 0 8px rgba(0,0,0,.35), inset -5px 0 8px rgba(0,0,0,.35), 0 5px 10px rgba(0,0,0,.55);
+    top: 28px;
+    left: -35px;
+    right: auto;
+
+    width: var(--banner-width);
+
+    margin: 0;
+    padding: 20px 9px 30px;
+
+    overflow: visible;
+
+    text-align: center;
+    color: #e6d5ad;
+
+    background:
+        linear-gradient(
+            90deg,
+            #0d1511 0%,
+            #17251e 10%,
+            #1d2c24 50%,
+            #17251e 90%,
+            #0d1511 100%
+        );
+
+    border-left: 2px solid #8b7042;
+    border-right: 2px solid #8b7042;
+
+    outline: 1px solid rgba(192, 156, 91, 0.28);
+    outline-offset: -6px;
+
+    box-shadow:
+        inset 5px 0 8px rgba(0, 0, 0, 0.35),
+        inset -5px 0 8px rgba(0, 0, 0, 0.35),
+        0 5px 10px rgba(0, 0, 0, 0.55);
+
     z-index: 40;
 }
-.region-banner::before {
-    content: "";
+
+
+/* =========================================================
+   BANNER ROD
+========================================================= */
+
+.region-banner-rod {
     position: absolute;
-    top: -11px;
+    top: -35px;
+    left: 50%;
 
-    left: 45px;
-    width: 90px;
+    width: 115px;
+    height: auto;
 
-    height: 9px;
-    background: linear-gradient(
-        180deg,
-        #d0ad68 0%,
-        #8c6938 50%,
-        #4a3219 100%
-    );
-    border: 1px solid #c6a66d;
-    border-radius: 5px;
-    box-shadow: 0 3px 5px rgba(0,0,0,.7);
-    z-index: 8;
+    transform: translateX(-50%);
+    object-fit: contain;
+
+    z-index: 1;
+    pointer-events: none;
 }
+
+
+/* =========================================================
+   GENERATED BANNER TAIL
+========================================================= */
 
 .region-banner::after {
-    content: ""; position: absolute; left: -2px; bottom: -30px;
-    width: var(--banner-width); height: 32px;
-    background: linear-gradient(90deg,#0d1511,#17251e 12%,#1d2c24 50%,#17251e 88%,#0d1511);
-    clip-path: polygon(0 0,100% 0,100% 100%,50% 58%,0 100%);
-    border-left: 2px solid #8b7042; border-right: 2px solid #8b7042;
-    filter: drop-shadow(0 4px 3px rgba(0,0,0,.45));
+    content: "";
+
+    position: absolute;
+    left: -2px;
+    bottom: -30px;
+
+    width: var(--banner-width);
+    height: 32px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #0d1511,
+            #17251e 12%,
+            #1d2c24 50%,
+            #17251e 88%,
+            #0d1511
+        );
+
+    clip-path:
+        polygon(
+            0 0,
+            100% 0,
+            100% 100%,
+            50% 58%,
+            0 100%
+        );
+
+    border-left: 2px solid #8b7042;
+    border-right: 2px solid #8b7042;
+
+    filter:
+        drop-shadow(
+            0 4px 3px rgba(0, 0, 0, 0.45)
+        );
 }
-.region-banner-art { display:none; width:var(--banner-width); height:auto; margin:0 auto; object-fit:contain; }
+
+
+/* =========================================================
+   PNG REGION BANNER
+========================================================= */
+
+.region-banner-art {
+    display: none;
+
+    position: relative;
+
+    width: var(--banner-width);
+    height: auto;
+
+    margin: 0 auto;
+
+    object-fit: contain;
+
+    z-index: 5;
+}
+
+
+/* =========================================================
+   EMBLEM OVER PNG BANNER
+========================================================= */
+
 .region-banner-overlay-emblem {
-    display:none; position:absolute; top:18px; left:50%; width:58px; height:58px;
-    transform:translateX(-50%); object-fit:contain; filter:drop-shadow(0 3px 4px rgba(0,0,0,.78)); z-index:6;
+    display: none;
+
+    position: absolute;
+    top: 18px;
+    left: 50%;
+
+    width: 58px;
+    height: 58px;
+
+    transform: translateX(-50%);
+    object-fit: contain;
+
+    filter:
+        drop-shadow(
+            0 3px 4px rgba(0, 0, 0, 0.78)
+        );
+
+    z-index: 6;
+    pointer-events: none;
 }
-.region-banner.has-banner-art { width:var(--banner-width); padding:0; background:transparent; border:none; outline:none; box-shadow:none; }
-.region-banner.has-banner-art::after, .region-banner.has-banner-art .region-generated-content { display:none; }
-.region-banner.has-banner-art .region-banner-art, .region-banner.has-banner-art .region-banner-overlay-emblem { display:block; }
-.region-emblem { width:58px; height:58px; margin:3px auto 10px; display:flex; align-items:center; justify-content:center; background:transparent; border:none; box-shadow:none; }
-.region-emblem-image { display:none; width:58px; height:58px; object-fit:contain; filter:drop-shadow(0 2px 3px rgba(0,0,0,.7)); }
-.region-emblem-placeholder { color:#c8a761; font-size:32px; text-shadow:1px 1px 0 #4c371d,-1px -1px 0 #4c371d,0 2px 3px rgba(0,0,0,.7); }
-.region-name { color:#f0dfb5; font-size:13px; font-weight:bold; letter-spacing:1.2px; text-transform:uppercase; line-height:1.12; overflow-wrap:break-word; }
-.region-status { margin-top:5px; color:#baa178; font-size:8px; font-style:italic; line-height:1.25; }
-.region-divider { width:80%; height:1px; margin:10px auto; background:linear-gradient(90deg,transparent,#a88750,transparent); }
-.region-divider-symbol { margin-top:-17px; margin-bottom:7px; color:#b99a62; font-size:8px; }
-.region-seat { color:#ead9b4; font-size:11px; font-weight:bold; letter-spacing:.7px; text-transform:uppercase; overflow-wrap:break-word; }
-.region-seat-label { margin-top:2px; color:#9d8968; font-size:7px; text-transform:uppercase; letter-spacing:1.2px; }
-.region-character { color:#c8b58e; font-size:7px; line-height:1.4; text-transform:uppercase; letter-spacing:.7px; overflow-wrap:break-word; }
+
+
+/* =========================================================
+   REGION USING PNG BANNER
+========================================================= */
+
+.region-banner.has-banner-art {
+    width: var(--banner-width);
+
+    padding: 0;
+
+    background: transparent;
+
+    border: none;
+    outline: none;
+
+    box-shadow: none;
+}
+
+.region-banner.has-banner-art::after {
+    display: none;
+}
+
+.region-banner.has-banner-art .region-generated-content {
+    display: none;
+}
+
+.region-banner.has-banner-art .region-banner-art {
+    display: block;
+}
+
+/*
+   JavaScript controls the overlay emblem.
+   It is never forced visible by CSS.
+*/
+
+
+/* =========================================================
+   GENERATED REGION EMBLEM
+========================================================= */
+
+.region-emblem {
+    width: 58px;
+    height: 58px;
+
+    margin: 3px auto 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.region-emblem-image {
+    display: none;
+
+    width: 58px;
+    height: 58px;
+
+    object-fit: contain;
+
+    filter:
+        drop-shadow(
+            0 2px 3px rgba(0, 0, 0, 0.7)
+        );
+}
+
+.region-emblem-placeholder {
+    color: #c8a761;
+
+    font-size: 32px;
+
+    text-shadow:
+        1px 1px 0 #4c371d,
+        -1px -1px 0 #4c371d,
+        0 2px 3px rgba(0, 0, 0, 0.7);
+}
+
+
+/* =========================================================
+   GENERATED REGION TEXT
+========================================================= */
+
+.region-name {
+    color: #f0dfb5;
+
+    font-size: 13px;
+    font-weight: bold;
+
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+
+    line-height: 1.12;
+    overflow-wrap: break-word;
+}
+
+.region-status {
+    margin-top: 5px;
+
+    color: #baa178;
+
+    font-size: 8px;
+    font-style: italic;
+
+    line-height: 1.25;
+}
+
+.region-divider {
+    width: 80%;
+    height: 1px;
+
+    margin: 10px auto;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #a88750,
+            transparent
+        );
+}
+
+.region-divider-symbol {
+    margin-top: -17px;
+    margin-bottom: 7px;
+
+    color: #b99a62;
+
+    font-size: 8px;
+}
+
+.region-seat {
+    color: #ead9b4;
+
+    font-size: 11px;
+    font-weight: bold;
+
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+
+    overflow-wrap: break-word;
+}
+
+.region-seat-label {
+    margin-top: 2px;
+
+    color: #9d8968;
+
+    font-size: 7px;
+
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+}
+
+.region-character {
+    color: #c8b58e;
+
+    font-size: 7px;
+
+    line-height: 1.4;
+
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+
+    overflow-wrap: break-word;
+}
+
 
 /* =========================================================
            ATLAS DIRECTORY NAVIGATION
@@ -2105,6 +2367,32 @@ body.labels-hidden .landmark-marker:hover .marker-label {
 
 
                 <!-- =================================================
+                     MIREWATCH — CAPITAL OF THE MISTMARCH
+                ================================================= -->
+
+                <div
+                    class="marker city-marker"
+                    style="left: 61%; top: 43%;"
+                    onclick="showLocation('mirewatch')"
+                >
+                    <span class="marker-label">Mirewatch</span>
+                </div>
+
+
+                <!-- =================================================
+                     WAYHARBOR — PORT OF THE MISTMARCH
+                ================================================= -->
+
+                <div
+                    class="marker town-marker"
+                    style="left: 62%; top: 47%;"
+                    onclick="showLocation('wayharbor')"
+                >
+                    <span class="marker-label">Wayharbor</span>
+                </div>
+
+
+                <!-- =================================================
                      LANDMARKS
                 ================================================= -->
 
@@ -2217,23 +2505,29 @@ body.labels-hidden .landmark-marker:hover .marker-label {
 
 
                     <aside
-            class="region-banner"
-            id="region-banner"
-        >
+    class="region-banner"
+    id="region-banner"
+>
 
-            <img
-                class="region-banner-art"
-                id="region-banner-art"
-                src=""
-                alt=""
-            >
+    <img
+        class="region-banner-rod"
+        src="banners/rod.png"
+        alt=""
+    >
 
-            <img
-                class="region-banner-overlay-emblem"
-                id="region-banner-overlay-emblem"
-                src=""
-                alt=""
-            >
+    <img
+        class="region-banner-art"
+        id="region-banner-art"
+        src=""
+        alt=""
+    >
+
+    <img
+        class="region-banner-overlay-emblem"
+        id="region-banner-overlay-emblem"
+        src=""
+        alt=""
+    >
 
             <div class="region-generated-content">
 
@@ -3115,7 +3409,8 @@ function resetZoom() {
             status: "The Known World",
             seat: "—",
             character: "Many Lands • Many Peoples • One Story",
-            emblem: "✦"
+            emblem: "✦",
+            bannerImage: "banners/ellond.png"
         },
 
         westmarches: {
@@ -3152,7 +3447,8 @@ function resetZoom() {
             seat: "Ironhall",
             character: "Stone • Craft • Mining",
             emblem: "◆",
-            emblemImage: "Tokens/central highland.png"
+            emblemImage: "Tokens/central highland.png",
+            bannerImage: "banners/central highland.png"
         },
 
         northlands: {
@@ -3161,7 +3457,8 @@ function resetZoom() {
             seat: "Thalandor",
             character: "Cold • Crown • Tradition",
             emblem: "✦",
-            emblemImage: "Tokens/Northern crown.png"
+            emblemImage: "Tokens/Northern crown.png",
+            bannerImage: "banners/northern crown.png"
         },
 
         nilfheim: {
@@ -3194,10 +3491,11 @@ function resetZoom() {
         mistmarch: {
             name: "The Mistmarch",
             status: "Mistbound March",
-            seat: "—",
+            seat: "Mirewatch",
             character: "Mist • Wetlands • Old Roads",
             emblem: "◇",
-            emblemImage: "Tokens/mistmarch.png"
+            emblemImage: "Tokens/mistmarch.png",
+            bannerImage: "banners/the mistmarch.png"
         },
 
         sovereignmarch: {
@@ -3210,12 +3508,13 @@ function resetZoom() {
         },
 
         silwindcoast: {
-            name: "Silwind Coast",
+            name: "Saltwind Coast",
             status: "Western Coast",
             seat: "—",
             character: "Sea • Wind • Coastal Trade",
             emblem: "◇",
-            emblemImage: "Tokens/silwind.png"
+            emblemImage: "Tokens/silwind.png",
+            bannerImage: "banners/saltwind coast.png"
         },
 
         suncoast: {
@@ -3680,6 +3979,40 @@ elarion: {
 
 
         /* =====================================================
+           MIREWATCH
+        ===================================================== */
+
+        mirewatch: {
+            name: "Mirewatch",
+            region: "mistmarch",
+            map: "Locations/mirewatch.html",
+            type: "Capital City — The Mistmarch",
+            description: "An old fortified city built where firmer high ground rises above the wetlands. Mirewatch began as a defensive settlement guarding the few reliable roads through the marshes and gradually became the administrative centre of the Mistmarch.",
+            population: "To be established",
+            knownFor: "Stone foundations, raised streets, drainage canals, old watchtowers and the administration of the Mistmarch.",
+            history: "The oldest districts grew around fortified high ground and the roads that could be trusted through the surrounding wetlands. Newer districts have since spread beyond the original walls.",
+            dm: "Add local factions, hidden routes and campaign secrets here."
+        },
+
+
+        /* =====================================================
+           WAYHARBOR
+        ===================================================== */
+
+        wayharbor: {
+            name: "Wayharbor",
+            region: "mistmarch",
+            map: "Locations/wayharbor.html",
+            type: "Port Town — The Mistmarch",
+            description: "A working port near the edge of the Mistmarch built primarily around transshipment. Most cargo arriving in Wayharbor is unloaded, sorted and sent onward rather than consumed locally.",
+            population: "Small permanent population; substantially larger during busy shipping periods",
+            knownFor: "Enormous docks, bonded warehouses, cargo sheds, cranes, haulers and the constant transfer of goods between ships, barges and overland transport.",
+            history: "Wayharbor expanded around the need for a dependable transfer point between sea traffic and the difficult inland routes of the Mistmarch.",
+            dm: "Nothing stays in Wayharbor except the people. Add smuggling routes, customs disputes and cargo-related hooks here."
+        },
+
+
+        /* =====================================================
            IRONHALL
         ===================================================== */
 
@@ -4068,148 +4401,175 @@ elarion: {
 
     function updateRegionBanner(regionId) {
 
-        const region =
-            regions[regionId] ||
-            regions.unknown;
+    const region =
+        regions[regionId] ||
+        regions.unknown;
 
-        const banner =
-            document.getElementById(
-                "region-banner"
-            );
-
-        const bannerArt =
-            document.getElementById(
-                "region-banner-art"
-            );
-
-        const bannerOverlayEmblem =
-            document.getElementById(
-                "region-banner-overlay-emblem"
-            );
-
-        const emblemImage =
-            document.getElementById(
-                "region-emblem-image"
-            );
-
-        const emblemPlaceholder =
-            document.getElementById(
-                "region-emblem-placeholder"
-            );
-
-
-        if (region.bannerImage) {
-
-            banner.classList.add(
-                "has-banner-art"
-            );
-
-            bannerArt.src =
-                region.bannerImage;
-
-            bannerArt.alt =
-                `${region.name} banner`;
-
-            if (region.emblemImage) {
-
-                bannerOverlayEmblem.src =
-                    region.emblemImage;
-
-                bannerOverlayEmblem.alt =
-                    `${region.name} emblem`;
-
-            }
-
-            else {
-
-                bannerOverlayEmblem.removeAttribute(
-                    "src"
-                );
-
-                bannerOverlayEmblem.alt =
-                    "";
-
-            }
-
-        }
-
-        else {
-
-            banner.classList.remove(
-                "has-banner-art"
-            );
-
-            bannerArt.removeAttribute(
-                "src"
-            );
-
-            bannerArt.alt =
-                "";
-
-            bannerOverlayEmblem.removeAttribute(
-                "src"
-            );
-
-            bannerOverlayEmblem.alt =
-                "";
-
-        }
-
-
+    const banner =
         document.getElementById(
-            "region-name"
-        ).textContent = region.name;
+            "region-banner"
+        );
 
+    const bannerArt =
         document.getElementById(
-            "region-status"
-        ).textContent = region.status;
+            "region-banner-art"
+        );
 
+    const overlayEmblem =
         document.getElementById(
-            "region-seat"
-        ).textContent = region.seat;
+            "region-banner-overlay-emblem"
+        );
 
+    const emblemImage =
         document.getElementById(
-            "region-character"
-        ).textContent = region.character;
+            "region-emblem-image"
+        );
+
+    const emblemPlaceholder =
+        document.getElementById(
+            "region-emblem-placeholder"
+        );
 
 
-        if (region.emblemImage) {
+    /* =====================================================
+       PNG REGION BANNER
+    ===================================================== */
 
-            emblemImage.src =
-                region.emblemImage;
+    if (region.bannerImage) {
 
-            emblemImage.alt =
-                `${region.name} emblem`;
+        banner.classList.add(
+            "has-banner-art"
+        );
 
-            emblemImage.style.display =
-                "block";
+        bannerArt.src =
+            region.bannerImage;
 
-            emblemPlaceholder.style.display =
-                "none";
-
-        }
-
-        else {
-
-            emblemImage.removeAttribute(
-                "src"
-            );
-
-            emblemImage.alt =
-                "";
-
-            emblemImage.style.display =
-                "none";
-
-            emblemPlaceholder.textContent =
-                region.emblem || "✦";
-
-            emblemPlaceholder.style.display =
-                "inline";
-
-        }
+        bannerArt.alt =
+            `${region.name} banner`;
 
     }
+
+    else {
+
+        banner.classList.remove(
+            "has-banner-art"
+        );
+
+        bannerArt.removeAttribute(
+            "src"
+        );
+
+        bannerArt.alt =
+            "";
+
+    }
+
+
+    /* =====================================================
+       EMBLEM OVER PNG BANNER
+
+       Ellond deliberately has no emblemImage.
+       Therefore it never receives a broken overlay image.
+    ===================================================== */
+
+    if (
+        region.bannerImage &&
+        region.emblemImage
+    ) {
+
+        overlayEmblem.src =
+            region.emblemImage;
+
+        overlayEmblem.alt =
+            `${region.name} emblem`;
+
+        overlayEmblem.style.display =
+            "block";
+
+    }
+
+    else {
+
+        overlayEmblem.removeAttribute(
+            "src"
+        );
+
+        overlayEmblem.alt =
+            "";
+
+        overlayEmblem.style.display =
+            "none";
+
+    }
+
+
+    /* =====================================================
+       GENERATED BANNER TEXT
+    ===================================================== */
+
+    document.getElementById(
+        "region-name"
+    ).textContent =
+        region.name;
+
+    document.getElementById(
+        "region-status"
+    ).textContent =
+        region.status;
+
+    document.getElementById(
+        "region-seat"
+    ).textContent =
+        region.seat;
+
+    document.getElementById(
+        "region-character"
+    ).textContent =
+        region.character;
+
+
+    /* =====================================================
+       GENERATED BANNER EMBLEM
+       Used for regions without a finished PNG banner.
+    ===================================================== */
+
+    if (region.emblemImage) {
+
+        emblemImage.src =
+            region.emblemImage;
+
+        emblemImage.alt =
+            `${region.name} emblem`;
+
+        emblemImage.style.display =
+            "block";
+
+        emblemPlaceholder.style.display =
+            "none";
+
+    }
+
+    else {
+
+        emblemImage.removeAttribute(
+            "src"
+        );
+
+        emblemImage.alt =
+            "";
+
+        emblemImage.style.display =
+            "none";
+
+        emblemPlaceholder.textContent =
+            region.emblem || "✦";
+
+        emblemPlaceholder.style.display =
+            "inline";
+
+    }
+
+}
 
 
     /* =========================================================
