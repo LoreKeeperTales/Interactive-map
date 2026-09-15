@@ -361,7 +361,7 @@
 
             grid-template-columns:
                 minmax(0, 1fr)
-                445px;
+                390px;
 
             width: 100%;
 
@@ -751,7 +751,7 @@ body.labels-hidden .landmark-marker:hover .marker-label {
         .panel-arrow {
             position: absolute;
 
-            right: 445px;
+            right: 390px;
             top: 50%;
 
             width: 34px;
@@ -845,10 +845,10 @@ body.labels-hidden .landmark-marker:hover .marker-label {
 
 
         .location-summary {
-            min-height: 355px;
-
-            padding-right: 145px;
-        }
+    min-height: 430px;
+    padding-left: 158px;
+    padding-right: 4px;
+}
 
 
         .location-details {
@@ -1039,354 +1039,69 @@ body.labels-hidden .landmark-marker:hover .marker-label {
 
        /* =========================================================
    HANGING REGION BANNER
+   Fixed LEFT column; generated and image banners share one size.
 ========================================================= */
-
 .region-banner {
+    --banner-width: 180px;
     position: absolute;
-
-    top: 22px;
-    right: 24px;
-
-    width: 112px;
-
-    margin: 0;
-
-    padding:
-        24px 10px
-        34px;
-
-    overflow: visible;
-    text-align: center;
-
-    color: #e6d5ad;
-
-    background:
-        linear-gradient(
-            90deg,
-            #0d1511 0%,
-            #17251e 10%,
-            #1d2c24 50%,
-            #17251e 90%,
-            #0d1511 100%
-        );
-
-    border-left:
-        2px solid #8b7042;
-
-    border-right:
-        2px solid #8b7042;
-
-    outline:
-        1px solid rgba(192, 156, 91, 0.28);
-
-    outline-offset:
-        -7px;
-
-    box-shadow:
-        inset 5px 0 8px rgba(0, 0, 0, 0.35),
-        inset -5px 0 8px rgba(0, 0, 0, 0.35),
-        0 5px 10px rgba(0, 0, 0, 0.55);
-
+    top: 28px; left: -10px; right: auto;
+    width: var(--banner-width); margin: 0; padding: 20px 9px 30px;
+    overflow: visible; text-align: center; color: #e6d5ad;
+    background: linear-gradient(90deg,#0d1511 0%,#17251e 10%,#1d2c24 50%,#17251e 90%,#0d1511 100%);
+    border-left: 2px solid #8b7042; border-right: 2px solid #8b7042;
+    outline: 1px solid rgba(192,156,91,.28); outline-offset: -6px;
+    box-shadow: inset 5px 0 8px rgba(0,0,0,.35), inset -5px 0 8px rgba(0,0,0,.35), 0 5px 10px rgba(0,0,0,.55);
     z-index: 40;
 }
-
-
-/* =========================================================
-   BANNER ROD
-========================================================= */
-
 .region-banner::before {
     content: "";
-
     position: absolute;
-
     top: -11px;
-    left: -14px;
 
-    width:
-        calc(100% + 28px);
+    left: 45px;
+    width: 90px;
 
-    height: 10px;
-
-    background:
-        linear-gradient(
-            180deg,
-            #b7955a 0%,
-            #7c5d32 50%,
-            #3f2b17 100%
-        );
-
-    border:
-        1px solid #c6a66d;
-
-    border-radius:
-        5px;
-
-    box-shadow:
-        0 3px 5px rgba(0, 0, 0, 0.7);
-
-    z-index: 3;
+    height: 9px;
+    background: linear-gradient(
+        180deg,
+        #d0ad68 0%,
+        #8c6938 50%,
+        #4a3219 100%
+    );
+    border: 1px solid #c6a66d;
+    border-radius: 5px;
+    box-shadow: 0 3px 5px rgba(0,0,0,.7);
+    z-index: 8;
 }
-
-
-/* =========================================================
-   V-CUT BOTTOM
-========================================================= */
 
 .region-banner::after {
-    content: "";
-
-    position: absolute;
-
-    left: -2px;
-    bottom: -32px;
-
-    width: 108px;
-    height: 34px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #0d1511,
-            #17251e 12%,
-            #1d2c24 50%,
-            #17251e 88%,
-            #0d1511
-        );
-
-    clip-path:
-        polygon(
-            0 0,
-            100% 0,
-            100% 100%,
-            50% 58%,
-            0 100%
-        );
-
-    border-left:
-        2px solid #8b7042;
-
-    border-right:
-        2px solid #8b7042;
-
-    filter:
-        drop-shadow(
-            0 4px 3px rgba(0, 0, 0, 0.45)
-        );
+    content: ""; position: absolute; left: -2px; bottom: -30px;
+    width: var(--banner-width); height: 32px;
+    background: linear-gradient(90deg,#0d1511,#17251e 12%,#1d2c24 50%,#17251e 88%,#0d1511);
+    clip-path: polygon(0 0,100% 0,100% 100%,50% 58%,0 100%);
+    border-left: 2px solid #8b7042; border-right: 2px solid #8b7042;
+    filter: drop-shadow(0 4px 3px rgba(0,0,0,.45));
 }
-
-
-/* =========================================================
-   FINISHED REGION BANNER ART
-========================================================= */
-
-.region-banner-art {
-    display: none;
-
-    width: 152px;
-    height: auto;
-
-    margin: 0 auto;
-
-    object-fit: contain;
-}
-
-
+.region-banner-art { display:none; width:var(--banner-width); height:auto; margin:0 auto; object-fit:contain; }
 .region-banner-overlay-emblem {
-    display: none;
-
-    position: absolute;
-
-    top: 36px;
-    left: 50%;
-
-    width: 82px;
-    height: 82px;
-
-    transform:
-        translateX(-50%);
-
-    object-fit: contain;
-
-    filter:
-        drop-shadow(
-            0 3px 4px rgba(0, 0, 0, 0.78)
-        );
-
-    z-index: 6;
+    display:none; position:absolute; top:18px; left:50%; width:58px; height:58px;
+    transform:translateX(-50%); object-fit:contain; filter:drop-shadow(0 3px 4px rgba(0,0,0,.78)); z-index:6;
 }
-
-
-.region-banner.has-banner-art {
-    width: 152px;
-
-    padding: 0;
-
-    background: transparent;
-
-    border-left: none;
-    border-right: none;
-
-    outline: none;
-
-    box-shadow: none;
-}
-
-
-/* Keep the existing gold rod. */
-.region-banner.has-banner-art::after {
-    display: none;
-}
-
-
-.region-banner.has-banner-art .region-generated-content {
-    display: none;
-}
-
-
-.region-banner.has-banner-art .region-banner-art,
-.region-banner.has-banner-art .region-banner-overlay-emblem {
-    display: block;
-}
-
+.region-banner.has-banner-art { width:var(--banner-width); padding:0; background:transparent; border:none; outline:none; box-shadow:none; }
+.region-banner.has-banner-art::after, .region-banner.has-banner-art .region-generated-content { display:none; }
+.region-banner.has-banner-art .region-banner-art, .region-banner.has-banner-art .region-banner-overlay-emblem { display:block; }
+.region-emblem { width:58px; height:58px; margin:3px auto 10px; display:flex; align-items:center; justify-content:center; background:transparent; border:none; box-shadow:none; }
+.region-emblem-image { display:none; width:58px; height:58px; object-fit:contain; filter:drop-shadow(0 2px 3px rgba(0,0,0,.7)); }
+.region-emblem-placeholder { color:#c8a761; font-size:32px; text-shadow:1px 1px 0 #4c371d,-1px -1px 0 #4c371d,0 2px 3px rgba(0,0,0,.7); }
+.region-name { color:#f0dfb5; font-size:13px; font-weight:bold; letter-spacing:1.2px; text-transform:uppercase; line-height:1.12; overflow-wrap:break-word; }
+.region-status { margin-top:5px; color:#baa178; font-size:8px; font-style:italic; line-height:1.25; }
+.region-divider { width:80%; height:1px; margin:10px auto; background:linear-gradient(90deg,transparent,#a88750,transparent); }
+.region-divider-symbol { margin-top:-17px; margin-bottom:7px; color:#b99a62; font-size:8px; }
+.region-seat { color:#ead9b4; font-size:11px; font-weight:bold; letter-spacing:.7px; text-transform:uppercase; overflow-wrap:break-word; }
+.region-seat-label { margin-top:2px; color:#9d8968; font-size:7px; text-transform:uppercase; letter-spacing:1.2px; }
+.region-character { color:#c8b58e; font-size:7px; line-height:1.4; text-transform:uppercase; letter-spacing:.7px; overflow-wrap:break-word; }
 
 /* =========================================================
-   REGION EMBLEM
-========================================================= */
-
-.region-emblem {
-    width: 70px;
-    height: 70px;
-
-    margin:
-        5px auto
-        12px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background: transparent;
-    border: none;
-    box-shadow: none;
-}
-
-.region-emblem-image {
-    display: none;
-
-    width: 80px;
-    height: 80px;
-
-    object-fit: contain;
-
-    filter:
-        drop-shadow(0 2px 3px rgba(0, 0, 0, 0.7));
-}
-
-.region-emblem-placeholder {
-    color: #c8a761;
-
-    font-size: 40px;
-
-    text-shadow:
-        1px 1px 0 #4c371d,
-        -1px -1px 0 #4c371d,
-        0 2px 3px rgba(0, 0, 0, 0.7);
-}
-
-
-/* =========================================================
-   BANNER TEXT
-========================================================= */
-
-.region-name {
-    color: #f0dfb5;
-
-    font-size: 14px;
-    font-weight: bold;
-
-    letter-spacing: 1.4px;
-    text-transform: uppercase;
-
-    line-height: 1.1;
-
-    overflow-wrap: break-word;
-}
-
-.region-status {
-    margin-top: 6px;
-
-    color: #baa178;
-
-    font-size: 9px;
-    font-style: italic;
-
-    line-height: 1.3;
-}
-
-.region-divider {
-    width: 80%;
-    height: 1px;
-
-    margin:
-        12px auto;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            #a88750,
-            transparent
-        );
-}
-
-.region-divider-symbol {
-    margin-top: -19px;
-    margin-bottom: 9px;
-
-    color: #b99a62;
-
-    font-size: 9px;
-}
-
-.region-seat {
-    color: #ead9b4;
-
-    font-size: 12px;
-    font-weight: bold;
-
-    letter-spacing: 1px;
-    text-transform: uppercase;
-
-    overflow-wrap: break-word;
-}
-
-.region-seat-label {
-    margin-top: 2px;
-
-    color: #9d8968;
-
-    font-size: 7px;
-
-    text-transform: uppercase;
-    letter-spacing: 1.3px;
-}
-
-.region-character {
-    color: #c8b58e;
-
-    font-size: 8px;
-    line-height: 1.45;
-
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-
-    overflow-wrap: break-word;
-}
-
-
-
-        /* =========================================================
            ATLAS DIRECTORY NAVIGATION
         ========================================================= */
 
