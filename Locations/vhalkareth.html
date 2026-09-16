@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vhal'Kareth — Ellond Atlas</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    background: #1b1814;
+    color: #e7ddc7;
+    font-family: Georgia, "Times New Roman", serif;
+    overflow: hidden;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+header {
+    height: 72px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 0 20px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #211a12 0%,
+            #17120d 55%,
+            #100d09 100%
+        );
+
+    border-top: 2px solid #8d7042;
+    border-bottom: 3px solid #6e542f;
+
+    box-shadow:
+        inset 0 1px 0 #b89a63,
+        0 4px 10px rgba(0,0,0,.65);
+
+    position: relative;
+    z-index: 50;
+}
+
+.header-compass {
+    width: 54px;
+    height: 54px;
+    object-fit: contain;
+}
+
+.header-title {
+    margin-right: auto;
+}
+
+.header-title h1 {
+    margin: 0;
+    color: #ead8b4;
+    font-size: 25px;
+    letter-spacing: 4px;
+}
+
+.header-title span {
+    color: #b99a68;
+    font-size: 13px;
+    font-style: italic;
+}
+
+nav {
+    display: flex;
+    gap: 7px;
+}
+
+.nav-button {
+    min-width: 70px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 13px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #302518,
+            #1c150e
+        );
+
+    color: #ead8b4;
+    border: 1px solid #81643a;
+    text-decoration: none;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.nav-button:hover {
+    background:
+        linear-gradient(
+            180deg,
+            #49371f,
+            #2a1e12
+        );
+
+    border-color: #b18c52;
+}
+
+/* =========================================================
+   PAGE LAYOUT
+========================================================= */
+
+.layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 390px;
+    height: calc(100vh - 72px);
+}
+
+/* =========================================================
+   MAP
+========================================================= */
+
+.map-area {
+    min-width: 0;
+    min-height: 0;
+    overflow: auto;
+    position: relative;
+    background: #111;
+    border-right: 2px solid #715632;
+
+    scrollbar-color: #735a36 #1b150e;
+    scrollbar-width: thin;
+}
+
+.map-frame {
+    min-width: 100%;
+    min-height: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 18px;
+}
+
+.city-map {
+    display: block;
+    max-width: 100%;
+    height: auto;
+
+    border: 2px solid #80643b;
+
+    box-shadow:
+        0 8px 22px rgba(0,0,0,.75),
+        0 0 0 4px #17110c,
+        0 0 0 5px #594426;
+}
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar {
+    min-width: 0;
+    height: 100%;
+    overflow-y: auto;
+    padding: 28px 26px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #2a2015 0%,
+            #20170f 65%,
+            #17100b 100%
+        );
+
+    scrollbar-color: #735a36 #21170f;
+    scrollbar-width: thin;
+}
+
+.sidebar h2 {
+    margin: 0;
+    padding-bottom: 10px;
+
+    color: #ead8b4;
+    font-size: 31px;
+    letter-spacing: 1px;
+
+    border-bottom: 1px solid #665944;
+}
+
+.location-type {
+    margin-top: 17px;
+    color: #aa9b82;
+    font-style: italic;
+    font-size: 18px;
+}
+
+.description {
+    line-height: 1.5;
+}
+
+.info-section {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: 10px;
+    margin-top: 23px;
+}
+
+.info-icon {
+    color: #c8b78f;
+    font-size: 20px;
+    text-align: center;
+}
+
+.info-heading {
+    margin-bottom: 5px;
+    color: #c8b78f;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.info-content p {
+    margin: 0;
+    line-height: 1.4;
+}
+
+.section-title {
+    margin-top: 28px;
+    margin-bottom: 8px;
+    color: #c8b78f;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.back-map {
+    width: 100%;
+    margin-top: 26px;
+}
+
+/* =========================================================
+   SMALL SCREENS
+========================================================= */
+
+@media (max-width: 850px) {
+    body {
+        overflow: auto;
+    }
+
+    .layout {
+        display: block;
+        height: auto;
+    }
+
+    .map-area {
+        height: 60vh;
+        border-right: none;
+        border-bottom: 2px solid #715632;
+    }
+
+    .sidebar {
+        height: auto;
+    }
+
+    .header-title span {
+        display: none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <img
+        class="header-compass"
+        src="../Design/Compass.png"
+        alt="Ellond Compass"
+    >
+
+    <div class="header-title">
+        <h1>VHAL'KARETH</h1>
+        <span>Ellond Interactive Atlas</span>
+    </div>
+
+    <nav aria-label="Atlas navigation">
+        <button
+            class="nav-button"
+            type="button"
+            onclick="goBack()"
+        >
+            ← Back
+        </button>
+
+        <a class="nav-button" href="../index.html">
+            Atlas
+        </a>
+
+        <a class="nav-button" href="../Guilds/index.html">
+            Guilds
+        </a>
+
+        <a class="nav-button" href="../Npc/index.html">
+            NPCs
+        </a>
+    </nav>
+</header>
+
+<div class="layout">
+
+    <main class="map-area">
+        <div class="map-frame">
+            <img
+                class="city-map"
+                src="../maps/vhalkareth.png"
+                alt="Map of Vhal'Kareth"
+            >
+        </div>
+    </main>
+
+    <aside class="sidebar">
+
+        <h2>Vhal'Kareth</h2>
+
+        <p class="location-type">
+            City — The Sovereign March
+        </p>
+
+        <p class="description">
+            An old settlement with deep roots in the history of Ellond.
+            Vhal'Kareth stands within the Sovereign March and has endured
+            through generations of political and cultural change.
+        </p>
+
+        <div class="info-section">
+            <div class="info-icon">◉</div>
+
+            <div class="info-content">
+                <div class="info-heading">Population</div>
+                <p>Unknown</p>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <div class="info-icon">◆</div>
+
+            <div class="info-content">
+                <div class="info-heading">Region</div>
+                <p>The Sovereign March</p>
+            </div>
+        </div>
+
+        <div class="section-title">
+            Atlas Notes
+        </div>
+
+        <p class="description">
+            Additional districts, landmarks, guild houses, important NPCs,
+            and local history can be added here as Vhal'Kareth is developed.
+        </p>
+
+        <a class="nav-button back-map" href="../index.html">
+            Return to Ellond World Map
+        </a>
+
+    </aside>
+
+</div>
+
+<script>
+function goBack() {
+    if (document.referrer) {
+        history.back();
+    } else {
+        window.location.href = "../index.html";
+    }
+}
+</script>
+
+</body>
+</html>
