@@ -2,12 +2,23 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Mosshollow Interactive Town Map</title>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Xal'Torath Interactive City Map</title>
+
 
     <style>
+
+
+        /* =========================================================
+           GENERAL
+        ========================================================= */
 
         * {
             box-sizing: border-box;
@@ -15,161 +26,71 @@
 
         body {
             margin: 0;
+
             background: #1b1814;
             color: #e7ddc7;
-            font-family: Georgia, "Times New Roman", serif;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
         }
-/* =========================================================
-   MOSSHOLLOW LOCATION MARKERS
-========================================================= */
-
-.village-marker {
-    position: absolute;
-
-    width: 14px;
-    height: 14px;
-
-    transform: translate(-50%, -50%);
-
-    border-radius: 50%;
-
-    background: #7f3f2d;
-
-    border: 2px solid #ead9b5;
-
-    box-shadow:
-        0 0 0 1px rgba(0,0,0,0.7),
-        0 2px 4px rgba(0,0,0,0.6);
-
-    cursor: pointer;
-
-    z-index: 20;
-
-    transition:
-        transform 0.15s ease,
-        background 0.15s ease;
-}
-
-.village-marker:hover {
-    transform:
-        translate(-50%, -50%)
-        scale(1.25);
-
-    background: #a5573d;
-}
 
 
-/* marker text */
 
-.village-marker .marker-label {
-    position: absolute;
-
-    left: 17px;
-    top: 50%;
-
-    transform: translateY(-50%);
-
-    padding: 3px 7px;
-
-    color: #ead9b5;
-
-    background: rgba(24, 18, 12, 0.94);
-
-    border: 1px solid #665033;
-
-    font-family: Georgia, serif;
-    font-size: 12px;
-
-    white-space: nowrap;
-
-    pointer-events: none;
-
-    box-shadow:
-        0 2px 4px rgba(0,0,0,0.5);
-}
-
-
-/* =========================================================
-   GUILD MARKER
-========================================================= */
-
-.village-marker.guild {
-    width: 16px;
-    height: 16px;
-
-    border-radius: 2px;
-
-    background: #55456b;
-
-    border: 2px solid #ead9b5;
-
-    transform:
-        translate(-50%, -50%)
-        rotate(45deg);
-}
-
-.village-marker.guild:hover {
-    transform:
-        translate(-50%, -50%)
-        rotate(45deg)
-        scale(1.25);
-}
-
-
-/* counter-rotate guild label */
-
-.village-marker.guild .marker-label {
-    left: 20px;
-    top: -8px;
-
-    transform: rotate(-45deg);
-}
-
-
-        /* =========================
+        /* =========================================================
            HEADER
-        ========================= */
+        ========================================================= */
 
         header {
             height: 70px;
 
             display: flex;
             align-items: center;
+
             gap: 30px;
 
             padding: 0 30px;
 
             background: #211d18;
-            border-bottom: 1px solid #665944;
+
+            border-bottom:
+                1px solid #665944;
         }
 
         header h1 {
             margin: 0;
 
-            letter-spacing: 4px;
             font-size: 24px;
+
+            letter-spacing: 4px;
         }
 
         header .subtitle {
-            color: #a99a80;
-            font-size: 14px;
-
             margin-right: auto;
+
+            color: #a99a80;
+
+            font-size: 14px;
         }
 
 
-        /* =========================
+
+        /* =========================================================
            HEADER CONTROLS
-        ========================= */
+        ========================================================= */
 
         .header-controls {
             display: flex;
+
             align-items: center;
+
             gap: 10px;
         }
 
         .zoom-controls {
             display: flex;
+
             gap: 6px;
         }
 
@@ -181,9 +102,14 @@
             background: #322b22;
             color: #e7ddc7;
 
-            border: 1px solid #88775a;
+            border:
+                1px solid #88775a;
 
-            font-family: Georgia, "Times New Roman", serif;
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
             font-size: 14px;
 
             cursor: pointer;
@@ -198,20 +124,25 @@
         }
 
 
-        /* =========================
+
+        /* =========================================================
            MAIN LAYOUT
-        ========================= */
+        ========================================================= */
 
         .layout {
             display: grid;
 
-            grid-template-columns: 1fr 340px;
+            grid-template-columns:
+                1fr
+                360px;
 
-            height: calc(100vh - 70px);
+            height:
+                calc(100vh - 70px);
         }
 
         .layout.panel-hidden {
-            grid-template-columns: 1fr;
+            grid-template-columns:
+                1fr;
         }
 
         .layout.panel-hidden aside {
@@ -219,9 +150,10 @@
         }
 
 
-        /* =========================
+
+        /* =========================================================
            MAP
-        ========================= */
+        ========================================================= */
 
         .map-container {
             position: relative;
@@ -235,6 +167,7 @@
             position: relative;
 
             width: 1400px;
+
             min-height: 900px;
         }
 
@@ -243,7 +176,8 @@
 
             width: 1400px;
 
-            transform-origin: top left;
+            transform-origin:
+                top left;
         }
 
         .town-map {
@@ -254,24 +188,28 @@
         }
 
 
-        /* =========================
-           MAP MARKERS
-        ========================= */
+
+        /* =========================================================
+           LOCATION MARKERS
+        ========================================================= */
 
         .marker {
             position: absolute;
 
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
 
-            border: 3px solid #e9d9b5;
+            border:
+                3px solid #e9d9b5;
+
             background: #6d3528;
 
             border-radius: 50%;
 
             cursor: pointer;
 
-            transform: translate(-50%, -50%);
+            transform:
+                translate(-50%, -50%);
 
             transition:
                 transform 0.15s,
@@ -289,15 +227,17 @@
         .marker-label {
             position: absolute;
 
-            left: 20px;
+            left: 22px;
             top: -6px;
 
             white-space: nowrap;
 
-            padding: 4px 7px;
+            padding:
+                4px
+                7px;
 
             background:
-                rgba(20, 17, 13, 0.85);
+                rgba(20, 17, 13, 0.88);
 
             border:
                 1px solid #675b48;
@@ -309,9 +249,11 @@
             pointer-events: none;
         }
 
-        /* =========================
+
+
+        /* =========================================================
            INFORMATION PANEL
-        ========================= */
+        ========================================================= */
 
         aside {
             overflow-y: auto;
@@ -327,16 +269,17 @@
         aside h2 {
             margin-top: 0;
 
+            padding-bottom: 10px;
+
             border-bottom:
                 1px solid #665944;
-
-            padding-bottom: 10px;
 
             letter-spacing: 1px;
         }
 
         .location-type {
             color: #aa9b82;
+
             font-style: italic;
         }
 
@@ -353,10 +296,16 @@
             letter-spacing: 2px;
         }
 
+        aside p {
+            line-height: 1.4;
+        }
+
         .placeholder {
             color: #938872;
+
             font-style: italic;
         }
+
 
     
         /* =========================================================
@@ -829,20 +778,21 @@
 </head>
 
 
+
 <body>
 
 
-<!-- =========================
+<!-- =============================================================
      HEADER
-========================= -->
+============================================================= -->
 
 <header>
 
     <img class="header-compass" src="../Design/Compass.png" alt="Ellond Compass">
 
     <div class="header-title">
-        <h1>MOSSHOLLOW</h1>
-        <span class="subtitle">Interactive Village Map</span>
+        <h1>XAL'TORATH</h1>
+        <span class="subtitle">Interactive City Map</span>
     </div>
 
     <div class="header-controls">
@@ -891,9 +841,9 @@
 
 
 
-<!-- =========================
+<!-- =============================================================
      MAIN LAYOUT
-========================= -->
+============================================================= -->
 
 <div
     class="layout"
@@ -901,19 +851,22 @@
 >
 
 
-    <!-- =========================
-         MOSSHOLLOW MAP
-    ========================= -->
+
+    <!-- =========================================================
+         XAL'TORATH MAP
+    ========================================================= -->
 
     <main
         class="map-container"
         id="map-container"
     >
 
+
         <div
             class="map-stage"
             id="map-stage"
         >
+
 
             <div
                 class="map-wrapper"
@@ -921,121 +874,52 @@
             >
 
 
+                <!-- MAP IMAGE -->
+
                 <img
-                    src="../maps/Mosshollow.png"
+                    src="../maps/XalTorath.png"
                     class="town-map"
-                    alt="Map of Mosshollow"
+                    alt="Map of Xal'Torath"
                 >
 
 
-<!-- ======================================================
-     MOSSHOLLOW LOCATIONS
-======================================================= -->
 
+                <!-- =================================================
+                     FUTURE LOCATION TOKENS
 
-<!-- GUILD OF NETS AND REEDS -->
+                     IMPORTANT:
+                     Keep all future markers INSIDE map-wrapper.
 
-<div
-    class="village-marker guild"
-    style="left: 58%; top: 31%;"
-    onclick="showVillageLocation('netsandreeds')"
->
-    <span class="marker-label">
-        Guild of Nets & Reeds
-    </span>
-</div>
+                     Example:
 
+                     <div
+                         class="marker"
+                         style="left: 50%; top: 50%;"
+                         onclick="showLocation('marshcouncil')"
+                     >
+                         <span class="marker-label">
+                             Marsh Council
+                         </span>
+                     </div>
 
-<!-- MOONCHURCH SHRINE -->
-
-<div
-    class="village-marker"
-    style="left: 17%; top: 29%;"
-    onclick="showVillageLocation('moonchurch')"
->
-    <span class="marker-label">
-        Moonchurch Shrine
-    </span>
-</div>
-
-
-<!-- THE REED & OYSTER -->
-
-<div
-    class="village-marker"
-    style="left: 52%; top: 22%;"
-    onclick="showVillageLocation('reedandoyster')"
->
-    <span class="marker-label">
-        The Reed & Oyster
-    </span>
-</div>
-
-
-<!-- MARSH MARKET -->
-
-<div
-    class="village-marker"
-    style="left: 58%; top: 48%;"
-    onclick="showVillageLocation('marshmarket')"
->
-    <span class="marker-label">
-        Marsh Market
-    </span>
-</div>
-
-
-<!-- TORTLE ELDER'S HOUSE -->
-
-<div
-    class="village-marker"
-    style="left: 40%; top: 53%;"
-    onclick="showVillageLocation('tortleelder')"
->
-    <span class="marker-label">
-        Elder's House
-    </span>
-</div>
-
-
-<!-- PEARL DIVERS' JETTY -->
-
-<div
-    class="village-marker"
-    style="left: 43%; top: 9%;"
-    onclick="showVillageLocation('pearljetty')"
->
-    <span class="marker-label">
-        Pearl Divers' Jetty
-    </span>
-</div>
-
-
-<!-- OLD LILY LANDING -->
-
-<div
-    class="village-marker"
-    style="left: 91%; top: 48%;"
-    onclick="showVillageLocation('lilylanding')"
->
-    <span class="marker-label">
-        Old Lily Landing
-    </span>
-</div>
-
+                ================================================= -->
 
 
             </div>
+            <!-- END MAP WRAPPER -->
+
 
         </div>
+        <!-- END MAP STAGE -->
+
 
     </main>
 
 
 
-    <!-- =========================
+    <!-- =========================================================
          INFORMATION PANEL
-    ========================= -->
+    ========================================================= -->
 
     
     <!-- =====================================================
@@ -1056,20 +940,18 @@
 
 
         <h2>
-            Mosshollow
+            Xal'Torath
         </h2>
 
 
         <p class="location-type">
-            Fishing Village
+            Lizardfolk City — West Marches
         </p>
 
 
         <p>
-            A quiet fishing village built on stilts
-            above the marsh waters. Wooden walkways
-            connect homes, docks and communal
-            buildings across the wetlands.
+            The largest city in the West Marches and the political
+            heart of the Lizardfolk clans.
         </p>
 
 
@@ -1078,17 +960,36 @@
         </div>
 
         <p>
-            Approximately 900
+            Approximately 14,000
         </p>
 
 
         <div class="section-title">
-            Exports
+            The City
         </div>
 
         <p>
-            Salted fish, pearl diving, marsh reeds
-            and river oysters.
+            Xal'Torath is built upon massive stone terraces rising
+            above the surrounding marshes. Bridges, walkways and
+            canals connect the different levels of the city, often
+            winding around enormous mangrove roots.
+        </p>
+
+        <p>
+            Much of its oldest stonework predates the Empire by
+            thousands of years.
+        </p>
+
+
+        <div class="section-title">
+            Government
+        </div>
+
+        <p>
+            Xal'Torath is the political heart of the Lizardfolk
+            clans of the West Marches. Clan elders gather here to
+            settle disputes, discuss matters affecting the marshes
+            and represent their people.
         </p>
 
 
@@ -1097,8 +998,55 @@
         </div>
 
         <p>
-            Giant lily fields, a friendly Tortle
-            population and excellent seafood.
+            The Marsh Council chambers, Temple of Asgorath,
+            Great Beast Market, exotic spices, dinosaur mounts,
+            ancient stone observatories and the Dragon Relic Museum.
+        </p>
+
+
+        <div class="section-title">
+            Atmosphere
+        </div>
+
+        <p>
+            Ancient stone terraces stand among thick marsh
+            vegetation and enormous roots. Narrow bridges and
+            elevated walkways cross canals and flooded ground,
+            while markets occupy the broader terraces.
+        </p>
+
+        <p>
+            The city feels considerably older than most settlements
+            in modern Ellond, with newer homes, markets and workshops
+            built directly among structures whose original purpose
+            has long been forgotten.
+        </p>
+
+
+        <div class="section-title">
+            History
+        </div>
+
+        <p>
+            Xal'Torath grew around ancient stone terraces that had
+            already stood in the marshes for thousands of years.
+            Generations of Lizardfolk clans settled among the ruins,
+            repairing bridges, reopening waterways and adapting the
+            old structures to their own needs.
+        </p>
+
+        <p>
+            As the clans of the West Marches became more organized,
+            Xal'Torath developed into their natural meeting place.
+            Its central position and ancient gathering grounds
+            eventually made it the political heart of the Lizardfolk
+            people.
+        </p>
+
+        <p>
+            Even as trade and contact with the rest of Ellond
+            increased, Xal'Torath remained strongly tied to the
+            traditions of the marsh clans.
         </p>
 
 
@@ -1107,19 +1055,17 @@
         </div>
 
         <p>
-            Select a location on the village map
-            to view more information.
+            Select a location on the city map to view more
+            information.
         </p>
 
-
-        ${mosshollowGuildContext(id)}
 
         <div class="section-title">
             DM Notes
         </div>
 
         <p class="placeholder">
-            Village secrets, quests and hidden
+            City secrets, ancient ruins, quests and hidden
             information can be placed here.
         </p>
 
@@ -1148,9 +1094,9 @@
 
 
 
-    /* =========================
+    /* =========================================================
        ZOOM
-    ========================= */
+    ========================================================= */
 
     let currentZoom = 1;
 
@@ -1192,9 +1138,14 @@
 
         currentZoom += zoomStep;
 
+
         if (currentZoom > maximumZoom) {
-            currentZoom = maximumZoom;
+
+            currentZoom =
+                maximumZoom;
+
         }
+
 
         updateZoom();
 
@@ -1205,9 +1156,14 @@
 
         currentZoom -= zoomStep;
 
+
         if (currentZoom < minimumZoom) {
-            currentZoom = minimumZoom;
+
+            currentZoom =
+                minimumZoom;
+
         }
+
 
         updateZoom();
 
@@ -1224,191 +1180,9 @@
 
 
 
-const villageLocations = {
-
-    netsandreeds: {
-        name: "Guild of Nets & Reeds",
-        type: "Guild Hall",
-        description:
-            "The working heart of Mosshollow's fishing trade. The guild manages fishing rights, dock maintenance, pearl-diving claims and marsh harvesting.",
-        known:
-            "Fishers, pearl divers and boat crews gather here for work, disputes and news from the wetlands."
-    },
-
-    moonchurch: {
-        name: "Moonchurch Shrine",
-        type: "Waterside Shrine",
-        description:
-            "A small old shrine overlooking Moonchurch Bridge and the waters below.",
-        known:
-            "Fishermen traditionally leave small offerings here before setting out onto the marsh."
-    },
-
-    reedandoyster: {
-        name: "The Reed & Oyster",
-        type: "Inn & Tavern",
-        description:
-            "Mosshollow's principal inn, serving fishermen, traders and the occasional traveler.",
-        known:
-            "Known for fresh oysters, smoked fish and strong local ale."
-    },
-
-    marshmarket: {
-        name: "Marsh Market",
-        type: "Village Market",
-        description:
-            "A modest waterside market where the village sells fish, reeds, pearls, shellfish and marsh goods.",
-        known:
-            "The busiest part of Mosshollow during the early morning."
-    },
-
-    tortleelder: {
-        name: "Elder's House",
-        type: "Meeting House",
-        description:
-            "Home and meeting place of one of Mosshollow's respected Tortle elders.",
-        known:
-            "Villagers often come here to settle disputes or seek advice."
-    },
-
-    pearljetty: {
-        name: "Pearl Divers' Jetty",
-        type: "Working Dock",
-        description:
-            "A collection of narrow docks used by Mosshollow's pearl divers and shallow-water boats.",
-        known:
-            "Divers depart before sunrise when the marsh waters are calm."
-    },
-
-    lilylanding: {
-        name: "Old Lily Landing",
-        type: "Marsh Landing",
-        description:
-            "An old landing leading toward the giant lily fields beyond Mosshollow.",
-        known:
-            "Hunters, gatherers and marsh guides commonly begin their journeys here."
-    }
-
-};
-
-
-
-
-
-const mosshollowGuildLinks = {
-
-    netsandreeds: {
-        guildName: "Guild of Nets & Reeds",
-        guildPage: "../Guilds/guild-of-nets-and-reeds.html",
-        head: "To be assigned",
-        frontDesk: "To be assigned"
-    }
-
-};
-
-function mosshollowGuildContext(id) {
-
-    const guild =
-        mosshollowGuildLinks[id];
-
-    if (!guild) {
-        return "";
-    }
-
-    return `
-        <div class="guild-context">
-
-            <div class="section-title">
-                Local Guild Staff
-            </div>
-
-            <div class="guild-staff">
-
-                <div class="staff-row">
-                    <span class="staff-label">
-                        Head of Operations
-                    </span>
-
-                    <span class="staff-name">
-                        ${guild.head}
-                    </span>
-                </div>
-
-                <div class="staff-row">
-                    <span class="staff-label">
-                        Front Desk
-                    </span>
-
-                    <span class="staff-name">
-                        ${guild.frontDesk}
-                    </span>
-                </div>
-
-            </div>
-
-            <a
-                class="deep-link"
-                href="${guild.guildPage}"
-            >
-                Open Guild Page
-            </a>
-
-        </div>
-    `;
-}
-
-function showVillageLocation(id) {
-
-    const location = villageLocations[id];
-
-    if (!location) {
-        return;
-    }
-
-    const panel = document.getElementById("info-panel");
-
-    panel.innerHTML = `
-        <h2>${location.name}</h2>
-
-        <p class="location-type">
-            ${location.type}
-        </p>
-
-        <p>
-            ${location.description}
-        </p>
-
-        <div class="section-title">
-            Known For
-        </div>
-
-        <p>
-            ${location.known}
-        </p>
-
-        <div class="section-title">
-            Explore
-        </div>
-
-        <p>
-            Select another marker on the village map
-            to view more information.
-        </p>
-
-        <div class="section-title">
-            DM Notes
-        </div>
-
-        <p class="placeholder">
-            Add hidden information, quests and secrets here.
-        </p>
-    `;
-}
-
-
-    /* =========================
+    /* =========================================================
        HIDE / SHOW PANEL
-    ========================= */
+    ========================================================= */
 
     function togglePanel() {
 
@@ -1436,9 +1210,82 @@ function showVillageLocation(id) {
 
 
 
-    /* =========================
+    /* =========================================================
+       FUTURE LOCATION DATABASE
+
+       When we add locations such as the Temple of Asgorath,
+       Great Beast Market, Marsh Council and Dragon Relic Museum,
+       their information will go here.
+    ========================================================= */
+
+    const locations = {
+
+    };
+
+
+
+    /* =========================================================
+       SHOW LOCATION
+    ========================================================= */
+
+    function showLocation(id) {
+
+        const location =
+            locations[id];
+
+
+        if (!location) {
+
+            return;
+
+        }
+
+
+        const panel =
+            document.getElementById(
+                "info-panel"
+            );
+
+
+        panel.innerHTML = `
+
+            <h2>
+                ${location.name}
+            </h2>
+
+            <p class="location-type">
+                ${location.type}
+            </p>
+
+            <p>
+                ${location.description}
+            </p>
+
+            <div class="section-title">
+                Known For
+            </div>
+
+            <p>
+                ${location.knownFor}
+            </p>
+
+            <div class="section-title">
+                Notes
+            </div>
+
+            <p>
+                ${location.notes}
+            </p>
+
+        `;
+
+    }
+
+
+
+    /* =========================================================
        INITIALIZE
-    ========================= */
+    ========================================================= */
 
     updateZoom();
 

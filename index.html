@@ -1789,6 +1789,301 @@ body.labels-hidden .landmark-marker:hover .marker-label {
             display: none !important;
         }
 
+
+
+/* DM-only marker editing control */
+#add-marker-button,
+#save-atlas-button,
+#import-atlas-button { display: none; }
+
+body.dm-mode #add-marker-button,
+body.dm-mode #save-atlas-button,
+body.dm-mode #import-atlas-button { display: inline-flex; }
+
+/* =========================================================
+   MAP TOOLS — MEASURE / MARKER EDITOR / PRINT
+========================================================= */
+.tool-active {
+    background: linear-gradient(180deg,#5b4527,#2d2012) !important;
+    border-color: #c39a5b !important;
+}
+
+#map-wrapper.measure-mode { cursor: crosshair; }
+#map-wrapper.measure-mode .marker,
+#map-wrapper.measure-mode .dragon-marker,
+#map-wrapper.measure-mode .landmark-marker { cursor: crosshair; }
+
+.measure-layer {
+    position: absolute;
+    inset: 0;
+    width: 1400px;
+    height: 900px;
+    z-index: 60;
+    pointer-events: none;
+    overflow: visible;
+}
+.measure-route {
+    fill: none;
+    stroke: #ff2a2a;
+    stroke-width: 4;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    filter: drop-shadow(0 0 3px #ff1f1f) drop-shadow(0 0 7px rgba(255, 0, 0, 0.95)) drop-shadow(0 0 12px rgba(255, 40, 40, 0.65));
+    filter: drop-shadow(0 1px 2px #000);
+}
+.measure-point {
+    filter: drop-shadow(0 0 3px #ff1f1f) drop-shadow(0 0 7px rgba(255, 0, 0, 0.85));
+    fill: #f2d28d;
+    stroke: #2b1c0d;
+    stroke-width: 3;
+}
+.measure-panel {
+    display: none;
+    position: absolute;
+    left: 14px;
+    top: 14px;
+    width: 285px;
+    padding: 12px;
+    z-index: 90;
+    background: rgba(28,20,12,.96);
+    border: 1px solid #9a7745;
+    box-shadow: 0 5px 15px rgba(0,0,0,.65);
+    color: #ead8b4;
+}
+.measure-panel.open { display: block; }
+.measure-panel strong { letter-spacing: 1px; }
+.measure-panel label {
+    display: block;
+    margin-top: 8px;
+    color: #c7b18c;
+    font-size: 12px;
+}
+.measure-panel input {
+    width: 100%;
+    margin-top: 3px;
+    padding: 6px 7px;
+    background: #120d09;
+    color: #ead8b4;
+    border: 1px solid #73583a;
+    font-family: Georgia,"Times New Roman",serif;
+}
+.measure-result {
+    margin-top: 10px;
+    padding-top: 9px;
+    border-top: 1px solid #59452c;
+    line-height: 1.45;
+    font-size: 13px;
+}
+.measure-actions { display:flex; gap:6px; margin-top:10px; }
+.measure-actions button { flex:1; }
+
+.map-context-menu {
+    display: none;
+    position: fixed;
+    min-width: 205px;
+    z-index: 1600;
+    padding: 8px;
+    background: linear-gradient(180deg,#2b2117,#17110c);
+    border: 1px solid #9a7745;
+    box-shadow: 0 8px 20px rgba(0,0,0,.75);
+}
+.map-context-menu.open { display:block; }
+.map-context-menu .context-title {
+    padding: 5px 7px 8px;
+    color:#bda67f;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:1.5px;
+}
+.map-context-menu button {
+    display:block;
+    width:100%;
+    padding:8px 10px;
+    background:#21180f;
+    color:#ead8b4;
+    border:1px solid transparent;
+    font-family:Georgia,"Times New Roman",serif;
+    text-align:left;
+    cursor:pointer;
+}
+.map-context-menu button:hover { background:#49371f; border-color:#755b35; }
+
+.marker-editor-modal {
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:1700;
+    align-items:center;
+    justify-content:center;
+    background:rgba(0,0,0,.76);
+}
+.marker-editor-modal.open { display:flex; }
+.marker-editor-dialog {
+    width:min(460px,calc(100vw - 32px));
+    padding:22px;
+    background:linear-gradient(180deg,#2b2118,#17100c);
+    border:1px solid #8d6640;
+    box-shadow:0 12px 30px rgba(0,0,0,.75);
+}
+.marker-editor-dialog h3 { margin:0 0 14px; color:#ead8b4; font-weight:normal; }
+.marker-editor-dialog label { display:block; margin-top:10px; color:#c7b18c; font-size:12px; }
+.marker-editor-dialog input,
+.marker-editor-dialog select,
+.marker-editor-dialog textarea {
+    width:100%;
+    margin-top:4px;
+    padding:8px 9px;
+    background:#120d09;
+    color:#ead8b4;
+    border:1px solid #73583a;
+    font-family:Georgia,"Times New Roman",serif;
+}
+.marker-editor-dialog textarea { min-height:72px; resize:vertical; }
+.marker-editor-actions { display:flex; justify-content:flex-end; gap:8px; margin-top:16px; }
+.editor-note { margin-top:8px; color:#9f9079; font-size:11px; line-height:1.35; }
+.dynamic-marker { z-index: 28; }
+
+@media print {
+    @page { size: landscape; margin: 0; }
+
+    html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        overflow: hidden !important;
+        background: #fff !important;
+    }
+
+    /* Preserve marker and label colours in the PDF/print output. */
+    *, *::before, *::after {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    body * { visibility: hidden !important; }
+
+    #map-wrapper,
+    #map-wrapper * {
+        visibility: visible !important;
+    }
+
+    /*
+       Print the complete native 1400 × 900 map on ONE page.
+       The screen viewport/sidebar no longer determines what is printed.
+       100vw/100vh plus object-fit:contain keeps the whole map visible.
+    */
+    #map-wrapper {
+        position: fixed !important;
+        inset: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        transform: none !important;
+        transform-origin: top left !important;
+        overflow: visible !important;
+    }
+
+    #map-wrapper .world-map {
+        position: absolute !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important;
+    }
+
+    /* Keep marker positions tied to the complete printed map. */
+    #map-wrapper > .marker,
+    #map-wrapper > .dragon-marker,
+    #map-wrapper > .landmark-marker {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    #map-wrapper .measure-layer,
+    #map-wrapper .measure-panel {
+        display: none !important;
+    }
+
+    #map-wrapper .filtered-out { display: none !important; }
+    body:not(.dm-mode) #map-wrapper .dm-only-marker { display: none !important; }
+}
+
+
+
+/* =========================================================
+   DM HIDDEN MARKERS — COMPACT PULSATING GLOW
+   40% smaller than the current compact DM marker.
+   Applies to hard-coded and dynamically-created secret markers.
+========================================================= */
+body.dm-mode .marker.secret-marker.dm-only-marker {
+    width: 10.56px;
+    height: 10.56px;
+    border-width: 1.44px;
+    background: #792f2f;
+
+    transform: translate(-50%, -50%) rotate(45deg);
+
+    animation: dmHiddenPulse 1.8s ease-in-out infinite;
+    will-change: transform, box-shadow, background;
+}
+
+body.dm-mode .marker.secret-marker.dm-only-marker:hover {
+    background: #b84a3d;
+    animation: dmHiddenPulseHover 1.15s ease-in-out infinite;
+    z-index: 55;
+}
+
+/* Keep the text readable and counter-rotate the label from the diamond. */
+body.dm-mode .marker.secret-marker.dm-only-marker .marker-label {
+    left: 16px;
+    top: -6px;
+    transform: rotate(-45deg);
+}
+
+@keyframes dmHiddenPulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) rotate(45deg) scale(1);
+        box-shadow:
+            0 0 4px rgba(255, 70, 55, .70),
+            0 0 8px rgba(255, 45, 35, .45),
+            0 0 13px rgba(190, 35, 25, .22);
+    }
+    50% {
+        transform: translate(-50%, -50%) rotate(45deg) scale(1.16);
+        box-shadow:
+            0 0 7px rgba(255, 105, 80, 1),
+            0 0 14px rgba(255, 55, 40, .85),
+            0 0 23px rgba(220, 40, 30, .55);
+    }
+}
+
+@keyframes dmHiddenPulseHover {
+    0%, 100% {
+        transform: translate(-50%, -50%) rotate(45deg) scale(1.12);
+        box-shadow:
+            0 0 7px rgba(255, 100, 75, .95),
+            0 0 14px rgba(255, 50, 35, .72);
+    }
+    50% {
+        transform: translate(-50%, -50%) rotate(45deg) scale(1.34);
+        box-shadow:
+            0 0 10px rgba(255, 130, 95, 1),
+            0 0 20px rgba(255, 55, 40, 1),
+            0 0 30px rgba(220, 35, 25, .72);
+    }
+}
+
+/* Printing should capture the marker without depending on animation state. */
+@media print {
+    body.dm-mode .marker.secret-marker.dm-only-marker {
+        animation: none !important;
+        transform: translate(-50%, -50%) rotate(45deg) !important;
+        box-shadow:
+            0 0 5px rgba(255, 70, 55, .85),
+            0 0 10px rgba(255, 45, 35, .55) !important;
+    }
+}
+
 </style>
 
 </head>
@@ -1957,6 +2252,29 @@ body.labels-hidden .landmark-marker:hover .marker-label {
 
             </div>
 
+
+            <button class="nav-button" id="measure-button" type="button" onclick="toggleMeasureMode()" title="Measure a multi-point route">
+                Measure
+            </button>
+
+            <button class="nav-button" type="button" onclick="printMapOnly()" title="Print or save the map as PDF">
+                Print
+            </button>
+
+            <button class="nav-button" id="add-marker-button" type="button" onclick="toggleMarkerPlacementMode()" title="Enable or disable map marker placement">
+                Add Marker
+            </button>
+
+            <button class="nav-button" id="save-atlas-button" type="button" onclick="exportAtlasMarkers()" title="Download all placed markers as data/markers.json">
+                Save Atlas
+            </button>
+
+            <button class="nav-button" id="import-atlas-button" type="button" onclick="openAtlasImport()" title="Import a markers.json file">
+                Import
+            </button>
+
+            <input id="atlas-marker-import" type="file" accept=".json,application/json" hidden onchange="importAtlasMarkers(event)">
+
             <button
                 class="nav-button dm-nav-button"
                 id="dm-mode-button"
@@ -2012,6 +2330,30 @@ body.labels-hidden .landmark-marker:hover .marker-label {
                     class="world-map"
                     alt="Map of Ellond"
                 >
+
+                <svg class="measure-layer" id="measure-layer" viewBox="0 0 1400 900" aria-hidden="true">
+                    <polyline class="measure-route" id="measure-route" points=""></polyline>
+                    <g id="measure-points"></g>
+                </svg>
+
+                <div class="measure-panel" id="measure-panel">
+                    <strong>Route Measure</strong>
+                    <div style="margin-top:8px;color:#c7b18c;font-size:12px;line-height:1.4;">
+                        Ellond scale: <strong>12,756 km × 12,756 km</strong>
+                    </div>
+                    <label>Walking speed (km/h)
+                        <input id="measure-walk-speed" type="number" min="0.1" step="0.1" value="5">
+                    </label>
+                    <label>Horse speed (km/h)
+                        <input id="measure-horse-speed" type="number" min="0.1" step="0.1" value="8">
+                    </label>
+                    <div class="measure-result" id="measure-result">Click anywhere — including markers — to plot a route.</div>
+                    <div class="measure-actions">
+                        <button class="button" type="button" onclick="undoMeasurePoint()">Undo</button>
+                        <button class="button" type="button" onclick="clearMeasureRoute()">Clear</button>
+                    </div>
+                </div>
+
 
 
 
@@ -2723,6 +3065,40 @@ body.labels-hidden .landmark-marker:hover .marker-label {
 
 </div>
 
+
+
+<!-- MAP RIGHT-CLICK MENU -->
+<div class="map-context-menu" id="map-context-menu">
+    <div class="context-title">Place Marker</div>
+    <button type="button" onclick="beginMarkerPlacement('city')">City</button>
+    <button type="button" onclick="beginMarkerPlacement('town')">Town</button>
+    <button type="button" onclick="beginMarkerPlacement('village')">Village</button>
+    <button type="button" onclick="beginMarkerPlacement('guild')">Guild</button>
+    <button type="button" onclick="beginMarkerPlacement('landmark')">Landmark</button>
+    <button type="button" onclick="beginMarkerPlacement('other')">Other / DM Hidden</button>
+</div>
+
+<!-- NEW MARKER DIALOG -->
+<div class="marker-editor-modal" id="marker-editor-modal" aria-hidden="true">
+    <div class="marker-editor-dialog" role="dialog" aria-modal="true" aria-labelledby="marker-editor-title">
+        <h3 id="marker-editor-title">New Map Marker</h3>
+        <label>Name
+            <input id="marker-name" type="text" autocomplete="off">
+        </label>
+        <label>Region
+            <select id="marker-region"></select>
+        </label>
+        <label>Short description
+            <textarea id="marker-description"></textarea>
+        </label>
+        <div class="editor-note" id="marker-editor-note"></div>
+        <div class="marker-editor-actions">
+            <button class="button" type="button" onclick="closeMarkerEditor()">Cancel</button>
+            <button class="button" type="button" onclick="savePlacedMarker()">Place Marker</button>
+        </div>
+    </div>
+</div>
+
 <script>
 
 /* =========================================================
@@ -2851,6 +3227,10 @@ function applyDmMode() {
 
     }
 
+
+    if (typeof applyMarkerPlacementMode === "function") {
+        applyMarkerPlacementMode();
+    }
 }
 
 
@@ -4904,6 +5284,486 @@ elarion: {
 
 
 
+
+
+/* =========================================================
+   MAP TOOL HELPERS
+========================================================= */
+const MAP_NATIVE_WIDTH = 1400;
+const MAP_NATIVE_HEIGHT = 900;
+const ELLOND_WIDTH_KM = 12756;
+const ELLOND_HEIGHT_KM = 12756;
+let measureMode = false;
+let measurePoints = [];
+let pendingMarkerPoint = null;
+let pendingMarkerType = null;
+const USER_MARKER_KEY = "ellondUserMarkersV1";
+
+function mapPointFromEvent(event) {
+    const wrapper = document.getElementById("map-wrapper");
+    const rect = wrapper.getBoundingClientRect();
+    const actualScale = currentZoom * baseMapScale;
+    const x = (event.clientX - rect.left) / actualScale;
+    const y = (event.clientY - rect.top) / actualScale;
+    return {
+        x: Math.max(0, Math.min(MAP_NATIVE_WIDTH, x)),
+        y: Math.max(0, Math.min(MAP_NATIVE_HEIGHT, y))
+    };
+}
+
+function percentPoint(point) {
+    return {
+        x: +(point.x / MAP_NATIVE_WIDTH * 100).toFixed(3),
+        y: +(point.y / MAP_NATIVE_HEIGHT * 100).toFixed(3)
+    };
+}
+
+/* =========================================================
+   MULTI-POINT ROUTE MEASURING
+   Scale is based on the full 1400px map width.
+========================================================= */
+function toggleMeasureMode() {
+    measureMode = !measureMode;
+    document.getElementById("map-wrapper").classList.toggle("measure-mode", measureMode);
+    document.getElementById("measure-panel").classList.toggle("open", measureMode);
+    document.getElementById("measure-button").classList.toggle("tool-active", measureMode);
+    closeMapContextMenu();
+}
+
+function addMeasurePoint(point) {
+    measurePoints.push(point);
+    renderMeasureRoute();
+}
+
+function undoMeasurePoint() {
+    measurePoints.pop();
+    renderMeasureRoute();
+}
+
+function clearMeasureRoute() {
+    measurePoints = [];
+    renderMeasureRoute();
+}
+
+function routeDistanceKm() {
+    let totalKm = 0;
+
+    for (let i = 1; i < measurePoints.length; i++) {
+        const dxPixels = measurePoints[i].x - measurePoints[i - 1].x;
+        const dyPixels = measurePoints[i].y - measurePoints[i - 1].y;
+
+        // The Ellond map represents 12,756 km across AND 12,756 km high.
+        // X and Y therefore use their own pixel-to-kilometre scale.
+        const dxKm = (dxPixels / MAP_NATIVE_WIDTH) * ELLOND_WIDTH_KM;
+        const dyKm = (dyPixels / MAP_NATIVE_HEIGHT) * ELLOND_HEIGHT_KM;
+
+        totalKm += Math.hypot(dxKm, dyKm);
+    }
+
+    return totalKm;
+}
+
+function formatDistance(km) {
+    if (km < 1) return `${Math.round(km * 1000)} m`;
+    return `${km.toFixed(km < 10 ? 2 : 1)} km`;
+}
+
+function formatTravelTime(hours) {
+    if (!isFinite(hours) || hours < 0) return "—";
+    const totalMinutes = Math.round(hours * 60);
+    const days = Math.floor(totalMinutes / (24 * 60));
+    const remaining = totalMinutes - days * 24 * 60;
+    const h = Math.floor(remaining / 60);
+    const m = remaining % 60;
+    const parts = [];
+    if (days) parts.push(`${days}d`);
+    if (h) parts.push(`${h}h`);
+    if (m || !parts.length) parts.push(`${m}m`);
+    return parts.join(" ");
+}
+
+function renderMeasureRoute() {
+    const route = document.getElementById("measure-route");
+    const pointsGroup = document.getElementById("measure-points");
+    route.setAttribute("points", measurePoints.map(p => `${p.x},${p.y}`).join(" "));
+    pointsGroup.innerHTML = measurePoints.map(p => `<circle class="measure-point" cx="${p.x}" cy="${p.y}" r="7"></circle>`).join("");
+
+    const walk = parseFloat(document.getElementById("measure-walk-speed").value);
+    const horse = parseFloat(document.getElementById("measure-horse-speed").value);
+    const result = document.getElementById("measure-result");
+
+    localStorage.setItem("ellondWalkSpeed", String(walk || 5));
+    localStorage.setItem("ellondHorseSpeed", String(horse || 8));
+
+    const km = routeDistanceKm();
+    result.innerHTML = `<strong>${formatDistance(km)}</strong><br>On foot: ${formatTravelTime(km / (walk || 5))}<br>By horse: ${formatTravelTime(km / (horse || 8))}<br><span style="color:#9f9079">${measurePoints.length} route point${measurePoints.length === 1 ? "" : "s"}</span>`;
+}
+
+["measure-walk-speed","measure-horse-speed"].forEach(id => {
+    document.getElementById(id).addEventListener("input", renderMeasureRoute);
+});
+
+let markerPlacementMode = false;
+
+function applyMarkerPlacementMode() {
+    const button = document.getElementById("add-marker-button");
+    markerPlacementMode = dmMode && markerPlacementMode;
+    if (!button) return;
+    button.classList.toggle("tool-active", markerPlacementMode);
+    button.textContent = markerPlacementMode ? "Adding…" : "Add Marker";
+}
+
+function toggleMarkerPlacementMode() {
+    if (!dmMode) return;
+    markerPlacementMode = !markerPlacementMode;
+    applyMarkerPlacementMode();
+}
+
+/* =========================================================
+   RIGHT-CLICK MARKER PLACEMENT
+========================================================= */
+function closeMapContextMenu() {
+    document.getElementById("map-context-menu").classList.remove("open");
+}
+
+function openMapContextMenu(event) {
+    if (measureMode || !dmMode || !markerPlacementMode) return;
+    const targetMarker = event.target.closest(".marker,.dragon-marker,.landmark-marker");
+    if (targetMarker) return;
+    event.preventDefault();
+    pendingMarkerPoint = mapPointFromEvent(event);
+    const menu = document.getElementById("map-context-menu");
+    menu.style.left = `${Math.min(event.clientX, window.innerWidth - 220)}px`;
+    menu.style.top = `${Math.min(event.clientY, window.innerHeight - 300)}px`;
+    menu.classList.add("open");
+}
+
+function beginMarkerPlacement(type) {
+    pendingMarkerType = type;
+    closeMapContextMenu();
+    if (!pendingMarkerPoint) return;
+
+    const select = document.getElementById("marker-region");
+    select.innerHTML = Object.entries(regions).map(([id,r]) => `<option value="${id}">${escapeHtml(r.name)}</option>`).join("");
+    document.getElementById("marker-name").value = "";
+    document.getElementById("marker-description").value = "";
+    document.getElementById("marker-editor-note").textContent = type === "other"
+        ? "Other is a DM-hidden marker and will only display while DM Mode is active."
+        : `${type.charAt(0).toUpperCase()+type.slice(1)} marker`;
+    const modal = document.getElementById("marker-editor-modal");
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden","false");
+    setTimeout(() => document.getElementById("marker-name").focus(), 20);
+}
+
+function closeMarkerEditor() {
+    const modal = document.getElementById("marker-editor-modal");
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden","true");
+}
+
+function slugifyName(name) {
+    return name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"") || `location-${Date.now()}`;
+}
+
+function escapeHtml(value) {
+    return String(value ?? "").replace(/[&<>'"]/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[ch]));
+}
+
+function markerPagePath(marker) {
+    if (marker.type === "guild") return `Guilds/${marker.id}.html`;
+    if (marker.type === "landmark") return `Landmarks/${marker.id}.html`;
+    if (marker.type === "other") return `Hidden/${marker.id}.html`;
+    return `Locations/${marker.id}.html`;
+}
+
+const ATLAS_MARKER_SCHEMA = "ellond-atlas-markers-v1";
+
+function normalizeAtlasMarker(marker) {
+    if (!marker || typeof marker !== "object") return null;
+
+    const name = String(marker.name || "").trim();
+    if (!name) return null;
+
+    const type = ["city","town","village","guild","landmark","other"].includes(marker.type)
+        ? marker.type
+        : "other";
+
+    const x = Number(marker.x);
+    const y = Number(marker.y);
+    if (!Number.isFinite(x) || !Number.isFinite(y)) return null;
+
+    const normalized = {
+        id: String(marker.id || slugifyName(name)),
+        name,
+        type,
+        region: String(marker.region || "unknown"),
+        description: String(marker.description || ""),
+        x: Math.max(0, Math.min(100, x)),
+        y: Math.max(0, Math.min(100, y))
+    };
+
+    normalized.page = String(marker.page || markerPagePath(normalized));
+    return normalized;
+}
+
+function mergeMarkerSets(baseMarkers, localMarkers) {
+    const merged = new Map();
+
+    [...(baseMarkers || []), ...(localMarkers || [])].forEach(raw => {
+        const marker = normalizeAtlasMarker(raw);
+        if (marker) merged.set(marker.id, marker);
+    });
+
+    return [...merged.values()];
+}
+
+function loadUserMarkers() {
+    try {
+        const parsed = JSON.parse(localStorage.getItem(USER_MARKER_KEY) || "[]");
+        return Array.isArray(parsed) ? parsed.map(normalizeAtlasMarker).filter(Boolean) : [];
+    } catch {
+        return [];
+    }
+}
+
+function saveUserMarkers(markers) {
+    const clean = (markers || []).map(normalizeAtlasMarker).filter(Boolean);
+    localStorage.setItem(USER_MARKER_KEY, JSON.stringify(clean));
+}
+
+function atlasExportObject() {
+    return {
+        schema: ATLAS_MARKER_SCHEMA,
+        world: "Ellond",
+        markers: loadUserMarkers()
+    };
+}
+
+function exportAtlasMarkers() {
+    if (!dmMode) return;
+
+    const blob = new Blob(
+        [JSON.stringify(atlasExportObject(), null, 2)],
+        { type: "application/json" }
+    );
+
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "markers.json";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+function openAtlasImport() {
+    if (!dmMode) return;
+    const input = document.getElementById("atlas-marker-import");
+    input.value = "";
+    input.click();
+}
+
+async function importAtlasMarkers(event) {
+    if (!dmMode) return;
+
+    const file = event.target.files && event.target.files[0];
+    if (!file) return;
+
+    try {
+        const parsed = JSON.parse(await file.text());
+        const imported = Array.isArray(parsed) ? parsed : parsed.markers;
+
+        if (!Array.isArray(imported)) {
+            throw new Error("No markers array found.");
+        }
+
+        const merged = mergeMarkerSets(imported, loadUserMarkers());
+        saveUserMarkers(merged);
+        renderAllUserMarkers(true);
+        alert(`Imported ${imported.length} marker${imported.length === 1 ? "" : "s"}. Local edits were kept.`);
+    } catch (error) {
+        alert(`Could not import markers.json: ${error.message}`);
+    }
+}
+
+/*
+    When hosted (for example on GitHub Pages), load data/markers.json automatically.
+    When opened directly as file:// offline, browsers normally block fetch() to nearby
+    local files. In that case localStorage remains the working copy and Import can be
+    used to load markers.json manually.
+*/
+async function loadPublishedAtlasMarkers() {
+    if (location.protocol === "file:") return;
+
+    try {
+        const response = await fetch("data/markers.json", { cache: "no-store" });
+        if (!response.ok) return;
+
+        const parsed = await response.json();
+        const published = Array.isArray(parsed) ? parsed : parsed.markers;
+        if (!Array.isArray(published)) return;
+
+        const merged = mergeMarkerSets(published, loadUserMarkers());
+        saveUserMarkers(merged);
+        renderAllUserMarkers(true);
+    } catch {
+        // Keep the local working copy if the published JSON cannot be loaded.
+    }
+}
+
+function savePlacedMarker() {
+    const name = document.getElementById("marker-name").value.trim();
+    if (!name || !pendingMarkerPoint || !pendingMarkerType) return;
+    const p = percentPoint(pendingMarkerPoint);
+    const marker = {
+        id: slugifyName(name), name, type: pendingMarkerType,
+        region: document.getElementById("marker-region").value || "unknown",
+        description: document.getElementById("marker-description").value.trim(),
+        x: p.x, y: p.y
+    };
+    marker.page = markerPagePath(marker);
+    const markers = loadUserMarkers();
+    const existing = markers.findIndex(m => m.id === marker.id);
+    if (existing >= 0) markers[existing] = marker; else markers.push(marker);
+    saveUserMarkers(markers);
+    renderUserMarker(marker);
+    closeMarkerEditor();
+    pendingMarkerPoint = null;
+    pendingMarkerType = null;
+    downloadBlankLocationPage(marker);
+}
+
+function renderUserMarker(marker) {
+    const old = document.querySelector(`[data-user-marker="${CSS.escape(marker.id)}"]`);
+    if (old) old.remove();
+    const el = document.createElement("div");
+    el.dataset.userMarker = marker.id;
+    el.style.left = `${marker.x}%`;
+    el.style.top = `${marker.y}%`;
+    el.title = marker.type === "other" ? "DM-only hidden location" : marker.name;
+
+    if (marker.type === "landmark") {
+        el.className = "landmark-marker dynamic-marker";
+        el.innerHTML = `<img src="Tokens/Landmark.png" alt="Landmark"><span class="marker-label">${escapeHtml(marker.name)}</span>`;
+    } else {
+        const typeClass = marker.type === "other" ? "secret-marker dm-only-marker" : `${marker.type}-marker`;
+        el.className = `marker ${typeClass} dynamic-marker`;
+        el.innerHTML = `<span class="marker-label">${escapeHtml(marker.name)}</span>`;
+    }
+    el.addEventListener("click", () => showUserMarker(marker.id));
+    document.getElementById("map-wrapper").appendChild(el);
+}
+
+function showUserMarker(id) {
+    const marker = loadUserMarkers().find(m => m.id === id);
+    if (!marker) return;
+    updateRegionBanner(marker.region || "unknown");
+    document.getElementById("location-panel-content").innerHTML = `
+        <div class="location-summary">
+            <h2>${escapeHtml(marker.name)}</h2>
+            <p class="location-type">${escapeHtml(marker.type === "other" ? "DM Hidden" : marker.type)}</p>
+            <p>${escapeHtml(marker.description || "New atlas location.")}</p>
+        </div>
+        <div class="location-details">
+            <div class="section-title">Atlas Page</div>
+            <p>${escapeHtml(marker.page)}</p>
+            <a class="button" href="${encodeURI(marker.page)}">Open Location</a>
+        </div>`;
+}
+
+function renderAllUserMarkers(clearExisting = false) {
+    if (clearExisting) {
+        document.querySelectorAll("[data-user-marker]").forEach(el => el.remove());
+    }
+    loadUserMarkers().forEach(renderUserMarker);
+}
+
+function downloadBlankLocationPage(marker) {
+    const title = escapeHtml(marker.name);
+    const regionName = escapeHtml((regions[marker.region] || regions.unknown).name);
+    const html = `<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width, initial-scale=1.0">\n<title>${title} — Ellond Atlas</title>\n<style>body{margin:0;background:#1b1814;color:#e7ddc7;font-family:Georgia,"Times New Roman",serif}header{padding:18px 24px;background:#17120d;border-bottom:2px solid #6e542f}main{max-width:1000px;margin:auto;padding:30px}.panel{padding:24px;background:#211a12;border:1px solid #755b35}a{color:#ead8b4}</style>\n</head>\n<body>\n<header><a href="../index.html">← Atlas</a></header>\n<main><div class="panel"><h1>${title}</h1><p><em>${regionName} · ${escapeHtml(marker.type === "other" ? "DM Hidden" : marker.type)}</em></p><p>${escapeHtml(marker.description || "Add location description here.")}</p><h2>Map</h2><p>Add this location's map and details here.</p><h2>Notes</h2><p>Add history, people, guilds, landmarks and DM information here.</p></div></main>\n</body>\n</html>`;
+    const blob = new Blob([html], {type:"text/html"});
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `${marker.id}.html`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+/* =========================================================
+   PRINT — MAP ONLY, WITH CURRENTLY SHOWN MARKERS
+========================================================= */
+function printMapOnly() {
+    closeMapContextMenu();
+    window.print();
+}
+
+const mapWrapperForTools = document.getElementById("map-wrapper");
+mapWrapperForTools.addEventListener("contextmenu", openMapContextMenu);
+function measurePointFromMarker(marker) {
+    const left = parseFloat(marker.style.left);
+    const top = parseFloat(marker.style.top);
+
+    if (Number.isFinite(left) && Number.isFinite(top)) {
+        return {
+            x: MAP_NATIVE_WIDTH * left / 100,
+            y: MAP_NATIVE_HEIGHT * top / 100
+        };
+    }
+
+    // Fallback for any future marker that is positioned another way.
+    const wrapper = document.getElementById("map-wrapper");
+    const wrapperRect = wrapper.getBoundingClientRect();
+    const markerRect = marker.getBoundingClientRect();
+    const actualScale = currentZoom * baseMapScale;
+    return {
+        x: ((markerRect.left + markerRect.width / 2) - wrapperRect.left) / actualScale,
+        y: ((markerRect.top + markerRect.height / 2) - wrapperRect.top) / actualScale
+    };
+}
+
+// Capture phase is intentional: while measuring, marker clicks become
+// measuring points before their normal onclick can open a location.
+mapWrapperForTools.addEventListener("click", function(event) {
+    if (!measureMode) return;
+    if (event.target.closest(".measure-panel")) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+
+    const marker = event.target.closest(".marker,.dragon-marker,.landmark-marker");
+    if (marker) {
+        addMeasurePoint(measurePointFromMarker(marker));
+        return;
+    }
+
+    addMeasurePoint(mapPointFromEvent(event));
+}, true);
+
+document.addEventListener("click", function(event) {
+    if (!event.target.closest("#map-context-menu")) closeMapContextMenu();
+});
+
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") {
+        closeMapContextMenu();
+        closeMarkerEditor();
+    }
+});
+
+const storedWalk = localStorage.getItem("ellondWalkSpeed");
+if (storedWalk) document.getElementById("measure-walk-speed").value = storedWalk;
+const storedHorse = localStorage.getItem("ellondHorseSpeed");
+if (storedHorse) document.getElementById("measure-horse-speed").value = storedHorse;
+renderMeasureRoute();
+renderAllUserMarkers();
+loadPublishedAtlasMarkers();
+
+
     /* =========================================================
        INITIALIZE
     ========================================================= */
@@ -4922,4 +5782,4 @@ elarion: {
 
 </body>
 
-</htm
+</html>
