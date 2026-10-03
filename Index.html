@@ -1,0 +1,6169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Ellond Interactive Atlas</title>
+
+
+    <style>
+
+.header-compass {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+    flex-shrink: 0;
+
+    margin-right: 8px;
+
+    filter:
+        drop-shadow(0 2px 2px rgba(0,0,0,.8))
+        drop-shadow(0 0 4px rgba(190,145,70,.25));
+}
+
+        /* =========================================================
+           GENERAL
+        ========================================================= */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+
+            width: 100%;
+            height: 100%;
+
+            overflow: hidden;
+        }
+
+        body {
+            background: #1b1814;
+
+            color: #e7ddc7;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+        }
+
+
+
+        /* =========================================================
+           FANTASY HEADER
+        ========================================================= */
+
+        header {
+            position: relative;
+
+            height: 86px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 18px;
+
+            padding: 0 22px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #211a12 0%,
+                    #17120d 55%,
+                    #100d09 100%
+                );
+
+            border-top:
+                2px solid #8d7042;
+
+            border-bottom:
+                3px solid #6e542f;
+
+            box-shadow:
+                inset 0 1px 0 #b89a63,
+                inset 0 -1px 0 #2a1d10,
+                0 4px 10px rgba(0, 0, 0, 0.65);
+
+            z-index: 100;
+        }
+
+
+        header::after {
+            content: "";
+
+            position: absolute;
+
+            left: 8px;
+            right: 8px;
+            bottom: 5px;
+
+            height: 1px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    #8d7042 10%,
+                    #b79a63 50%,
+                    #8d7042 90%,
+                    transparent
+                );
+
+            pointer-events: none;
+        }
+
+
+
+        /* =========================================================
+           HEADER COMPASS
+        ========================================================= */
+
+        .header-emblem {
+            position: relative;
+
+            width: 58px;
+            height: 58px;
+
+            flex:
+                0 0 58px;
+
+            border:
+                2px solid #9d7b45;
+
+            border-radius: 50%;
+
+            box-shadow:
+                inset 0 0 0 3px #1a140e,
+                inset 0 0 0 4px #67502e,
+                0 0 6px rgba(0, 0, 0, 0.8);
+        }
+
+
+        .header-emblem::before {
+            content: "";
+
+            position: absolute;
+
+            left: 50%;
+            top: 5px;
+
+            width: 2px;
+            height: 44px;
+
+            background: #b89758;
+
+            transform:
+                translateX(-50%);
+        }
+
+
+        .header-emblem::after {
+            content: "";
+
+            position: absolute;
+
+            left: 5px;
+            top: 50%;
+
+            width: 44px;
+            height: 2px;
+
+            background: #b89758;
+
+            transform:
+                translateY(-50%);
+        }
+
+
+
+        /* =========================================================
+           HEADER TITLE
+        ========================================================= */
+
+        .header-title {
+            display: flex;
+
+            align-items: baseline;
+
+            gap: 18px;
+
+            margin-right: auto;
+        }
+
+
+        .header-title h1 {
+            margin: 0;
+
+            color: #ead8b4;
+
+            font-size: 29px;
+
+            letter-spacing: 6px;
+
+            text-shadow:
+                0 2px 2px #000,
+                0 0 4px rgba(194, 152, 86, 0.25);
+        }
+
+
+        .header-title .subtitle {
+            color: #b99a68;
+
+            font-size: 14px;
+
+            font-style: italic;
+
+            letter-spacing: 0.5px;
+        }
+
+
+
+        /* =========================================================
+           HEADER CONTROLS
+        ========================================================= */
+
+        .header-controls {
+            position: relative;
+
+            display: flex;
+            align-items: center;
+
+            gap: 7px;
+
+            padding:
+                8px 10px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #2a2116,
+                    #18120c
+                );
+
+            border:
+                1px solid #755b35;
+
+            box-shadow:
+                inset 0 0 0 1px #342619,
+                0 2px 6px rgba(0, 0, 0, 0.6);
+        }
+
+
+        .header-controls::before,
+        .header-controls::after {
+            content: "◆";
+
+            position: absolute;
+
+            top: 50%;
+
+            color: #987545;
+
+            font-size: 9px;
+
+            transform:
+                translateY(-50%);
+        }
+
+        .header-controls::before {
+            left: -7px;
+        }
+
+        .header-controls::after {
+            right: -7px;
+        }
+
+
+        .zoom-controls {
+            display: flex;
+
+            gap: 5px;
+        }
+
+
+        .zoom-controls button {
+            min-width: 40px;
+            height: 38px;
+
+            padding:
+                0 12px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #302518,
+                    #1c150e
+                );
+
+            color: #ead8b4;
+
+            border:
+                1px solid #81643a;
+
+            box-shadow:
+                inset 0 1px 0 rgba(255, 225, 170, 0.12),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.8);
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 14px;
+
+            cursor: pointer;
+
+            transition:
+                background 0.15s,
+                border-color 0.15s;
+        }
+
+
+        .zoom-controls button:hover {
+            background:
+                linear-gradient(
+                    180deg,
+                    #49371f,
+                    #2a1e12
+                );
+
+            border-color:
+                #b18c52;
+        }
+
+
+        #zoom-display {
+            min-width: 72px;
+
+            font-size: 16px;
+        }
+
+
+
+        /* =========================================================
+           MAIN LAYOUT
+        ========================================================= */
+
+        .layout {
+            position: relative;
+
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1fr)
+                390px;
+
+            width: 100%;
+
+            height:
+                calc(100vh - 86px);
+        }
+
+
+        .layout.panel-hidden {
+            grid-template-columns:
+                1fr;
+        }
+
+
+
+        /* =========================================================
+           MAP AREA
+        ========================================================= */
+
+        .map-container {
+            position: relative;
+
+            min-width: 0;
+
+            overflow: auto;
+
+            background: #111;
+
+            scrollbar-color:
+                #735a36
+                #1b150e;
+
+            scrollbar-width: thin;
+        }
+
+
+        .map-container::-webkit-scrollbar {
+            width: 14px;
+            height: 14px;
+        }
+
+        .map-container::-webkit-scrollbar-track {
+            background: #17110b;
+
+            border:
+                1px solid #42311d;
+        }
+
+        .map-container::-webkit-scrollbar-thumb {
+            background:
+                linear-gradient(
+                    90deg,
+                    #4c3820,
+                    #8b6a3c,
+                    #4c3820
+                );
+
+            border:
+                2px solid #21170e;
+
+            border-radius: 5px;
+        }
+
+
+        .map-stage {
+            position: relative;
+
+            width: 1400px;
+
+            min-height: 900px;
+        }
+
+
+        .map-wrapper {
+    position: relative;
+
+    width: 1400px;
+    height: 900px;
+
+    transform-origin:
+        top left;
+        }
+
+
+        .world-map {
+    display: block;
+
+    width: 1400px;
+    height: 900px;
+
+    object-fit: fill;
+        }
+
+
+
+        /* =========================================================
+           NORMAL MAP MARKERS
+        ========================================================= */
+
+        .marker {
+            position: absolute;
+
+            width: 18px;
+            height: 18px;
+
+            border:
+                3px solid #e9d9b5;
+
+            background: #6d3528;
+
+            border-radius: 50%;
+
+            cursor: pointer;
+
+            transform:
+                translate(-50%, -50%);
+
+            transition:
+                transform 0.15s,
+                background 0.15s;
+
+            z-index: 12;
+        }
+
+
+        .marker:hover {
+            transform:
+                translate(-50%, -50%)
+                scale(1.35);
+
+            background: #a75438;
+
+            z-index: 40;
+        }
+
+
+
+        /* =========================================================
+           SETTLEMENT SIZE MARKERS
+        ========================================================= */
+
+        .marker.village-marker {
+            width: 14px;
+            height: 14px;
+
+            border-width: 2px;
+        }
+
+
+        .marker.town-marker {
+            width: 20px;
+            height: 20px;
+
+            border-width: 3px;
+        }
+
+
+        .marker.city-marker {
+            width: 26px;
+            height: 26px;
+
+            border-width: 4px;
+        }
+
+/* =========================================================
+   MARKER LABEL TOGGLE
+========================================================= */
+
+.marker-label {
+    transition:
+        opacity 0.15s ease;
+}
+
+
+/* Hide labels when label mode is disabled */
+
+body.labels-hidden .marker-label {
+    opacity: 0;
+}
+
+
+/* Show the label while hovering over its marker */
+
+body.labels-hidden .marker:hover .marker-label,
+body.labels-hidden .dragon-marker:hover .marker-label,
+body.labels-hidden .landmark-marker:hover .marker-label {
+    opacity: 1;
+}
+
+
+/* Show that Labels is currently disabled */
+
+#labels-button.labels-off {
+    color: #9c8b70;
+    border-color: #564631;
+}
+
+
+        /* =========================================================
+           MARKER LABELS
+        ========================================================= */
+
+        .marker-label {
+            position: absolute;
+
+            left: 20px;
+            top: -6px;
+
+            white-space: nowrap;
+
+            padding:
+                4px 7px;
+
+            background:
+                rgba(20, 17, 13, 0.86);
+
+            border:
+                1px solid #675b48;
+
+            color: #eee3cb;
+
+            font-size: 13px;
+
+            pointer-events: none;
+        }
+
+
+
+        /* =========================================================
+           GUILD MARKER
+        ========================================================= */
+
+        .marker.guild-marker {
+            width: 22px;
+            height: 22px;
+
+            background: transparent;
+
+            border: none;
+
+            border-radius: 0;
+
+            transform:
+                translate(-50%, -50%);
+        }
+
+
+        .marker.guild-marker::before {
+            content: "";
+
+            position: absolute;
+
+            width: 22px;
+            height: 22px;
+
+            left: 0;
+            top: 0;
+
+            background: #55456b;
+
+            border:
+                3px solid #e9d9b5;
+
+            border-radius: 2px;
+
+            transform:
+                rotate(45deg);
+        }
+
+
+        .marker.guild-marker:hover {
+            transform:
+                translate(-50%, -50%)
+                scale(1.35);
+
+            background: transparent;
+        }
+
+
+        .marker.guild-marker:hover::before {
+            background: #796392;
+        }
+
+
+        .marker.guild-marker .marker-label {
+            left: 32px;
+            top: -4px;
+
+            transform: none;
+
+            white-space: nowrap;
+        }
+
+
+
+        /* =========================================================
+           DRAGON MARKERS
+        ========================================================= */
+
+        .dragon-marker {
+            position: absolute;
+
+            width: 48px;
+            height: 48px;
+
+            transform:
+                translate(-50%, -50%);
+
+            cursor: pointer;
+
+            z-index: 20;
+
+            transition:
+                transform 0.15s ease;
+        }
+
+
+        .dragon-marker:hover {
+            transform:
+                translate(-50%, -50%)
+                scale(1.2);
+
+            z-index: 50;
+        }
+
+
+        .dragon-marker img {
+            display: block;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: contain;
+
+            pointer-events: none;
+        }
+
+
+        .dragon-marker .marker-label {
+            left: 54px;
+            top: 13px;
+        }
+
+
+
+        /* =========================================================
+           SIDE AREA
+        ========================================================= */
+
+        .side-area {
+    position: relative;
+
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+
+    display: block;
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            180deg,
+            #2a2015 0%,
+            #20170f 65%,
+            #17100b 100%
+        );
+
+    border-left:
+        2px solid #715632;
+
+    box-shadow:
+        -5px 0 12px rgba(0, 0, 0, 0.55);
+
+    z-index: 30;
+}
+
+        .layout.panel-hidden .side-area {
+            display: none;
+        }
+
+
+
+        /* =========================================================
+           COLLAPSE ARROW
+        ========================================================= */
+
+        .panel-arrow {
+            position: absolute;
+
+            right: 390px;
+            top: 50%;
+
+            width: 34px;
+            height: 64px;
+
+            transform:
+                translateY(-50%);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 0;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #342719,
+                    #1a130d
+                );
+
+            color: #ead8b4;
+
+            border:
+                1px solid #8a6b3f;
+
+            border-right: none;
+
+            border-radius:
+                7px 0 0 7px;
+
+            box-shadow:
+                -3px 2px 7px rgba(0, 0, 0, 0.45);
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 21px;
+
+            cursor: pointer;
+
+            z-index: 100;
+        }
+
+
+        .panel-arrow:hover {
+            background:
+                linear-gradient(
+                    180deg,
+                    #49371f,
+                    #281c11
+                );
+        }
+
+
+        .layout.panel-hidden .panel-arrow {
+            right: 0;
+        }
+
+
+
+        /* =========================================================
+           INFORMATION PANEL
+        ========================================================= */
+
+        .info-panel {
+            position: relative;
+
+            width: 100%;
+            height: 100%;
+
+            overflow-y: auto;
+
+            padding:
+                28px 26px;
+
+            background: transparent;
+
+            border-right: none;
+
+            box-shadow: none;
+
+            scrollbar-color:
+                #735a36
+                #21170f;
+
+            scrollbar-width: thin;
+        }
+
+
+        .location-summary {
+    min-height: 430px;
+    padding-left: 128px;
+    padding-right: 8px;
+}
+
+
+        .location-details {
+            width: 100%;
+        }
+
+
+        .info-panel h2 {
+            margin-top: 0;
+
+            padding-bottom: 10px;
+
+            color: #ead8b4;
+
+            border-bottom:
+                1px solid #665944;
+
+            letter-spacing: 1px;
+        }
+
+
+        .location-type {
+            color: #aa9b82;
+
+            font-style: italic;
+        }
+
+
+        .section-title {
+            margin-top: 25px;
+            margin-bottom: 5px;
+
+            color: #c8b78f;
+
+            font-size: 14px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 2px;
+        }
+
+
+        .placeholder {
+            color: #938872;
+
+            font-style: italic;
+        }
+
+
+
+        /* =========================================================
+           INFORMATION CONTENT
+        ========================================================= */
+
+        .info-section {
+            display: grid;
+
+            grid-template-columns:
+                42px
+                1fr;
+
+            gap: 12px;
+
+            margin-top: 24px;
+        }
+
+
+        .info-icon {
+            padding-top: 2px;
+
+            color: #c8b78f;
+
+            font-size: 24px;
+
+            text-align: center;
+        }
+
+
+        .info-content {
+            min-width: 0;
+        }
+
+
+        .info-heading {
+            margin-bottom: 7px;
+
+            color: #c8b78f;
+
+            font-size: 14px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 2px;
+        }
+
+
+        .info-content p {
+            margin-top: 0;
+            margin-bottom: 8px;
+
+            line-height: 1.35;
+        }
+
+
+        .info-small {
+            color: #a99a80;
+
+            font-style: italic;
+
+            line-height: 1.4;
+        }
+
+
+
+        /* =========================================================
+           BUTTONS
+        ========================================================= */
+
+        .button {
+            display: inline-block;
+
+            margin-top: 15px;
+
+            padding:
+                9px 14px;
+
+            border:
+                1px solid #88775a;
+
+            background: #322b22;
+
+            color: #e7ddc7;
+
+            text-decoration: none;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            cursor: pointer;
+        }
+
+
+        .button:hover {
+            background: #44392d;
+        }
+
+
+        .map-button {
+            display: block;
+
+            width: 100%;
+
+            margin-top: 20px;
+            margin-bottom: 8px;
+
+            padding:
+                13px 15px;
+
+            background: #322b22;
+
+            color: #e7ddc7;
+
+            border:
+                1px solid #88775a;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 17px;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            cursor: pointer;
+        }
+
+
+        .map-button:hover {
+            background: #44392d;
+        }
+
+
+
+       /* =========================================================
+   HANGING REGION BANNER
+========================================================= */
+
+.region-banner {
+    --banner-width: 180px;
+
+    position: absolute;
+    top: 28px;
+    left: -35px;
+    right: auto;
+
+    width: var(--banner-width);
+
+    margin: 0;
+    padding: 20px 9px 30px;
+
+    overflow: visible;
+
+    text-align: center;
+    color: #e6d5ad;
+
+    background:
+        linear-gradient(
+            90deg,
+            #0d1511 0%,
+            #17251e 10%,
+            #1d2c24 50%,
+            #17251e 90%,
+            #0d1511 100%
+        );
+
+    border-left: 2px solid #8b7042;
+    border-right: 2px solid #8b7042;
+
+    outline: 1px solid rgba(192, 156, 91, 0.28);
+    outline-offset: -6px;
+
+    box-shadow:
+        inset 5px 0 8px rgba(0, 0, 0, 0.35),
+        inset -5px 0 8px rgba(0, 0, 0, 0.35),
+        0 5px 10px rgba(0, 0, 0, 0.55);
+
+    z-index: 40;
+}
+
+
+/* =========================================================
+   BANNER ROD
+========================================================= */
+
+.region-banner-rod {
+    position: absolute;
+    top: -35px;
+    left: 50%;
+
+    width: 115px;
+    height: auto;
+
+    transform: translateX(-50%);
+    object-fit: contain;
+
+    z-index: 1;
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   GENERATED BANNER TAIL
+========================================================= */
+
+.region-banner::after {
+    content: "";
+
+    position: absolute;
+    left: -2px;
+    bottom: -30px;
+
+    width: var(--banner-width);
+    height: 32px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #0d1511,
+            #17251e 12%,
+            #1d2c24 50%,
+            #17251e 88%,
+            #0d1511
+        );
+
+    clip-path:
+        polygon(
+            0 0,
+            100% 0,
+            100% 100%,
+            50% 58%,
+            0 100%
+        );
+
+    border-left: 2px solid #8b7042;
+    border-right: 2px solid #8b7042;
+
+    filter:
+        drop-shadow(
+            0 4px 3px rgba(0, 0, 0, 0.45)
+        );
+}
+
+
+/* =========================================================
+   PNG REGION BANNER
+========================================================= */
+
+.region-banner-art {
+    display: none;
+
+    position: relative;
+
+    width: var(--banner-width);
+    height: auto;
+
+    margin: 0 auto;
+
+    object-fit: contain;
+
+    z-index: 5;
+}
+
+
+/* =========================================================
+   EMBLEM OVER PNG BANNER
+========================================================= */
+
+.region-banner-overlay-emblem {
+    display: none;
+
+    position: absolute;
+    top: 18px;
+    left: 50%;
+
+    width: 58px;
+    height: 58px;
+
+    transform: translateX(-50%);
+    object-fit: contain;
+
+    filter:
+        drop-shadow(
+            0 3px 4px rgba(0, 0, 0, 0.78)
+        );
+
+    z-index: 6;
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   REGION USING PNG BANNER
+========================================================= */
+
+.region-banner.has-banner-art {
+    width: var(--banner-width);
+
+    padding: 0;
+
+    background: transparent;
+
+    border: none;
+    outline: none;
+
+    box-shadow: none;
+}
+
+.region-banner.has-banner-art::after {
+    display: none;
+}
+
+.region-banner.has-banner-art .region-generated-content {
+    display: none;
+}
+
+.region-banner.has-banner-art .region-banner-art {
+    display: block;
+}
+
+/*
+   JavaScript controls the overlay emblem.
+   It is never forced visible by CSS.
+*/
+
+
+/* =========================================================
+   GENERATED REGION EMBLEM
+========================================================= */
+
+.region-emblem {
+    width: 58px;
+    height: 58px;
+
+    margin: 3px auto 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.region-emblem-image {
+    display: none;
+
+    width: 58px;
+    height: 58px;
+
+    object-fit: contain;
+
+    filter:
+        drop-shadow(
+            0 2px 3px rgba(0, 0, 0, 0.7)
+        );
+}
+
+.region-emblem-placeholder {
+    color: #c8a761;
+
+    font-size: 32px;
+
+    text-shadow:
+        1px 1px 0 #4c371d,
+        -1px -1px 0 #4c371d,
+        0 2px 3px rgba(0, 0, 0, 0.7);
+}
+
+
+/* =========================================================
+   GENERATED REGION TEXT
+========================================================= */
+
+.region-name {
+    color: #f0dfb5;
+
+    font-size: 13px;
+    font-weight: bold;
+
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+
+    line-height: 1.12;
+    overflow-wrap: break-word;
+}
+
+.region-status {
+    margin-top: 5px;
+
+    color: #baa178;
+
+    font-size: 8px;
+    font-style: italic;
+
+    line-height: 1.25;
+}
+
+.region-divider {
+    width: 80%;
+    height: 1px;
+
+    margin: 10px auto;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #a88750,
+            transparent
+        );
+}
+
+.region-divider-symbol {
+    margin-top: -17px;
+    margin-bottom: 7px;
+
+    color: #b99a62;
+
+    font-size: 8px;
+}
+
+.region-seat {
+    color: #ead9b4;
+
+    font-size: 11px;
+    font-weight: bold;
+
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+
+    overflow-wrap: break-word;
+}
+
+.region-seat-label {
+    margin-top: 2px;
+
+    color: #9d8968;
+
+    font-size: 7px;
+
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+}
+
+.region-character {
+    color: #c8b58e;
+
+    font-size: 7px;
+
+    line-height: 1.4;
+
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+
+    overflow-wrap: break-word;
+}
+
+
+/* =========================================================
+           ATLAS DIRECTORY NAVIGATION
+        ========================================================= */
+
+        .atlas-nav {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-left: 5px;
+        }
+
+        .nav-button {
+            min-width: 64px;
+            height: 38px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 12px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #302518,
+                    #1c150e
+                );
+
+            color: #ead8b4;
+            border: 1px solid #81643a;
+
+            box-shadow:
+                inset 0 1px 0 rgba(255,225,170,.12),
+                inset 0 -1px 0 rgba(0,0,0,.8);
+
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 13px;
+            text-decoration: none;
+
+            transition:
+                background .15s,
+                border-color .15s;
+        }
+
+        .nav-button:hover {
+            background:
+                linear-gradient(
+                    180deg,
+                    #49371f,
+                    #2a1e12
+                );
+
+            border-color: #b18c52;
+        }
+
+
+    
+
+        /* =========================================================
+           DM MODE / HIDDEN LOCATIONS
+        ========================================================= */
+
+        .dm-nav-button {
+            min-width: 58px;
+            color: #e6c8b1;
+            border-color: #7e4a3b;
+        }
+
+        .dm-nav-button.active {
+            background:
+                linear-gradient(
+                    180deg,
+                    #5a2d22,
+                    #2b1510
+                );
+
+            color: #ffd9bd;
+            border-color: #b36d53;
+        }
+
+        .dm-only-marker {
+            display: none;
+        }
+
+        body.dm-mode .dm-only-marker {
+            display: block;
+        }
+
+        .marker.secret-marker {
+            width: 22px;
+            height: 22px;
+
+            background: #792f2f;
+            border: 3px solid #e6b98d;
+
+            border-radius: 0;
+
+            transform:
+                translate(-50%, -50%)
+                rotate(45deg);
+
+            box-shadow:
+                0 0 8px rgba(180, 70, 55, .55);
+
+            z-index: 35;
+        }
+
+        .marker.secret-marker:hover {
+            transform:
+                translate(-50%, -50%)
+                rotate(45deg)
+                scale(1.3);
+
+            background: #a14236;
+        }
+
+        .marker.secret-marker .marker-label {
+            left: 30px;
+            top: -9px;
+
+            transform:
+                rotate(-45deg);
+
+            color: #f1d6bf;
+            border-color: #8f5544;
+        }
+
+        .dm-modal {
+            display: none;
+
+            position: fixed;
+            inset: 0;
+
+            z-index: 1000;
+
+            align-items: center;
+            justify-content: center;
+
+            background:
+                rgba(0, 0, 0, .76);
+        }
+
+        .dm-modal.open {
+            display: flex;
+        }
+
+        .dm-dialog {
+            width:
+                min(
+                    390px,
+                    calc(100vw - 32px)
+                );
+
+            padding: 24px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #2b2118,
+                    #17100c
+                );
+
+            border:
+                1px solid #8d6640;
+
+            box-shadow:
+                0 12px 30px rgba(0, 0, 0, .75),
+                inset 0 0 0 1px rgba(211, 170, 103, .08);
+        }
+
+        .dm-dialog h3 {
+            margin:
+                0 0 8px;
+
+            color: #ead8b4;
+
+            font-size: 22px;
+            font-weight: normal;
+        }
+
+        .dm-dialog p {
+            margin:
+                0 0 16px;
+
+            color: #bba68a;
+
+            line-height: 1.45;
+        }
+
+        .dm-dialog input {
+            width: 100%;
+            height: 40px;
+
+            padding:
+                8px 10px;
+
+            background: #120d09;
+            color: #ead8b4;
+
+            border:
+                1px solid #73583a;
+
+            outline: none;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+        }
+
+        .dm-dialog input:focus {
+            border-color: #b58b54;
+        }
+
+        .dm-dialog-actions {
+            display: flex;
+
+            gap: 8px;
+
+            justify-content: flex-end;
+
+            margin-top: 14px;
+        }
+
+        .dm-error {
+            min-height: 18px;
+
+            margin-top: 9px;
+
+            color: #d88f76;
+
+            font-size: 12px;
+        }
+
+        .dm-status {
+            margin-top: 10px;
+
+            color: #c18b6f;
+
+            font-size: 11px;
+            font-style: italic;
+        }
+
+
+    
+
+        /* =========================================================
+           LANDMARK MARKERS
+        ========================================================= */
+
+        /* =========================================================
+   LANDMARK MARKERS
+========================================================= */
+
+.landmark-marker {
+    position: absolute;
+
+    width: 26px;
+    height: 26px;
+
+    transform:
+        translate(-50%, -50%);
+
+    cursor: pointer;
+
+    z-index: 18;
+
+    transition:
+        transform 0.15s ease;
+}
+
+.landmark-marker:hover {
+    transform:
+        translate(-50%, -50%)
+        scale(1.2);
+
+    z-index: 50;
+}
+
+.landmark-marker img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    pointer-events: none;
+}
+
+.landmark-marker .marker-label {
+    left: 42px;
+    top: 7px;
+}
+
+
+        /* =========================================================
+           LEGEND / MAP FILTERS
+        ========================================================= */
+
+        .legend-wrap {
+            position: relative;
+        }
+
+        .legend-menu {
+            display: none;
+
+            position: absolute;
+
+            right: 0;
+            top: calc(100% + 10px);
+
+            width: 190px;
+
+            padding: 10px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #2b2117,
+                    #17110c
+                );
+
+            border:
+                1px solid #81643a;
+
+            box-shadow:
+                0 8px 18px rgba(0, 0, 0, .72);
+
+            z-index: 400;
+        }
+
+        .legend-menu.open {
+            display: block;
+        }
+
+        .legend-title {
+            margin:
+                2px 4px 9px;
+
+            color: #c8b78f;
+
+            font-size: 11px;
+
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .legend-filter {
+            width: 100%;
+            min-height: 34px;
+
+            margin: 3px 0;
+            padding: 6px 9px;
+
+            background: #221a12;
+            color: #e7ddc7;
+
+            border:
+                1px solid #5f482c;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            text-align: left;
+
+            cursor: pointer;
+        }
+
+        .legend-filter:hover,
+        .legend-filter.active {
+            background: #49371f;
+
+            border-color: #b18c52;
+        }
+
+        .legend-swatch {
+            display: inline-block;
+
+            width: 11px;
+            height: 11px;
+
+            margin-right: 8px;
+
+            vertical-align: -1px;
+
+            border:
+                2px solid #e7d4ad;
+
+            background: #6d3528;
+        }
+
+        .legend-swatch.city {
+            border-width: 3px;
+            border-radius: 50%;
+        }
+
+        .legend-swatch.town {
+            border-radius: 50%;
+        }
+
+        .legend-swatch.village {
+            width: 9px;
+            height: 9px;
+
+            border-radius: 50%;
+        }
+
+        .legend-swatch.guild {
+            background: #55456b;
+
+            transform:
+                rotate(45deg);
+        }
+
+        .legend-swatch.landmark {
+            background: #9b7137;
+
+            transform:
+                rotate(45deg);
+        }
+
+        .filtered-out {
+            display: none !important;
+        }
+
+
+
+/* DM-only marker editing control */
+#add-marker-button,
+#save-atlas-button,
+#import-atlas-button { display: none; }
+
+body.dm-mode #add-marker-button,
+body.dm-mode #save-atlas-button,
+body.dm-mode #import-atlas-button { display: inline-flex; }
+
+/* =========================================================
+   MAP TOOLS — MEASURE / MARKER EDITOR / PRINT
+========================================================= */
+.tool-active {
+    background: linear-gradient(180deg,#5b4527,#2d2012) !important;
+    border-color: #c39a5b !important;
+}
+
+#map-wrapper.measure-mode { cursor: crosshair; }
+#map-wrapper.measure-mode .marker,
+#map-wrapper.measure-mode .dragon-marker,
+#map-wrapper.measure-mode .landmark-marker { cursor: crosshair; }
+
+.measure-layer {
+    position: absolute;
+    inset: 0;
+    width: 1400px;
+    height: 900px;
+    z-index: 60;
+    pointer-events: none;
+    overflow: visible;
+}
+.measure-route {
+    fill: none;
+    stroke: #ff2a2a;
+    stroke-width: 4;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    filter: drop-shadow(0 0 3px #ff1f1f) drop-shadow(0 0 7px rgba(255, 0, 0, 0.95)) drop-shadow(0 0 12px rgba(255, 40, 40, 0.65));
+    filter: drop-shadow(0 1px 2px #000);
+}
+.measure-point {
+    filter: drop-shadow(0 0 3px #ff1f1f) drop-shadow(0 0 7px rgba(255, 0, 0, 0.85));
+    fill: #f2d28d;
+    stroke: #2b1c0d;
+    stroke-width: 3;
+}
+.measure-panel {
+    display: none;
+    position: absolute;
+    left: 14px;
+    top: 14px;
+    width: 285px;
+    padding: 12px;
+    z-index: 90;
+    background: rgba(28,20,12,.96);
+    border: 1px solid #9a7745;
+    box-shadow: 0 5px 15px rgba(0,0,0,.65);
+    color: #ead8b4;
+}
+.measure-panel.open { display: block; }
+.measure-panel strong { letter-spacing: 1px; }
+.measure-panel label {
+    display: block;
+    margin-top: 8px;
+    color: #c7b18c;
+    font-size: 12px;
+}
+.measure-panel input {
+    width: 100%;
+    margin-top: 3px;
+    padding: 6px 7px;
+    background: #120d09;
+    color: #ead8b4;
+    border: 1px solid #73583a;
+    font-family: Georgia,"Times New Roman",serif;
+}
+.measure-result {
+    margin-top: 10px;
+    padding-top: 9px;
+    border-top: 1px solid #59452c;
+    line-height: 1.45;
+    font-size: 13px;
+}
+.measure-actions { display:flex; gap:6px; margin-top:10px; }
+.measure-actions button { flex:1; }
+
+.map-context-menu {
+    display: none;
+    position: fixed;
+    min-width: 205px;
+    z-index: 1600;
+    padding: 8px;
+    background: linear-gradient(180deg,#2b2117,#17110c);
+    border: 1px solid #9a7745;
+    box-shadow: 0 8px 20px rgba(0,0,0,.75);
+}
+.map-context-menu.open { display:block; }
+.map-context-menu .context-title {
+    padding: 5px 7px 8px;
+    color:#bda67f;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:1.5px;
+}
+.map-context-menu button {
+    display:block;
+    width:100%;
+    padding:8px 10px;
+    background:#21180f;
+    color:#ead8b4;
+    border:1px solid transparent;
+    font-family:Georgia,"Times New Roman",serif;
+    text-align:left;
+    cursor:pointer;
+}
+.map-context-menu button:hover { background:#49371f; border-color:#755b35; }
+
+.marker-editor-modal {
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:1700;
+    align-items:center;
+    justify-content:center;
+    background:rgba(0,0,0,.76);
+}
+.marker-editor-modal.open { display:flex; }
+.marker-editor-dialog {
+    width:min(460px,calc(100vw - 32px));
+    padding:22px;
+    background:linear-gradient(180deg,#2b2118,#17100c);
+    border:1px solid #8d6640;
+    box-shadow:0 12px 30px rgba(0,0,0,.75);
+}
+.marker-editor-dialog h3 { margin:0 0 14px; color:#ead8b4; font-weight:normal; }
+.marker-editor-dialog label { display:block; margin-top:10px; color:#c7b18c; font-size:12px; }
+.marker-editor-dialog input,
+.marker-editor-dialog select,
+.marker-editor-dialog textarea {
+    width:100%;
+    margin-top:4px;
+    padding:8px 9px;
+    background:#120d09;
+    color:#ead8b4;
+    border:1px solid #73583a;
+    font-family:Georgia,"Times New Roman",serif;
+}
+.marker-editor-dialog textarea { min-height:72px; resize:vertical; }
+.marker-editor-actions { display:flex; justify-content:flex-end; gap:8px; margin-top:16px; }
+.editor-note { margin-top:8px; color:#9f9079; font-size:11px; line-height:1.35; }
+.dynamic-marker { z-index: 28; }
+
+@media print {
+    @page { size: landscape; margin: 0; }
+
+    html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        overflow: hidden !important;
+        background: #fff !important;
+    }
+
+    /* Preserve marker and label colours in the PDF/print output. */
+    *, *::before, *::after {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    body * { visibility: hidden !important; }
+
+    #map-wrapper,
+    #map-wrapper * {
+        visibility: visible !important;
+    }
+
+    /*
+       Print the complete native 1400 × 900 map on ONE page.
+       The screen viewport/sidebar no longer determines what is printed.
+       100vw/100vh plus object-fit:contain keeps the whole map visible.
+    */
+    #map-wrapper {
+        position: fixed !important;
+        inset: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        transform: none !important;
+        transform-origin: top left !important;
+        overflow: visible !important;
+    }
+
+    #map-wrapper .world-map {
+        position: absolute !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important;
+    }
+
+    /* Keep marker positions tied to the complete printed map. */
+    #map-wrapper > .marker,
+    #map-wrapper > .dragon-marker,
+    #map-wrapper > .landmark-marker {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    #map-wrapper .measure-layer,
+    #map-wrapper .measure-panel {
+        display: none !important;
+    }
+
+    #map-wrapper .filtered-out { display: none !important; }
+    body:not(.dm-mode) #map-wrapper .dm-only-marker { display: none !important; }
+}
+
+
+
+/* =========================================================
+   DM HIDDEN MARKERS — COMPACT PULSATING GLOW
+   40% smaller than the current compact DM marker.
+   Applies to hard-coded and dynamically-created secret markers.
+========================================================= */
+body.dm-mode .marker.secret-marker.dm-only-marker {
+    width: 10.56px;
+    height: 10.56px;
+    border-width: 1.44px;
+    background: #792f2f;
+
+    transform: translate(-50%, -50%) rotate(45deg);
+
+    animation: dmHiddenPulse 1.8s ease-in-out infinite;
+    will-change: transform, box-shadow, background;
+}
+
+body.dm-mode .marker.secret-marker.dm-only-marker:hover {
+    background: #b84a3d;
+    animation: dmHiddenPulseHover 1.15s ease-in-out infinite;
+    z-index: 55;
+}
+
+/* Keep the text readable and counter-rotate the label from the diamond. */
+body.dm-mode .marker.secret-marker.dm-only-marker .marker-label {
+    left: 16px;
+    top: -6px;
+    transform: rotate(-45deg);
+}
+
+@keyframes dmHiddenPulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) rotate(45deg) scale(1);
+        box-shadow:
+            0 0 4px rgba(255, 70, 55, .70),
+            0 0 8px rgba(255, 45, 35, .45),
+            0 0 13px rgba(190, 35, 25, .22);
+    }
+    50% {
+        transform: translate(-50%, -50%) rotate(45deg) scale(1.16);
+        box-shadow:
+            0 0 7px rgba(255, 105, 80, 1),
+            0 0 14px rgba(255, 55, 40, .85),
+            0 0 23px rgba(220, 40, 30, .55);
+    }
+}
+
+@keyframes dmHiddenPulseHover {
+    0%, 100% {
+        transform: translate(-50%, -50%) rotate(45deg) scale(1.12);
+        box-shadow:
+            0 0 7px rgba(255, 100, 75, .95),
+            0 0 14px rgba(255, 50, 35, .72);
+    }
+    50% {
+        transform: translate(-50%, -50%) rotate(45deg) scale(1.34);
+        box-shadow:
+            0 0 10px rgba(255, 130, 95, 1),
+            0 0 20px rgba(255, 55, 40, 1),
+            0 0 30px rgba(220, 35, 25, .72);
+    }
+}
+
+/* Printing should capture the marker without depending on animation state. */
+@media print {
+    body.dm-mode .marker.secret-marker.dm-only-marker {
+        animation: none !important;
+        transform: translate(-50%, -50%) rotate(45deg) !important;
+        box-shadow:
+            0 0 5px rgba(255, 70, 55, .85),
+            0 0 10px rgba(255, 45, 35, .55) !important;
+    }
+}
+
+
+/* =========================================================
+   MOBILE ATLAS — TOUCH-FRIENDLY RESPONSIVE LAYOUT
+   Desktop layout is unchanged above 800px.
+========================================================= */
+.mobile-menu-button,
+.mobile-panel-close {
+    display: none;
+}
+
+@media (max-width: 800px) {
+    html,
+    body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        overscroll-behavior: none;
+    }
+
+    header {
+        height: 64px;
+        min-height: 64px;
+        padding: 0 10px;
+        gap: 8px;
+    }
+
+    .header-compass {
+        width: 46px;
+        height: 46px;
+        margin-right: 0;
+        flex: 0 0 46px;
+    }
+
+    .header-title {
+        min-width: 0;
+        margin-right: auto;
+    }
+
+    .header-title h1 {
+        font-size: 21px;
+        letter-spacing: 4px;
+        white-space: nowrap;
+    }
+
+    .header-title .subtitle {
+        display: none;
+    }
+
+    .mobile-menu-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        flex: 0 0 44px;
+        padding: 0;
+        background: linear-gradient(180deg, #302518, #1c150e);
+        color: #ead8b4;
+        border: 1px solid #81643a;
+        box-shadow: inset 0 1px 0 rgba(255,225,170,.12);
+        font: 23px Georgia, "Times New Roman", serif;
+        cursor: pointer;
+    }
+
+    /* Desktop toolbar becomes the mobile drop-down tool menu. */
+    .header-controls {
+        display: none;
+        position: fixed;
+        z-index: 500;
+        top: 64px;
+        left: 8px;
+        right: 8px;
+        max-height: calc(100dvh - 76px);
+        overflow-y: auto;
+        padding: 10px;
+        gap: 7px;
+        flex-wrap: wrap;
+        align-content: flex-start;
+        background: linear-gradient(180deg, #2a2116, #18120c);
+        border: 1px solid #8d7042;
+        box-shadow: 0 8px 22px rgba(0,0,0,.82);
+    }
+
+    body.mobile-menu-open .header-controls {
+        display: flex;
+    }
+
+    .header-controls::before,
+    .header-controls::after {
+        display: none;
+    }
+
+    .header-controls button,
+    .header-controls a {
+        min-height: 44px;
+    }
+
+    .zoom-controls {
+        display: flex;
+    }
+
+    /* Map uses the whole phone screen below the compact header. */
+    .layout,
+    .layout.panel-hidden {
+        display: block;
+        width: 100%;
+        height: calc(100dvh - 64px);
+    }
+
+    .map-container {
+        position: fixed;
+        inset: 64px 0 0 0;
+        width: 100%;
+        height: calc(100dvh - 64px);
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        touch-action: pan-x pan-y;
+    }
+
+    /* The old desktop collapse arrow is unnecessary on a phone. */
+    .panel-arrow {
+        display: none !important;
+    }
+
+    /*
+       Location information becomes a bottom drawer.
+       A small strip remains visible so it can be reopened.
+    */
+    .side-area,
+    .layout.panel-hidden .side-area {
+        display: block;
+        position: fixed;
+        z-index: 420;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: auto;
+        width: 100%;
+        height: auto;
+        max-height: 58dvh;
+        overflow-y: auto;
+        transform: translateY(calc(100% - 50px));
+        transition: transform .22s ease;
+        border-left: 0;
+        border-top: 2px solid #715632;
+        box-shadow: 0 -8px 20px rgba(0,0,0,.72);
+    }
+
+    body.mobile-info-open .side-area {
+        transform: translateY(0);
+    }
+
+    .side-area::before {
+        content: "Location details";
+        display: block;
+        position: sticky;
+        top: 0;
+        z-index: 6;
+        min-height: 48px;
+        padding: 15px 54px 11px 18px;
+        color: #c8b78f;
+        background: linear-gradient(180deg, #2a2015, #1c150e);
+        border-bottom: 1px solid #66533a;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .mobile-panel-close {
+        display: none;
+        position: fixed;
+        z-index: 440;
+        right: 10px;
+        bottom: calc(58dvh - 42px);
+        width: 36px;
+        height: 34px;
+        padding: 0;
+        background: #21180f;
+        color: #ead8b4;
+        border: 1px solid #81643a;
+        font-size: 20px;
+        line-height: 1;
+    }
+
+    body.mobile-info-open .mobile-panel-close {
+        display: block;
+    }
+
+    /* Banner takes too much room in the phone drawer. */
+    .region-banner {
+        display: none !important;
+    }
+
+    .info-panel {
+        height: auto;
+        overflow: visible;
+        padding: 18px;
+    }
+
+    .location-summary {
+        min-height: 0;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    /*
+       Phone screens become unreadable when every label is permanently shown.
+       A tapped marker shows its own label.
+    */
+    .marker-label {
+        opacity: 0 !important;
+        pointer-events: none;
+    }
+
+    .marker.mobile-selected .marker-label,
+    .dragon-marker.mobile-selected .marker-label,
+    .landmark-marker.mobile-selected .marker-label {
+        opacity: 1 !important;
+    }
+
+    .marker,
+    .dragon-marker,
+    .landmark-marker {
+        touch-action: manipulation;
+    }
+
+    /* Keep tool UI inside the phone viewport. */
+    .map-context-menu {
+        max-width: calc(100vw - 20px);
+    }
+
+    .marker-editor-modal .modal-card,
+    .modal-card {
+        max-width: calc(100vw - 24px) !important;
+        max-height: calc(100dvh - 24px);
+        overflow: auto;
+    }
+
+    .measure-panel {
+        max-width: calc(100vw - 20px) !important;
+        left: 10px !important;
+        right: auto !important;
+        bottom: 58px !important;
+    }
+}
+
+@media (max-width: 430px) {
+    .header-title h1 {
+        font-size: 18px;
+        letter-spacing: 3px;
+    }
+
+    .header-compass {
+        width: 42px;
+        height: 42px;
+        flex-basis: 42px;
+    }
+}
+
+</style>
+
+</head>
+
+
+
+<body>
+
+
+<!-- =============================================================
+     HEADER
+============================================================= -->
+
+<header>
+
+<img src="Design/Compass.png" alt="Ellond Compass" class="header-compass">
+
+
+    <div class="header-title">
+
+        <h1>
+            ELLOND
+        </h1>
+
+        <span class="subtitle">
+            Interactive World Atlas
+        </span>
+
+    </div>
+
+    <div class="header-controls">
+
+        <div class="zoom-controls">
+
+            <button onclick="zoomOut()">
+                −
+            </button>
+
+            <button
+                id="zoom-display"
+                onclick="resetZoom()"
+            >
+                100%
+            </button>
+
+            <button onclick="zoomIn()">
+                +
+            </button>
+
+        </div>
+
+        <nav class="atlas-nav" aria-label="Atlas directories">
+
+            <a
+                class="nav-button"
+                href="Guilds/index.html"
+            >
+                Guilds
+            </a>
+
+            <a
+                class="nav-button"
+                href="Npc/index.html"
+            >
+                NPCs
+            </a>
+
+<button
+    class="nav-button"
+    id="labels-button"
+    type="button"
+    onclick="toggleLabels()"
+>
+    Labels
+</button>
+
+            <div class="legend-wrap">
+
+                <button
+                    class="nav-button"
+                    id="legend-button"
+                    type="button"
+                    onclick="toggleLegendMenu(event)"
+                >
+                    Legend
+                </button>
+
+                <div
+                    class="legend-menu"
+                    id="legend-menu"
+                >
+
+                    <div class="legend-title">
+                        Show on Map
+                    </div>
+
+                    <button
+                        class="legend-filter active"
+                        type="button"
+                        data-filter="all"
+                        onclick="filterMap('all')"
+                    >
+                        All Markers
+                    </button>
+
+                    <button
+                        class="legend-filter"
+                        type="button"
+                        data-filter="settlements"
+                        onclick="filterMap('settlements')"
+                    >
+                        Settlements
+                    </button>
+
+                    <button
+                        class="legend-filter"
+                        type="button"
+                        data-filter="city"
+                        onclick="filterMap('city')"
+                    >
+                        <span class="legend-swatch city"></span>
+                        Cities
+                    </button>
+
+                    <button
+                        class="legend-filter"
+                        type="button"
+                        data-filter="town"
+                        onclick="filterMap('town')"
+                    >
+                        <span class="legend-swatch town"></span>
+                        Towns
+                    </button>
+
+                    <button
+                        class="legend-filter"
+                        type="button"
+                        data-filter="village"
+                        onclick="filterMap('village')"
+                    >
+                        <span class="legend-swatch village"></span>
+                        Villages
+                    </button>
+
+                    <button
+                        class="legend-filter"
+                        type="button"
+                        data-filter="guild"
+                        onclick="filterMap('guild')"
+                    >
+                        <span class="legend-swatch guild"></span>
+                        Guilds
+                    </button>
+
+                    <button
+                        class="legend-filter"
+                        type="button"
+                        data-filter="landmark"
+                        onclick="filterMap('landmark')"
+                    >
+                        <span class="legend-swatch landmark"></span>
+                        Landmarks
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <button class="nav-button" id="measure-button" type="button" onclick="toggleMeasureMode()" title="Measure a multi-point route">
+                Measure
+            </button>
+
+            <button class="nav-button" type="button" onclick="printMapOnly()" title="Print or save the map as PDF">
+                Print
+            </button>
+
+            <button class="nav-button" id="add-marker-button" type="button" onclick="toggleMarkerPlacementMode()" title="Enable or disable map marker placement">
+                Add Marker
+            </button>
+
+            <button class="nav-button" id="save-atlas-button" type="button" onclick="exportAtlasMarkers()" title="Download all placed markers as data/markers.json">
+                Save Atlas
+            </button>
+
+            <button class="nav-button" id="import-atlas-button" type="button" onclick="openAtlasImport()" title="Import a markers.json file">
+                Import
+            </button>
+
+            <input id="atlas-marker-import" type="file" accept=".json,application/json" hidden onchange="importAtlasMarkers(event)">
+
+            <button
+                class="nav-button dm-nav-button"
+                id="dm-mode-button"
+                type="button"
+                onclick="toggleDmMode()"
+            >
+                DM
+            </button>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+
+<!-- =============================================================
+     MAIN LAYOUT
+============================================================= -->
+
+<div
+    class="layout"
+    id="main-layout"
+>
+
+
+
+    <!-- =========================================================
+         WORLD MAP
+    ========================================================= -->
+
+    <main
+        class="map-container"
+        id="map-container"
+    >
+
+
+        <div
+            class="map-stage"
+            id="map-stage"
+        >
+
+
+            <div
+                class="map-wrapper"
+                id="map-wrapper"
+            >
+
+
+                <img
+                    src="maps/Ellond borders.png"
+                    class="world-map"
+                    alt="Map of Ellond"
+                >
+
+                <svg class="measure-layer" id="measure-layer" viewBox="0 0 1400 900" aria-hidden="true">
+                    <polyline class="measure-route" id="measure-route" points=""></polyline>
+                    <g id="measure-points"></g>
+                </svg>
+
+                <div class="measure-panel" id="measure-panel">
+                    <strong>Route Measure</strong>
+                    <div style="margin-top:8px;color:#c7b18c;font-size:12px;line-height:1.4;">
+                        Ellond scale: <strong>12,756 km × 12,756 km</strong>
+                    </div>
+                    <label>Walking speed (km/h)
+                        <input id="measure-walk-speed" type="number" min="0.1" step="0.1" value="5">
+                    </label>
+                    <label>Horse speed (km/h)
+                        <input id="measure-horse-speed" type="number" min="0.1" step="0.1" value="8">
+                    </label>
+                    <div class="measure-result" id="measure-result">Click anywhere — including markers — to plot a route.</div>
+                    <div class="measure-actions">
+                        <button class="button" type="button" onclick="undoMeasurePoint()">Undo</button>
+                        <button class="button" type="button" onclick="clearMeasureRoute()">Clear</button>
+                    </div>
+                </div>
+
+
+
+
+                <!-- =================================================
+                     FOUR DRAGONS
+                ================================================= -->
+
+
+                <!-- WEST — MULHAAN VEN -->
+
+                <div
+                    class="dragon-marker"
+                    style="left: 5%; top: 47%;"
+                    onclick="showLocation('mulhaanven')"
+                >
+
+                    <img
+                        src="Tokens/dragon token.png"
+                        alt="Mulhaan Ven"
+                    >
+
+                    <span class="marker-label">
+                        Mulhaan Ven
+                    </span>
+
+                </div>
+
+
+
+                <!-- NORTH — FRIN YOL -->
+
+                <div
+                    class="dragon-marker"
+                    style="left: 72%; top: 12%;"
+                    onclick="showLocation('frinyol')"
+                >
+
+                    <img
+                        src="Tokens/dragon token.png"
+                        alt="Frin Yol"
+                    >
+
+                    <span class="marker-label">
+                        Frin Yol
+                    </span>
+
+                </div>
+
+
+
+                <!-- EAST — GOLT VIING -->
+
+                <div
+                    class="dragon-marker"
+                    style="left: 86%; top: 31.5%;"
+                    onclick="showLocation('goltviing')"
+                >
+
+                    <img
+                        src="Tokens/dragon token.png"
+                        alt="Golt Viing"
+                    >
+
+                    <span class="marker-label">
+                        Golt Viing
+                    </span>
+
+                </div>
+
+
+
+                <!-- SOUTH — GEIN OKAAZ -->
+
+                <div
+                    class="dragon-marker"
+                    style="left: 48%; top: 83%;"
+                    onclick="showLocation('geinokaaz')"
+                >
+
+                    <img
+                        src="Tokens/dragon token.png"
+                        alt="Gein Okaaz"
+                    >
+
+                    <span class="marker-label">
+                        Gein Okaaz
+                    </span>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     XAL'TORATH
+                ================================================= -->
+
+                <div
+                    class="marker city-marker"
+                    style="left: 24%; top: 38%;"
+                    onclick="showLocation('xaltorath')"
+                >
+
+                    <span class="marker-label">
+                        Xal'Torath
+                    </span>
+
+                </div>
+
+
+                <!-- =================================================
+                     HIDDEN TEST LOCATION — XAL'TORATH
+                     Visible only while DM Mode is active.
+                ================================================= -->
+
+                <div
+                    class="marker secret-marker dm-only-marker"
+                    style="left: 27%; top: 43%;"
+                    onclick="showLocation('hiddenxaltorath')"
+                    title="DM-only hidden location"
+                >
+
+                    <span class="marker-label">
+                        Xal'Torath
+                    </span>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     GLACIER'S REST
+                ================================================= -->
+
+                <div
+                    class="marker city-marker"
+                    style="left: 76%; top: 16%;"
+                    onclick="showLocation('glaciersrest')"
+                >
+
+                    <span class="marker-label">
+                        Glacier's Rest
+                    </span>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     ENCHANTED FOREST
+                ================================================= -->
+
+                <div
+                    class="marker"
+                    style="left: 81%; top: 36%;"
+                    onclick="showLocation('enchantedforest')"
+                >
+
+                    <span class="marker-label">
+                        Enchanted Forest
+                    </span>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     VERDROSS
+                ================================================= -->
+
+                <div
+                    class="marker town-marker"
+                    style="left: 52%; top: 78%;"
+                    onclick="showLocation('verdross')"
+                >
+
+                    <span class="marker-label">
+                        Verdross
+                    </span>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     GENTLEMAN'S LEAGUE
+                ================================================= -->
+
+                <div
+                    class="marker guild-marker"
+                    style="left: 58%; top: 47%;"
+                   onclick="showLocation('gentlemansleague')"
+                >
+
+                    <span class="marker-label">
+                        Gentleman's League
+                    </span>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     PORT ASTER
+                ================================================= -->
+
+                <div
+                    class="marker town-marker"
+                    style="left: 30%; top: 40%;"
+                    onclick="showLocation('portaster')"
+                >
+
+                    <span class="marker-label">
+                        Port Aster
+                    </span>
+
+                </div>
+
+<!-- ELARION -->
+
+<div
+    class="marker city-marker"
+    style="left: 76%; top: 28%;"
+    onclick="showLocation('elarion')"
+>
+    <span class="marker-label">
+        Elarion
+    </span>
+</div>
+
+                <!-- =================================================
+                     MOSSHOLLOW
+                ================================================= -->
+
+                <div
+                    class="marker village-marker"
+                    style="left: 31%; top: 36%;"
+                    onclick="showLocation('mosshollow')"
+                >
+
+                    <span class="marker-label">
+                        Mosshollow
+                    </span>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     IRONHALL
+                ================================================= -->
+
+                <div
+                    class="marker city-marker"
+                    style="left: 53%; top: 25%;"
+                    onclick="showLocation('ironhall')"
+                >
+
+                    <span class="marker-label">
+                        Ironhall
+                    </span>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     GREENHAVEN
+                ================================================= -->
+
+                <div
+                    class="marker city-marker"
+                    style="left: 58%; top: 66%;"
+                    onclick="showLocation('greenhaven')"
+                >
+
+                    <span class="marker-label">
+                        Greenhaven
+                    </span>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     LYSMARÈ
+                ================================================= -->
+
+                <div
+                    class="marker village-marker"
+                    style="left: 35.5%; top: 53%;"
+                    onclick="showLocation('lysmare')"
+                >
+
+                    <span class="marker-label">
+                        Lysmarè
+                    </span>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     STONEREACH
+                ================================================= -->
+
+                <div
+                    class="marker town-marker"
+                    style="left: 58%; top: 32%;"
+                    onclick="showLocation('stonereach')"
+                >
+
+                    <span class="marker-label">
+                        Stonereach
+                    </span>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     THALANDOR
+                ================================================= -->
+
+                <div
+                    class="marker city-marker"
+                    style="left: 59%; top: 17%;"
+                    onclick="showLocation('thalandor')"
+                >
+
+                    <span class="marker-label">
+                        Thalandor
+                    </span>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     VHAL'KARETH
+                ================================================= -->
+
+                <div
+                    class="marker city-marker"
+                    style="left: 41%; top: 46%;"
+                    onclick="showLocation('vhalkareth')"
+                >
+
+                    <span class="marker-label">
+                        Vhal'Kareth
+                    </span>
+
+                </div>
+
+
+                <!-- =================================================
+                     MIREWATCH — CAPITAL OF THE MISTMARCH
+                ================================================= -->
+
+                <div
+                    class="marker city-marker"
+                    style="left: 61%; top: 43%;"
+                    onclick="showLocation('mirewatch')"
+                >
+                    <span class="marker-label">Mirewatch</span>
+                </div>
+
+
+                <!-- =================================================
+                     WAYHARBOR — PORT OF THE MISTMARCH
+                ================================================= -->
+
+                <div
+                    class="marker town-marker"
+                    style="left: 62%; top: 47%;"
+                    onclick="showLocation('wayharbor')"
+                >
+                    <span class="marker-label">Wayharbor</span>
+                </div>
+
+
+                <!-- =================================================
+                     LANDMARKS
+                ================================================= -->
+
+
+                <!-- =================================================
+     LANDMARKS
+================================================= -->
+
+
+<!-- VERDANT LABYRINTH -->
+
+<div
+    class="landmark-marker"
+    style="left: 25%; top: 43%;"
+    onclick="showLocation('verdantlabyrinth')"
+>
+    <img
+        src="Tokens/Landmark.png"
+        alt="Landmark"
+    >
+
+    <span class="marker-label">
+        The Verdant Labyrinth
+    </span>
+</div>
+
+
+<!-- THE DRAGON'S SPINE -->
+
+<div
+    class="landmark-marker"
+    style="left: 31%; top: 34%;"
+    onclick="showLocation('dragonsspine')"
+>
+    <img
+        src="Tokens/Landmark.png"
+        alt="Landmark"
+    >
+
+    <span class="marker-label">
+        The Dragon's Spine
+    </span>
+</div>
+
+
+<!-- LIZARDFOLK RUINS -->
+
+<div
+    class="landmark-marker"
+    style="left: 28%; top: 33%;"
+    onclick="showLocation('lizardfolkruins')"
+>
+    <img
+        src="Tokens/Landmark.png"
+        alt="Landmark"
+    >
+
+    <span class="marker-label">
+        Lizardfolk Ruins
+    </span>
+</div>
+
+
+            </div>
+            <!-- END MAP WRAPPER -->
+
+
+        </div>
+        <!-- END MAP STAGE -->
+
+
+    </main>
+    <!-- END WORLD MAP -->
+
+
+    <!-- =========================================================
+         COLLAPSE ARROW
+    ========================================================= -->
+
+    <button
+        class="panel-arrow"
+        id="panel-arrow"
+        onclick="togglePanel()"
+        title="Hide panel"
+    >
+        ▶
+    </button>
+
+
+
+    <!-- =========================================================
+         RIGHT SIDE
+    ========================================================= -->
+
+    <div
+        class="side-area"
+        id="side-area"
+    >
+
+
+
+        <!-- =====================================================
+             LOCATION INFORMATION
+        ===================================================== -->
+
+        <aside
+            class="info-panel"
+            id="info-panel"
+        >
+
+
+                    <aside
+    class="region-banner"
+    id="region-banner"
+>
+
+    <img
+        class="region-banner-rod"
+        src="banners/rod.png"
+        alt=""
+    >
+
+    <img
+        class="region-banner-art"
+        id="region-banner-art"
+        src=""
+        alt=""
+    >
+
+    <img
+        class="region-banner-overlay-emblem"
+        id="region-banner-overlay-emblem"
+        src=""
+        alt=""
+    >
+
+            <div class="region-generated-content">
+
+            <div class="region-emblem">
+
+                <img
+                    class="region-emblem-image"
+                    id="region-emblem-image"
+                    src=""
+                    alt=""
+                >
+
+                <span
+                    class="region-emblem-placeholder"
+                    id="region-emblem-placeholder"
+                >
+                    ✦
+                </span>
+
+            </div>
+
+
+            <div
+                class="region-name"
+                id="region-name"
+            >
+                Ellond
+            </div>
+
+
+            <div
+                class="region-status"
+                id="region-status"
+            >
+                The Known World
+            </div>
+
+
+            <div class="region-divider"></div>
+
+            <div class="region-divider-symbol">
+                ◇
+            </div>
+
+
+            <div
+                class="region-seat"
+                id="region-seat"
+            >
+                —
+            </div>
+
+
+            <div class="region-seat-label">
+                Seat
+            </div>
+
+
+            <div class="region-divider"></div>
+
+            <div class="region-divider-symbol">
+                ◇
+            </div>
+
+
+            <div
+                class="region-character"
+                id="region-character"
+            >
+                MANY LANDS • MANY PEOPLES • ONE STORY
+            </div>
+
+            </div>
+
+
+        </aside>
+
+
+            <div id="location-panel-content">
+
+                <div class="location-summary">
+
+                    <h2>
+                        Ellond
+                    </h2>
+
+                    <p class="location-type">
+                        World Map
+                    </p>
+
+                    <p>
+                        Select a location on the map to view information.
+                    </p>
+
+                </div>
+
+                <div class="location-details">
+
+                    <div class="section-title">
+                        Atlas
+                    </div>
+
+                    <p>
+                        Settlements, regions, ruins, guilds, temples
+                        and other important locations can be accessed
+                        directly from the map.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </aside>
+
+
+
+        <!-- =====================================================
+             REGIONAL BANNER
+        ===================================================== -->
+
+
+
+
+    </div>
+
+
+</div>
+
+
+
+
+<!-- =============================================================
+     DM PASSWORD DIALOG
+============================================================= -->
+
+<div
+    class="dm-modal"
+    id="dm-modal"
+    aria-hidden="true"
+>
+
+    <div
+        class="dm-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="dm-dialog-title"
+    >
+
+        <h3 id="dm-dialog-title">
+            For DM's Eyes Only
+        </h3>
+
+        <p>
+            Enter the DM password to reveal hidden Atlas locations
+            and DM-only notes.
+        </p>
+
+        <input
+            id="dm-password"
+            type="password"
+            autocomplete="off"
+            placeholder="Password"
+            onkeydown="handleDmKey(event)"
+        >
+
+        <div
+            class="dm-error"
+            id="dm-error"
+        ></div>
+
+        <div class="dm-dialog-actions">
+
+            <button
+                class="nav-button"
+                type="button"
+                onclick="closeDmPrompt()"
+            >
+                Cancel
+            </button>
+
+            <button
+                class="nav-button dm-nav-button"
+                type="button"
+                onclick="unlockDmMode()"
+            >
+                Unlock
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- MAP RIGHT-CLICK MENU -->
+<div class="map-context-menu" id="map-context-menu">
+    <div class="context-title">Place Marker</div>
+    <button type="button" onclick="beginMarkerPlacement('city')">City</button>
+    <button type="button" onclick="beginMarkerPlacement('town')">Town</button>
+    <button type="button" onclick="beginMarkerPlacement('village')">Village</button>
+    <button type="button" onclick="beginMarkerPlacement('guild')">Guild</button>
+    <button type="button" onclick="beginMarkerPlacement('landmark')">Landmark</button>
+    <button type="button" onclick="beginMarkerPlacement('other')">Other / DM Hidden</button>
+</div>
+
+<!-- NEW MARKER DIALOG -->
+<div class="marker-editor-modal" id="marker-editor-modal" aria-hidden="true">
+    <div class="marker-editor-dialog" role="dialog" aria-modal="true" aria-labelledby="marker-editor-title">
+        <h3 id="marker-editor-title">New Map Marker</h3>
+        <label>Name
+            <input id="marker-name" type="text" autocomplete="off">
+        </label>
+        <label>Region
+            <select id="marker-region"></select>
+        </label>
+        <label>Short description
+            <textarea id="marker-description"></textarea>
+        </label>
+        <div class="editor-note" id="marker-editor-note"></div>
+        <div class="marker-editor-actions">
+            <button class="button" type="button" onclick="closeMarkerEditor()">Cancel</button>
+            <button class="button" type="button" onclick="savePlacedMarker()">Place Marker</button>
+        </div>
+    </div>
+</div>
+
+<script>
+
+/* =========================================================
+   MARKER LABEL TOGGLE
+========================================================= */
+
+let labelsVisible =
+    true;
+
+
+function toggleLabels() {
+
+    labelsVisible =
+        !labelsVisible;
+
+
+    document.body.classList.toggle(
+        "labels-hidden",
+        !labelsVisible
+    );
+
+
+    const button =
+        document.getElementById(
+            "labels-button"
+        );
+
+
+    if (labelsVisible) {
+
+        button.textContent =
+            "Labels";
+
+        button.classList.remove(
+            "labels-off"
+        );
+
+        button.title =
+            "Hide map labels";
+
+    }
+
+    else {
+
+        button.textContent =
+            "Labels Off";
+
+        button.classList.add(
+            "labels-off"
+        );
+
+        button.title =
+            "Show map labels";
+
+    }
+
+}
+
+
+
+
+/* =========================================================
+   DM MODE
+
+   Default test password: DM451
+
+   This is client-side protection for ordinary tabletop use.
+   Because the Atlas is hosted as a static site, someone who
+   deliberately inspects the page source can still find the
+   hidden data.
+========================================================= */
+
+const DM_PASSWORD =
+    "DM451";
+
+let dmMode =
+    sessionStorage.getItem(
+        "ellondDmMode"
+    ) === "true";
+
+
+function applyDmMode() {
+
+    document.body.classList.toggle(
+        "dm-mode",
+        dmMode
+    );
+
+
+    const button =
+        document.getElementById(
+            "dm-mode-button"
+        );
+
+
+    if (!button) {
+        return;
+    }
+
+
+    if (dmMode) {
+
+        button.textContent =
+            "DM ON";
+
+        button.classList.add(
+            "active"
+        );
+
+        button.title =
+            "Click to leave DM Mode";
+
+    }
+
+    else {
+
+        button.textContent =
+            "DM";
+
+        button.classList.remove(
+            "active"
+        );
+
+        button.title =
+            "Enter DM Mode";
+
+    }
+
+
+    if (typeof applyMarkerPlacementMode === "function") {
+        applyMarkerPlacementMode();
+    }
+}
+
+
+function toggleDmMode() {
+
+    if (dmMode) {
+
+        dmMode =
+            false;
+
+        sessionStorage.removeItem(
+            "ellondDmMode"
+        );
+
+        applyDmMode();
+
+        /*
+            If a secret location was open,
+            return the side panel to its neutral state.
+        */
+
+        document.getElementById(
+            "location-panel-content"
+        ).innerHTML = `
+
+            <h2>
+                Ellond
+            </h2>
+
+            <p class="location-type">
+                World Map
+            </p>
+
+            <p>
+                DM Mode disabled.
+            </p>
+
+            <p>
+                Hidden locations are no longer visible.
+            </p>
+
+        `;
+
+        updateRegionBanner(
+            "ellond"
+        );
+
+        return;
+    }
+
+
+    openDmPrompt();
+
+}
+
+
+function openDmPrompt() {
+
+    const modal =
+        document.getElementById(
+            "dm-modal"
+        );
+
+    const input =
+        document.getElementById(
+            "dm-password"
+        );
+
+    const error =
+        document.getElementById(
+            "dm-error"
+        );
+
+
+    error.textContent =
+        "";
+
+    input.value =
+        "";
+
+    modal.classList.add(
+        "open"
+    );
+
+    modal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+
+
+    setTimeout(
+        () => input.focus(),
+        20
+    );
+
+}
+
+
+function closeDmPrompt() {
+
+    const modal =
+        document.getElementById(
+            "dm-modal"
+        );
+
+
+    modal.classList.remove(
+        "open"
+    );
+
+    modal.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+}
+
+
+function unlockDmMode() {
+
+    const input =
+        document.getElementById(
+            "dm-password"
+        );
+
+    const error =
+        document.getElementById(
+            "dm-error"
+        );
+
+
+    if (
+        input.value ===
+        DM_PASSWORD
+    ) {
+
+        dmMode =
+            true;
+
+        sessionStorage.setItem(
+            "ellondDmMode",
+            "true"
+        );
+
+        applyDmMode();
+
+        closeDmPrompt();
+
+    }
+
+    else {
+
+        error.textContent =
+            "Incorrect password.";
+
+        input.select();
+
+    }
+
+}
+
+
+function handleDmKey(event) {
+
+    if (
+        event.key ===
+        "Enter"
+    ) {
+
+        unlockDmMode();
+
+    }
+
+
+    if (
+        event.key ===
+        "Escape"
+    ) {
+
+        closeDmPrompt();
+
+    }
+
+}
+
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key ===
+            "Escape"
+        ) {
+
+            closeDmPrompt();
+
+        }
+
+    }
+);
+
+
+
+
+
+/* =========================================================
+   LEGEND / MAP FILTERS
+========================================================= */
+
+function toggleLegendMenu(event) {
+
+    if (event) {
+        event.stopPropagation();
+    }
+
+
+    const menu =
+        document.getElementById(
+            "legend-menu"
+        );
+
+
+    menu.classList.toggle(
+        "open"
+    );
+
+}
+
+
+function getMarkerCategory(marker) {
+
+    if (
+        marker.classList.contains(
+            "landmark-marker"
+        )
+    ) {
+        return "landmark";
+    }
+
+
+    if (
+        marker.classList.contains(
+            "guild-marker"
+        )
+    ) {
+        return "guild";
+    }
+
+
+    if (
+        marker.classList.contains(
+            "city-marker"
+        )
+    ) {
+        return "city";
+    }
+
+
+    if (
+        marker.classList.contains(
+            "town-marker"
+        )
+    ) {
+        return "town";
+    }
+
+
+    if (
+        marker.classList.contains(
+            "village-marker"
+        )
+    ) {
+        return "village";
+    }
+
+
+    if (
+        marker.classList.contains(
+            "dragon-marker"
+        )
+    ) {
+        return "dragon";
+    }
+
+
+    return "other";
+
+}
+
+
+function filterMap(filter) {
+
+    const markers =
+        document.querySelectorAll(
+    "#map-wrapper .marker, #map-wrapper .dragon-marker, #map-wrapper .landmark-marker"
+);
+
+
+    markers.forEach(
+        marker => {
+
+            const category =
+                getMarkerCategory(
+                    marker
+                );
+
+
+            let visible =
+                filter === "all";
+
+
+            if (
+                filter ===
+                "settlements"
+            ) {
+
+                visible =
+                    category === "city" ||
+                    category === "town" ||
+                    category === "village";
+
+            }
+
+            else if (
+                filter !==
+                "all"
+            ) {
+
+                visible =
+                    category === filter;
+
+            }
+
+
+            marker.classList.toggle(
+                "filtered-out",
+                !visible
+            );
+
+        }
+    );
+
+
+    document
+        .querySelectorAll(
+            ".legend-filter"
+        )
+        .forEach(
+            button => {
+
+                button.classList.toggle(
+                    "active",
+                    button.dataset.filter === filter
+                );
+
+            }
+        );
+
+
+    document
+        .getElementById(
+            "legend-menu"
+        )
+        .classList.remove(
+            "open"
+        );
+
+}
+
+
+document.addEventListener(
+    "click",
+    function(event) {
+
+        const wrap =
+            document.querySelector(
+                ".legend-wrap"
+            );
+
+
+        if (
+            wrap &&
+            !wrap.contains(event.target)
+        ) {
+
+            document
+                .getElementById(
+                    "legend-menu"
+                )
+                .classList.remove(
+                    "open"
+                );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   ZOOM SETTINGS
+
+   Atlas 100% = 80% actual map size
+========================================================= */
+
+const baseMapScale = 0.8;
+
+let currentZoom = 1;
+
+const minimumZoom = 0.5;
+const maximumZoom = 2.5;
+const zoomStep = 0.1;
+
+
+function updateZoom() {
+
+    const wrapper =
+        document.getElementById(
+            "map-wrapper"
+        );
+
+    const stage =
+        document.getElementById(
+            "map-stage"
+        );
+
+    const display =
+        document.getElementById(
+            "zoom-display"
+        );
+
+
+    const actualScale =
+        currentZoom * baseMapScale;
+
+
+    wrapper.style.transform =
+        `scale(${actualScale})`;
+
+
+    stage.style.width =
+        `${1400 * actualScale}px`;
+
+    stage.style.height =
+        `${900 * actualScale}px`;
+
+
+    display.textContent =
+        `${Math.round(currentZoom * 100)}%`;
+
+}
+
+
+function zoomIn() {
+
+    currentZoom += zoomStep;
+
+    if (currentZoom > maximumZoom) {
+
+        currentZoom =
+            maximumZoom;
+
+    }
+
+    updateZoom();
+
+}
+
+
+function zoomOut() {
+
+    currentZoom -= zoomStep;
+
+    if (currentZoom < minimumZoom) {
+
+        currentZoom =
+            minimumZoom;
+
+    }
+
+    updateZoom();
+
+}
+
+
+function resetZoom() {
+
+    currentZoom =
+        1;
+
+    updateZoom();
+
+}
+
+
+
+    /* =========================================================
+       PANEL TOGGLE
+    ========================================================= */
+
+    function togglePanel() {
+
+        const layout =
+            document.getElementById(
+                "main-layout"
+            );
+
+        const arrow =
+            document.getElementById(
+                "panel-arrow"
+            );
+
+
+        layout.classList.toggle(
+            "panel-hidden"
+        );
+
+
+        if (
+            layout.classList.contains(
+                "panel-hidden"
+            )
+        ) {
+
+            arrow.textContent =
+                "◀";
+
+            arrow.title =
+                "Show panel";
+
+        }
+
+        else {
+
+            arrow.textContent =
+                "▶";
+
+            arrow.title =
+                "Hide panel";
+
+        }
+
+    }
+
+
+
+    /* =========================================================
+       REGIONAL BANNERS
+    ========================================================= */
+
+    const regions = {
+
+        ellond: {
+            name: "Ellond",
+            status: "The Known World",
+            seat: "—",
+            character: "Many Lands • Many Peoples • One Story",
+            emblem: "✦",
+            bannerImage: "banners/ellond.png"
+        },
+
+        westmarches: {
+            name: "West Marches",
+            status: "Clan Lands",
+            seat: "Xal'Torath",
+            character: "Marsh • Trade • Ancient Stone",
+            emblem: "◇",
+            emblemImage: "Tokens/marchland.png",
+            bannerImage: "banners/western marches.png"
+        },
+
+        westernarchipelago: {
+            name: "Western Archipelago",
+            status: "Western Isles",
+            seat: "—",
+            character: "Sea • Islands • Voyages",
+            emblem: "◇",
+            emblemImage: "Tokens/archipelago.png"
+        },
+
+        scatteredisles: {
+            name: "Scattered Isles",
+            status: "Island Territories",
+            seat: "—",
+            character: "Islands • Sea • Isolation",
+            emblem: "◇",
+            emblemImage: "Tokens/scattered isles.png"
+        },
+
+        centralhighlands: {
+            name: "Central Highlands",
+            status: "Dwarven Holds",
+            seat: "Ironhall",
+            character: "Stone • Craft • Mining",
+            emblem: "◆",
+            emblemImage: "Tokens/central highland.png",
+            bannerImage: "banners/central highland.png"
+        },
+
+        northlands: {
+            name: "Northern Crown",
+            status: "Northern Territory",
+            seat: "Thalandor",
+            character: "Cold • Crown • Tradition",
+            emblem: "✦",
+            emblemImage: "Tokens/Northern crown.png",
+            bannerImage: "banners/northern crown.png"
+        },
+
+        nilfheim: {
+            name: "Nilfheim Reach",
+            status: "Frozen Reach",
+            seat: "Glacier's Rest",
+            character: "Ice • Mountains • Endurance",
+            emblem: "✦",
+            emblemImage: "Tokens/nilfheim.png"
+        },
+
+        easternverdant: {
+            name: "Eastern Verdant Kingdoms",
+            status: "Verdant Kingdoms",
+            seat: "Elarion",
+            character: "Forests • Craft • Old Kingdoms",
+            emblem: "❧",
+            emblemImage: "Tokens/Verdant.png"
+        },
+
+        enchantedforest: {
+            name: "Enchanted Forest",
+            status: "Ancient Magical Woodland",
+            seat: "—",
+            character: "Magic • Forest • Mystery",
+            emblem: "❧",
+            emblemImage: "Tokens/enchanted forest.png"
+        },
+
+        mistmarch: {
+            name: "The Mistmarch",
+            status: "Mistbound March",
+            seat: "Mirewatch",
+            character: "Mist • Wetlands • Old Roads",
+            emblem: "◇",
+            emblemImage: "Tokens/mistmarch.png",
+            bannerImage: "banners/the mistmarch.png"
+        },
+
+        sovereignmarch: {
+            name: "The Sovereign March",
+            status: "Sovereign Territory",
+            seat: "—",
+            character: "Marches • Roads • Authority",
+            emblem: "◆",
+            emblemImage: "Tokens/sovereign.png"
+        },
+
+        saltwindcoast: {
+            name: "Saltwind Coast",
+            status: "Western Coast",
+            seat: "—",
+            character: "Sea • Wind • Coastal Trade",
+            emblem: "◇",
+            emblemImage: "Tokens/silwind.png",
+            bannerImage: "banners/saltwind coast.png"
+        },
+
+        suncoast: {
+            name: "Suncoast Reach",
+            status: "Eastern Coast",
+            seat: "—",
+            character: "Sun • Sea • Trade",
+            emblem: "✦",
+            emblemImage: "Tokens/suncoast.png"
+        },
+
+        southernempire: {
+            name: "Southern Empire",
+            status: "Imperial Territory",
+            seat: "Greenhaven",
+            character: "Farms • Trade • Grain",
+            emblem: "✥",
+            emblemImage: "Tokens/Southern empire.png"
+        },
+
+        southernjungle: {
+            name: "Southern Jungle",
+            status: "Jungle Territory",
+            seat: "Verdross",
+            character: "Jungle • Rivers • Ancient Wilds",
+            emblem: "❧",
+            emblemImage: "Tokens/jungle.png"
+        },
+
+        umbralisles: {
+            name: "Umbral Isles",
+            status: "Southern Isles",
+            seat: "—",
+            character: "Moon • Isles • Old Stone",
+            emblem: "◇",
+            emblemImage: "Tokens/umbral isles.png"
+        },
+
+        unknown: {
+            name: "Ellond",
+            status: "Region Not Yet Defined",
+            seat: "—",
+            character: "Roads • Settlements • Old Lands",
+            emblem: "✧"
+        }
+
+    };
+
+
+
+    /* =========================================================
+       LOCATION DATABASE
+    ========================================================= */
+
+    const locations = {
+
+
+        /* =====================================================
+           LANDMARKS
+        ===================================================== */
+
+        verdantlabyrinth: {
+
+            name:
+                "The Verdant Labyrinth",
+
+            region:
+                
+                "westmarches",
+
+            map:
+                "landmarks/verdant-labyrinth.html",
+
+            pageLabel:
+                "Open Landmark",
+
+            type:
+                "Landmark — Shifting Jungle",
+
+            description:
+                "Miles of jungle where the vegetation constantly shifts. Trails disappear overnight.",
+
+            knownFor:
+                "Changing vegetation, unreliable paths and a landscape that refuses to remain still.",
+
+            history:
+                "Much of the Verdant Labyrinth remains undocumented.",
+
+            dm:
+                "Add the cause of the shifting jungle, encounters and hidden routes here."
+
+        },
+
+
+        dragonsspine: {
+
+            name:
+                "The Dragon's Spine",
+
+            region:
+                
+                "centralhighlands",
+
+            map:
+                "landmarks/dragons-spine.html",
+
+            pageLabel:
+                "Open Landmark",
+
+            type:
+                "Landmark — Mountain Ridge",
+
+            description:
+                "A mountain ridge whose shape resembles the skeleton of an enormous dragon.",
+
+            knownFor:
+                "Its unmistakable dragon-like silhouette across the mountains.",
+
+            history:
+                "The origin of the ridge and the stories surrounding its shape are left for the campaign to establish.",
+
+            dm:
+                "Add local legends, routes, dangers and the truth behind the ridge here."
+
+        },
+
+
+        lizardfolkruins: {
+
+            name:
+                "Lizardfolk Ruins",
+
+            region:
+                
+                "westmarches",
+
+            map:
+                "landmarks/lizardfolk-ruins.html",
+
+            pageLabel:
+                "Open Landmark",
+
+            type:
+                "Landmark — Ancient Ruins",
+
+            description:
+                "Old lizardfolk ruins standing in a swampy, forested part of the western lands.",
+
+            knownFor:
+                "Ancient stonework and the remains of an older lizardfolk settlement.",
+
+            history:
+                "The ruins predate the settlements that now surround the western marshlands.",
+
+            dm:
+                "Use this page for dungeon notes, creatures, clues, treasure and the swamp drake encounter."
+
+        },
+
+
+        /* =====================================================
+           HIDDEN TEST LOCATION — XAL'TORATH
+
+           This entry is only accessible from DM Mode.
+        ===================================================== */
+
+        hiddenxaltorath: {
+
+            name:
+                "Xal'Torath",
+
+            region:
+                
+                "westmarches",
+
+            map:
+                "Hidden/Xaltorath.html",
+
+            type:
+                "Hidden Location — DM Only",
+
+            description:
+                "A test hidden location near Xal'Torath. Players should not see this marker or its information until you choose to reveal it.",
+
+            knownFor:
+                "Testing the Atlas hidden-location system.",
+
+            history:
+                "This page is being used as the first hidden-location test for the Ellond Atlas.",
+
+            dm:
+                "DM test entry. While DM Mode is active, this marker becomes visible and can be opened normally.",
+
+            secret:
+                true
+
+        },
+
+
+        /* =====================================================
+           FOUR DRAGONS
+        ===================================================== */
+
+        mulhaanven: {
+
+            name:
+                "Mulhaan Ven",
+
+            region:
+                
+                "westernarchipelago",
+
+            type:
+                "Brass Dragon — Dragon of the West",
+
+            description:
+                "Mulhaan Ven is the great Brass Dragon of the western lands of Ellond.",
+
+            knownFor:
+                "Wind, wisdom and calm.",
+
+            history:
+                "One of the four ancient dragons who shaped the early history of Ellond."
+
+        },
+
+
+        frinyol: {
+
+            name:
+                "Frin Yol",
+
+            region:
+                
+                "nilfheim",
+
+            type:
+                "Red Dragon — Dragon of the North",
+
+            description:
+                "Frin Yol is the great Red Dragon of the northern lands of Ellond.",
+
+            knownFor:
+                "Fire and strength.",
+
+            history:
+                "One of the four ancient dragons who shaped the early history of Ellond."
+
+        },
+
+
+        goltviing: {
+
+            name:
+                "Golt Viing",
+
+            region:
+                
+                "easternverdant",
+
+            type:
+                "Rattelry Dragon — Dragon of the East",
+
+            description:
+                "Golt Viing is the great Rattelry Dragon of the eastern lands of Ellond.",
+
+            knownFor:
+                "Earth and intelligence.",
+
+            history:
+                "One of the four ancient dragons who shaped the early history of Ellond."
+
+        },
+
+
+        geinokaaz: {
+
+            name:
+                "Gein Okaaz",
+
+            region:
+                
+                "southernjungle",
+
+            type:
+                "Water Dragon — Dragon of the South",
+
+            description:
+                "Gein Okaaz is the great Water Dragon of the southern lands of Ellond.",
+
+            knownFor:
+                "Water and solitude.",
+
+            history:
+                "One of the four ancient dragons who shaped the early history of Ellond."
+
+        },
+
+
+
+        /* =====================================================
+           XAL'TORATH
+        ===================================================== */
+
+        xaltorath: {
+
+            name:
+                "Xal'Torath",
+
+            region:
+                
+                
+                "westmarches",
+
+            map:
+        "Locations/XalTorath.html",
+
+            type:
+                "Lizardfolk City — West Marches",
+
+            description:
+                "The largest city in the West Marches and the political heart of the Lizardfolk clans. Built on massive stone terraces above the marshes, connected by bridges, canals, and towering mangrove roots. Much of the city predates the Empire by thousands of years.",
+
+            population:
+                "Approximately 14,000",
+
+            knownFor:
+                "Marsh Council chambers, Temple of Asgorath, Great Beast Market, exotic spices, dinosaur mounts, ancient stone observatories and the Dragon Relic Museum.",
+
+            history:
+                "Much of the stonework predates the modern kingdoms of Ellond by thousands of years.",
+
+            dm:
+                "Add hidden information, adventure hooks and campaign secrets here."
+
+        },
+
+
+
+        /* =====================================================
+           PORT ASTER
+        ===================================================== */
+
+        portaster: {
+
+            name:
+                "Port Aster",
+
+            region:
+                
+                
+                "westmarches",
+
+            map:
+                "Locations/Port-Aster.html",
+
+            type:
+                "Port Town — West Marches",
+
+            description:
+                "A busy coastal settlement and stopping point for travelers, merchants and adventurers. Known for its diverse cultures, thriving markets and access to the West Marches.",
+
+            population:
+                "Unknown",
+
+            government:
+                "The Marsh Council",
+
+            governmentDetails:
+                "4 Lizardfolk Clan Elders, 1 Tortle Elder, 1 Yuan-ti Representative, 1 Merchant Consortium Representative, 1 Adventure Guild Representative, and 1 Imperial Envoy.",
+
+            governmentNote:
+                "The Imperial Envoy is non-voting except on matters directly concerning imperial affairs.",
+
+            knownFor:
+                "Trade, ships, travelers, its adventurer notice board, and its role as a gateway to the West Marches.",
+
+            atmosphere:
+                "Visitors immediately recognize that they have left the Empire behind. Raised stone buildings protect against seasonal floods, while lush jungle vegetation fills the streets. Markets overflow with exotic fruits, spices, fish, reptiles and jungle goods. Lizardfolk guards patrol the streets, Tortles manage much of the fishing and river trade, and Yuan-ti merchants negotiate beneath colorful awnings. Imperial banners are present, but are outnumbered by the banners of the ancient Lizardfolk clans.",
+
+            history:
+                "Port Aster began as a small Lizardfolk settlement established by clans migrating from the central swamps toward the western coast. As trade between the peoples of Ellond grew, the clans recognized the value of direct access to foreign merchants and sea routes. What began as a trading outpost gradually became the principal gateway between the West Marches and the wider world. Tortles, Yuan-ti, merchants, sailors, and adventurers followed, transforming Port Aster into a diverse port while its Lizardfolk founders retained much of its culture and political influence. Today, Port Aster stands as a meeting place between the ancient traditions of the West Marches and the growing trade of Ellond.",
+
+            dm:
+                "Add hidden campaign information here."
+
+        },
+
+elarion: {
+
+    name:
+        "Elarion",
+
+    region:
+        
+                
+                "easternverdant",
+
+    map:
+        "Locations/elarion.html",
+
+    type:
+        "Capital City — Eastern Verdant Kingdoms",
+
+    description:
+        "The capital of the Eastern Verdant Kingdoms, built where the old eastern forests open into a broad green valley. Elarion is a centre of government, woodland crafts and eastern trade.",
+
+    population:
+        "Approximately 22,000",
+
+    knownFor:
+        "Forestry, herbalism, fine woodworking, orchards, bowmaking and eastern trade.",
+
+    history:
+        "Elarion grew from an older woodland seat into the principal city of the Eastern Verdant Kingdoms.",
+
+    dm:
+        "Brom Tallow is the Regional Royal Mage and highest Gentleman's League authority throughout the Eastern Verdant Kingdoms."
+
+},
+
+        /* =====================================================
+           MOSSHOLLOW
+        ===================================================== */
+
+        mosshollow: {
+
+            name:
+                "Mosshollow",
+
+            region:
+                
+                
+                "westmarches",
+
+            map:
+                "Locations/mosshollow.html",
+
+            type:
+                "Fishing Village",
+
+            description:
+                "A quiet fishing village built on stilts above the marsh waters. Wooden walkways connect homes, docks and small communal buildings across the wetlands.",
+
+            population:
+                "Approximately 900",
+
+            exports:
+                "Salted fish, pearl diving, marsh reeds and freshwater oysters.",
+
+            knownFor:
+                "Giant lily fields, a friendly Tortle population and excellent seafood.",
+
+            history:
+                "Mosshollow began as a small fishing settlement along the shores of a broad inland lake, surrounded by the wetlands of the West Marches. Its calm waters, rich fishing grounds, and abundant reeds provided everything the early settlement needed. Over generations, Lizardfolk and Tortles built their homes on stilts along the lake and established traditions of fishing, pearl diving, and gathering marsh plants. While Port Aster grew into a busy center of trade, Mosshollow remained deliberately small, a quiet village where life still follows the rhythms of the lake and marsh.",
+
+            dm:
+                "Add hidden campaign information here."
+
+        },
+
+
+
+        /* =====================================================
+           MIREWATCH
+        ===================================================== */
+
+        mirewatch: {
+            name: "Mirewatch",
+            region: "mistmarch",
+            map: "Locations/mirewatch.html",
+            type: "Capital City — The Mistmarch",
+            description: "An old fortified city built where firmer high ground rises above the wetlands. Mirewatch began as a defensive settlement guarding the few reliable roads through the marshes and gradually became the administrative centre of the Mistmarch.",
+            population: "To be established",
+            knownFor: "Stone foundations, raised streets, drainage canals, old watchtowers and the administration of the Mistmarch.",
+            history: "The oldest districts grew around fortified high ground and the roads that could be trusted through the surrounding wetlands. Newer districts have since spread beyond the original walls.",
+            dm: "Add local factions, hidden routes and campaign secrets here."
+        },
+
+
+        /* =====================================================
+           WAYHARBOR
+        ===================================================== */
+
+        wayharbor: {
+            name: "Wayharbor",
+            region: "mistmarch",
+            map: "Locations/wayharbor.html",
+            type: "Port Town — The Mistmarch",
+            description: "A working port near the edge of the Mistmarch built primarily around transshipment. Most cargo arriving in Wayharbor is unloaded, sorted and sent onward rather than consumed locally.",
+            population: "Small permanent population; substantially larger during busy shipping periods",
+            knownFor: "Enormous docks, bonded warehouses, cargo sheds, cranes, haulers and the constant transfer of goods between ships, barges and overland transport.",
+            history: "Wayharbor expanded around the need for a dependable transfer point between sea traffic and the difficult inland routes of the Mistmarch.",
+            dm: "Nothing stays in Wayharbor except the people. Add smuggling routes, customs disputes and cargo-related hooks here."
+        },
+
+
+        /* =====================================================
+           IRONHALL
+        ===================================================== */
+
+        ironhall: {
+
+            name:
+                "Ironhall",
+
+            region:
+                
+                
+                "centralhighlands",
+
+            map:
+                "Locations/ironhall.html",
+
+            type:
+                "Dwarven Capital — Central Highlands",
+
+            description:
+                "A fortified dwarven city built into the mountains of the Central Highlands.",
+
+            population:
+                "Predominantly Dwarven",
+
+            knownFor:
+                "Dwaranite, mining, smithing and the great dwarven trading market outside its walls.",
+
+            history:
+                "Ironhall became the principal political and commercial center of the Central Highlands.",
+
+            dm:
+                "Add hidden campaign information here."
+
+        },
+
+
+
+        /* =====================================================
+           STONEREACH
+        ===================================================== */
+
+        stonereach: {
+
+            name:
+                "Stonereach",
+
+            region:
+                
+                
+                "centralhighlands",
+
+            map:
+                "Locations/stonereach.html",
+
+            type:
+                "Dwarven Settlement",
+
+            description:
+                "A dwarven settlement associated with the Central Highlands and the development of the region's mineral wealth.",
+
+            population:
+                "Unknown",
+
+            knownFor:
+                "Dwarven trade, mining and its connection to Dwaranite.",
+
+            history:
+                "Add Stonereach history here.",
+
+            dm:
+                "Add hidden campaign information here."
+
+        },
+
+
+
+        /* =====================================================
+           GREENHAVEN
+        ===================================================== */
+
+        greenhaven: {
+
+            name:
+                "Greenhaven",
+
+            region:
+                
+                
+                "southernempire",
+
+             map:
+        "Locations/Greenhaven.html",
+
+            type:
+                "Human Capital — Southern Empire",
+
+            description:
+                "Greenhaven is a prosperous farming and harbour town situated along the northern edge of the Southern Empire. The countryside surrounding Greenhaven contains some of the most fertile land in the Empire. Vast fields stretch beyond the town for miles, broken by orchards, grazing lands, farmsteads, mills and small agricultural villages. Wheat, barley, oats, vegetables and fruit are produced here in enormous quantities. Greenhaven and its surrounding farms provide most of the food consumed throughout the Southern Empire, earning the region the common nickname The Granary of the South.",
+
+            population:
+                "Predominantly Human, approximately 15,000",
+
+            knownFor:
+                "Grand Market, extensive farmland, grain production and the Granary of the South.",
+
+            history:
+                "Greenhaven began as a frontier settlement near the southern edge of the Empire, founded to support trade, farming, and travel between the settled lands and the wilder regions beyond. Over time, merchants, hunters, farmers, and travelers turned the settlement into a steady stopping point rather than a major city. Its position made it valuable without ever making it crowded, and much of Greenhaven's character still comes from that balance between civilization and the open road. Today, it is known as a practical, welcoming town where caravans resupply, travelers rest, and news from the southern reaches of Ellond often arrives first.",
+
+            dm:
+                "Add hidden campaign information here."
+
+        },
+
+
+
+        /* =====================================================
+           GLACIER'S REST
+        ===================================================== */
+
+        glaciersrest: {
+
+            name:
+                "Glacier's Rest",
+
+            region:
+                
+                
+                "nilfheim",
+
+            map:
+                "Locations/glaciers-rest.html",
+
+            type:
+                "Northern Settlement",
+
+            description:
+                "A remote settlement in the frozen reaches of northern Ellond, surrounded by snow, ice and rugged wilderness.",
+
+            population:
+                "Unknown",
+
+            knownFor:
+                "Its isolated northern location, harsh climate and travelers passing through the frozen reaches.",
+
+            history:
+                "Add Glacier's Rest history here.",
+
+            dm:
+                "Add hidden campaign information here."
+
+        },
+
+
+
+        /* =====================================================
+           ENCHANTED FOREST
+        ===================================================== */
+
+        enchantedforest: {
+
+            name:
+                "Enchanted Forest",
+
+            region:
+                
+                "enchantedforest",
+
+            type:
+                "Ancient Forest",
+
+            description:
+                "A vast and ancient woodland where magic runs unusually strong. Travel into the forest is restricted, and much of what lies beneath its canopy remains unknown to outsiders.",
+
+            population:
+                "Unknown",
+
+            knownFor:
+                "Ancient magic, unusual creatures, old ruins and restricted travel.",
+
+            history:
+                "Add the history of the Enchanted Forest here.",
+
+            dm:
+                "Add hidden campaign information here."
+
+        },
+
+
+
+        /* =====================================================
+           VERDROSS
+        ===================================================== */
+
+        verdross: {
+
+            name:
+                "Verdross",
+
+            region:
+                
+                
+                "southernjungle",
+
+            map:
+                "Locations/verdross.html",
+
+            type:
+                "Settlement",
+
+            description:
+                "Add Verdross description here.",
+
+            population:
+                "Unknown",
+
+            knownFor:
+                "Add notable features of Verdross here.",
+
+            history:
+                "Add Verdross history here.",
+
+            dm:
+                "Add hidden campaign information here."
+
+        },
+
+
+
+        /* =====================================================
+           LYSMARÈ
+        ===================================================== */
+
+        lysmare: {
+
+            name:
+                "Lysmarè",
+
+            region:
+                
+                "saltwindcoast",
+
+            map:
+                "Locations/lysmare.html",
+
+            type:
+                "Settlement",
+
+            description:
+                "Add Lysmarè description here.",
+
+            population:
+                "Unknown",
+
+            knownFor:
+                "Add notable features of Lysmarè here.",
+
+            history:
+                "Add Lysmarè history here.",
+
+            dm:
+                "Add hidden campaign information here."
+
+        },
+
+
+
+        /* =====================================================
+           THALANDOR
+        ===================================================== */
+
+        thalandor: {
+
+            name:
+                "Thalandor",
+
+            region:
+                
+                
+                "northlands",
+
+            map:
+                "Locations/thalandor.html",
+
+            type:
+                "Settlement",
+
+            description:
+                "Add Thalandor description here.",
+
+            population:
+                "Unknown",
+
+            knownFor:
+                "Add notable features of Thalandor here.",
+
+            history:
+                "Add Thalandor history here.",
+
+            dm:
+                "Add hidden campaign information here."
+
+        },
+
+
+
+        /* =====================================================
+           VHAL'KARETH
+        ===================================================== */
+
+        vhalkareth: {
+
+            name:
+                "Vhal'Kareth",
+
+            region:
+                
+                "saltwindcoast",
+
+            map:
+                "Locations/vhalkareth.html",
+
+            type:
+                "Settlement",
+
+            description:
+                "An old settlement with deep roots in the history of Ellond.",
+
+            population:
+                "Unknown",
+
+            knownFor:
+                "Add notable features of Vhal'Kareth here.",
+
+            history:
+                "Add Vhal'Kareth history here.",
+
+            dm:
+                "Add hidden campaign information here."
+
+        },
+
+
+
+        /* =====================================================
+           GENTLEMAN'S LEAGUE
+        ===================================================== */
+
+        gentlemansleague: {
+
+            name:
+                "Gentleman's League of Magical Excellence",
+
+            region:
+                
+                "sovereignmarch",
+
+            type:
+                "Mage Guild Headquarters",
+
+            description:
+                "One of the most influential guilds in Ellond. The League trains, certifies and represents professional mages while providing magical specialists to kingdoms and organizations throughout the continent.",
+
+            population:
+                "Guild Headquarters",
+
+            knownFor:
+                "Professional magic, magical certification, Royal Mages and its close relationship with the College of Perpetual Dawn.",
+
+            history:
+                "By 451 COD, the Gentleman's League of Magical Excellence is led by Luna and Pete and has become one of Ellond's most influential guilds. Rather than concentrating its mages in one kingdom, the League sends members across Ellond to serve as Royal Mages, deliberately placing them among peoples other than their own to reduce local loyalties and favoritism.",
+
+            dm:
+                "The League maintains strong ties with the College of Perpetual Dawn, lending resources for magical study and training."
+
+        }
+
+
+    };
+
+
+
+    /* =========================================================
+       UPDATE REGION BANNER
+    ========================================================= */
+
+    function updateRegionBanner(regionId) {
+
+    const region =
+        regions[regionId] ||
+        regions.unknown;
+
+    const banner =
+        document.getElementById(
+            "region-banner"
+        );
+
+    const bannerArt =
+        document.getElementById(
+            "region-banner-art"
+        );
+
+    const overlayEmblem =
+        document.getElementById(
+            "region-banner-overlay-emblem"
+        );
+
+    const emblemImage =
+        document.getElementById(
+            "region-emblem-image"
+        );
+
+    const emblemPlaceholder =
+        document.getElementById(
+            "region-emblem-placeholder"
+        );
+
+
+    /* =====================================================
+       PNG REGION BANNER
+    ===================================================== */
+
+    if (region.bannerImage) {
+
+        banner.classList.add(
+            "has-banner-art"
+        );
+
+        bannerArt.src =
+            region.bannerImage;
+
+        bannerArt.alt =
+            `${region.name} banner`;
+
+    }
+
+    else {
+
+        banner.classList.remove(
+            "has-banner-art"
+        );
+
+        bannerArt.removeAttribute(
+            "src"
+        );
+
+        bannerArt.alt =
+            "";
+
+    }
+
+
+    /* =====================================================
+       EMBLEM OVER PNG BANNER
+
+       Ellond deliberately has no emblemImage.
+       Therefore it never receives a broken overlay image.
+    ===================================================== */
+
+    if (
+        region.bannerImage &&
+        region.emblemImage
+    ) {
+
+        overlayEmblem.src =
+            region.emblemImage;
+
+        overlayEmblem.alt =
+            `${region.name} emblem`;
+
+        overlayEmblem.style.display =
+            "block";
+
+    }
+
+    else {
+
+        overlayEmblem.removeAttribute(
+            "src"
+        );
+
+        overlayEmblem.alt =
+            "";
+
+        overlayEmblem.style.display =
+            "none";
+
+    }
+
+
+    /* =====================================================
+       GENERATED BANNER TEXT
+    ===================================================== */
+
+    document.getElementById(
+        "region-name"
+    ).textContent =
+        region.name;
+
+    document.getElementById(
+        "region-status"
+    ).textContent =
+        region.status;
+
+    document.getElementById(
+        "region-seat"
+    ).textContent =
+        region.seat;
+
+    document.getElementById(
+        "region-character"
+    ).textContent =
+        region.character;
+
+
+    /* =====================================================
+       GENERATED BANNER EMBLEM
+       Used for regions without a finished PNG banner.
+    ===================================================== */
+
+    if (region.emblemImage) {
+
+        emblemImage.src =
+            region.emblemImage;
+
+        emblemImage.alt =
+            `${region.name} emblem`;
+
+        emblemImage.style.display =
+            "block";
+
+        emblemPlaceholder.style.display =
+            "none";
+
+    }
+
+    else {
+
+        emblemImage.removeAttribute(
+            "src"
+        );
+
+        emblemImage.alt =
+            "";
+
+        emblemImage.style.display =
+            "none";
+
+        emblemPlaceholder.textContent =
+            region.emblem || "✦";
+
+        emblemPlaceholder.style.display =
+            "inline";
+
+    }
+
+}
+
+
+    /* =========================================================
+       SHOW LOCATION
+    ========================================================= */
+
+    function showLocation(id) {
+
+        const location =
+            locations[id];
+
+
+        if (!location) {
+
+            return;
+
+        }
+
+
+        /*
+            Secret locations cannot be opened from the Atlas
+            unless DM Mode is active.
+        */
+
+        if (
+            location.secret &&
+            !dmMode
+        ) {
+
+            return;
+
+        }
+
+
+        updateRegionBanner(
+            location.region
+        );
+
+
+        const panel =
+            document.getElementById(
+                "location-panel-content"
+            );
+
+
+        panel.innerHTML = `
+
+            <div class="location-summary">
+
+            <h2>
+                ${location.name}
+            </h2>
+
+
+            <p class="location-type">
+                ${location.type || ""}
+            </p>
+
+
+            ${location.description ? `
+
+                <p>
+                    ${location.description}
+                </p>
+
+            ` : ""}
+
+
+
+            </div>
+
+            <div class="location-details">
+
+
+            ${location.map ? `
+
+                <a
+                    class="map-button"
+                    href="${location.map}"
+                >
+                    ${location.pageLabel || `View ${location.name} Map`}
+                </a>
+
+            ` : ""}
+
+
+
+            ${location.population ? `
+
+                <div class="info-section">
+
+                    <div class="info-icon">
+                        ◉
+                    </div>
+
+                    <div class="info-content">
+
+                        <div class="info-heading">
+                            Population
+                        </div>
+
+                        <p>
+                            ${location.population}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            ` : ""}
+
+
+
+            ${location.government ? `
+
+                <div class="info-section">
+
+                    <div class="info-icon">
+                        ◆
+                    </div>
+
+                    <div class="info-content">
+
+                        <div class="info-heading">
+                            Government
+                        </div>
+
+                        <p>
+                            ${location.government}
+                        </p>
+
+
+                        ${location.governmentDetails ? `
+
+                            <p class="info-small">
+                                ${location.governmentDetails}
+                            </p>
+
+                        ` : ""}
+
+
+                        ${location.governmentNote ? `
+
+                            <p class="info-small">
+                                ${location.governmentNote}
+                            </p>
+
+                        ` : ""}
+
+                    </div>
+
+                </div>
+
+            ` : ""}
+
+
+
+            ${location.exports ? `
+
+                <div class="info-section">
+
+                    <div class="info-icon">
+                        ↗
+                    </div>
+
+                    <div class="info-content">
+
+                        <div class="info-heading">
+                            Exports
+                        </div>
+
+                        <p>
+                            ${location.exports}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            ` : ""}
+
+
+
+            ${location.knownFor ? `
+
+                <div class="info-section">
+
+                    <div class="info-icon">
+                        ★
+                    </div>
+
+                    <div class="info-content">
+
+                        <div class="info-heading">
+                            Known For
+                        </div>
+
+                        <p>
+                            ${location.knownFor}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            ` : ""}
+
+
+
+            ${location.atmosphere ? `
+
+                <div class="info-section">
+
+                    <div class="info-icon">
+                        ❧
+                    </div>
+
+                    <div class="info-content">
+
+                        <div class="info-heading">
+                            Atmosphere
+                        </div>
+
+                        <p>
+                            ${location.atmosphere}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            ` : ""}
+
+
+
+            ${location.history ? `
+
+                <div class="info-section">
+
+                    <div class="info-icon">
+                        ▤
+                    </div>
+
+                    <div class="info-content">
+
+                        <div class="info-heading">
+                            History
+                        </div>
+
+                        <p>
+                            ${location.history}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            ` : ""}
+
+
+
+            ${location.dm && dmMode ? `
+
+                <div class="info-section">
+
+                    <div class="info-icon">
+                        ≡
+                    </div>
+
+                    <div class="info-content">
+
+                        <div class="info-heading">
+                            DM Notes
+                        </div>
+
+                        <p class="placeholder">
+                            ${location.dm}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            ` : ""}
+
+
+
+            ${location.map ? `
+
+                <button
+                    class="button"
+                    onclick="openLocation('${id}')"
+                >
+                    Open Location
+                </button>
+
+            ` : ""}
+
+
+            </div>
+
+        `;
+
+    }
+
+
+
+    /* =========================================================
+       OPEN LOCATION PAGE
+    ========================================================= */
+
+    function openLocation(id) {
+
+        const location =
+            locations[id];
+
+
+        if (
+            !location ||
+            !location.map
+        ) {
+
+            return;
+
+        }
+
+
+        window.location.href =
+            location.map;
+
+    }
+
+
+
+
+
+/* =========================================================
+   MAP TOOL HELPERS
+========================================================= */
+const MAP_NATIVE_WIDTH = 1400;
+const MAP_NATIVE_HEIGHT = 900;
+const ELLOND_WIDTH_KM = 12756;
+const ELLOND_HEIGHT_KM = 12756;
+let measureMode = false;
+let measurePoints = [];
+let pendingMarkerPoint = null;
+let pendingMarkerType = null;
+const USER_MARKER_KEY = "ellondUserMarkersV1";
+
+function mapPointFromEvent(event) {
+    const wrapper = document.getElementById("map-wrapper");
+    const rect = wrapper.getBoundingClientRect();
+    const actualScale = currentZoom * baseMapScale;
+    const x = (event.clientX - rect.left) / actualScale;
+    const y = (event.clientY - rect.top) / actualScale;
+    return {
+        x: Math.max(0, Math.min(MAP_NATIVE_WIDTH, x)),
+        y: Math.max(0, Math.min(MAP_NATIVE_HEIGHT, y))
+    };
+}
+
+function percentPoint(point) {
+    return {
+        x: +(point.x / MAP_NATIVE_WIDTH * 100).toFixed(3),
+        y: +(point.y / MAP_NATIVE_HEIGHT * 100).toFixed(3)
+    };
+}
+
+/* =========================================================
+   MULTI-POINT ROUTE MEASURING
+   Scale is based on the full 1400px map width.
+========================================================= */
+function toggleMeasureMode() {
+    measureMode = !measureMode;
+    document.getElementById("map-wrapper").classList.toggle("measure-mode", measureMode);
+    document.getElementById("measure-panel").classList.toggle("open", measureMode);
+    document.getElementById("measure-button").classList.toggle("tool-active", measureMode);
+    closeMapContextMenu();
+}
+
+function addMeasurePoint(point) {
+    measurePoints.push(point);
+    renderMeasureRoute();
+}
+
+function undoMeasurePoint() {
+    measurePoints.pop();
+    renderMeasureRoute();
+}
+
+function clearMeasureRoute() {
+    measurePoints = [];
+    renderMeasureRoute();
+}
+
+function routeDistanceKm() {
+    let totalKm = 0;
+
+    for (let i = 1; i < measurePoints.length; i++) {
+        const dxPixels = measurePoints[i].x - measurePoints[i - 1].x;
+        const dyPixels = measurePoints[i].y - measurePoints[i - 1].y;
+
+        // The Ellond map represents 12,756 km across AND 12,756 km high.
+        // X and Y therefore use their own pixel-to-kilometre scale.
+        const dxKm = (dxPixels / MAP_NATIVE_WIDTH) * ELLOND_WIDTH_KM;
+        const dyKm = (dyPixels / MAP_NATIVE_HEIGHT) * ELLOND_HEIGHT_KM;
+
+        totalKm += Math.hypot(dxKm, dyKm);
+    }
+
+    return totalKm;
+}
+
+function formatDistance(km) {
+    if (km < 1) return `${Math.round(km * 1000)} m`;
+    return `${km.toFixed(km < 10 ? 2 : 1)} km`;
+}
+
+function formatTravelTime(hours) {
+    if (!isFinite(hours) || hours < 0) return "—";
+    const totalMinutes = Math.round(hours * 60);
+    const days = Math.floor(totalMinutes / (24 * 60));
+    const remaining = totalMinutes - days * 24 * 60;
+    const h = Math.floor(remaining / 60);
+    const m = remaining % 60;
+    const parts = [];
+    if (days) parts.push(`${days}d`);
+    if (h) parts.push(`${h}h`);
+    if (m || !parts.length) parts.push(`${m}m`);
+    return parts.join(" ");
+}
+
+function renderMeasureRoute() {
+    const route = document.getElementById("measure-route");
+    const pointsGroup = document.getElementById("measure-points");
+    route.setAttribute("points", measurePoints.map(p => `${p.x},${p.y}`).join(" "));
+    pointsGroup.innerHTML = measurePoints.map(p => `<circle class="measure-point" cx="${p.x}" cy="${p.y}" r="7"></circle>`).join("");
+
+    const walk = parseFloat(document.getElementById("measure-walk-speed").value);
+    const horse = parseFloat(document.getElementById("measure-horse-speed").value);
+    const result = document.getElementById("measure-result");
+
+    localStorage.setItem("ellondWalkSpeed", String(walk || 5));
+    localStorage.setItem("ellondHorseSpeed", String(horse || 8));
+
+    const km = routeDistanceKm();
+    result.innerHTML = `<strong>${formatDistance(km)}</strong><br>On foot: ${formatTravelTime(km / (walk || 5))}<br>By horse: ${formatTravelTime(km / (horse || 8))}<br><span style="color:#9f9079">${measurePoints.length} route point${measurePoints.length === 1 ? "" : "s"}</span>`;
+}
+
+["measure-walk-speed","measure-horse-speed"].forEach(id => {
+    document.getElementById(id).addEventListener("input", renderMeasureRoute);
+});
+
+let markerPlacementMode = false;
+
+function applyMarkerPlacementMode() {
+    const button = document.getElementById("add-marker-button");
+    markerPlacementMode = dmMode && markerPlacementMode;
+    if (!button) return;
+    button.classList.toggle("tool-active", markerPlacementMode);
+    button.textContent = markerPlacementMode ? "Adding…" : "Add Marker";
+}
+
+function toggleMarkerPlacementMode() {
+    if (!dmMode) return;
+    markerPlacementMode = !markerPlacementMode;
+    applyMarkerPlacementMode();
+}
+
+/* =========================================================
+   RIGHT-CLICK MARKER PLACEMENT
+========================================================= */
+function closeMapContextMenu() {
+    document.getElementById("map-context-menu").classList.remove("open");
+}
+
+function openMapContextMenu(event) {
+    if (measureMode || !dmMode || !markerPlacementMode) return;
+    const targetMarker = event.target.closest(".marker,.dragon-marker,.landmark-marker");
+    if (targetMarker) return;
+    event.preventDefault();
+    pendingMarkerPoint = mapPointFromEvent(event);
+    const menu = document.getElementById("map-context-menu");
+    menu.style.left = `${Math.min(event.clientX, window.innerWidth - 220)}px`;
+    menu.style.top = `${Math.min(event.clientY, window.innerHeight - 300)}px`;
+    menu.classList.add("open");
+}
+
+function beginMarkerPlacement(type) {
+    pendingMarkerType = type;
+    closeMapContextMenu();
+    if (!pendingMarkerPoint) return;
+
+    const select = document.getElementById("marker-region");
+    select.innerHTML = Object.entries(regions).map(([id,r]) => `<option value="${id}">${escapeHtml(r.name)}</option>`).join("");
+    document.getElementById("marker-name").value = "";
+    document.getElementById("marker-description").value = "";
+    document.getElementById("marker-editor-note").textContent = type === "other"
+        ? "Other is a DM-hidden marker and will only display while DM Mode is active."
+        : `${type.charAt(0).toUpperCase()+type.slice(1)} marker`;
+    const modal = document.getElementById("marker-editor-modal");
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden","false");
+    setTimeout(() => document.getElementById("marker-name").focus(), 20);
+}
+
+function closeMarkerEditor() {
+    const modal = document.getElementById("marker-editor-modal");
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden","true");
+}
+
+function slugifyName(name) {
+    return name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"") || `location-${Date.now()}`;
+}
+
+function escapeHtml(value) {
+    return String(value ?? "").replace(/[&<>'"]/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[ch]));
+}
+
+function markerPagePath(marker) {
+    if (marker.type === "guild") return `Guilds/${marker.id}.html`;
+    if (marker.type === "landmark") return `Landmarks/${marker.id}.html`;
+    if (marker.type === "other") return `Hidden/${marker.id}.html`;
+    return `Locations/${marker.id}.html`;
+}
+
+const ATLAS_MARKER_SCHEMA = "ellond-atlas-markers-v1";
+
+function normalizeAtlasMarker(marker) {
+    if (!marker || typeof marker !== "object") return null;
+
+    const name = String(marker.name || "").trim();
+    if (!name) return null;
+
+    const type = ["city","town","village","guild","landmark","other"].includes(marker.type)
+        ? marker.type
+        : "other";
+
+    const x = Number(marker.x);
+    const y = Number(marker.y);
+    if (!Number.isFinite(x) || !Number.isFinite(y)) return null;
+
+    const normalized = {
+        id: String(marker.id || slugifyName(name)),
+        name,
+        type,
+        region: String(marker.region || "unknown"),
+        description: String(marker.description || ""),
+        x: Math.max(0, Math.min(100, x)),
+        y: Math.max(0, Math.min(100, y))
+    };
+
+    normalized.page = String(marker.page || markerPagePath(normalized));
+    return normalized;
+}
+
+function mergeMarkerSets(baseMarkers, localMarkers) {
+    const merged = new Map();
+
+    [...(baseMarkers || []), ...(localMarkers || [])].forEach(raw => {
+        const marker = normalizeAtlasMarker(raw);
+        if (marker) merged.set(marker.id, marker);
+    });
+
+    return [...merged.values()];
+}
+
+function loadUserMarkers() {
+    try {
+        const parsed = JSON.parse(localStorage.getItem(USER_MARKER_KEY) || "[]");
+        return Array.isArray(parsed) ? parsed.map(normalizeAtlasMarker).filter(Boolean) : [];
+    } catch {
+        return [];
+    }
+}
+
+function saveUserMarkers(markers) {
+    const clean = (markers || []).map(normalizeAtlasMarker).filter(Boolean);
+    localStorage.setItem(USER_MARKER_KEY, JSON.stringify(clean));
+}
+
+function atlasExportObject() {
+    return {
+        schema: ATLAS_MARKER_SCHEMA,
+        world: "Ellond",
+        markers: loadUserMarkers()
+    };
+}
+
+function exportAtlasMarkers() {
+    if (!dmMode) return;
+
+    const blob = new Blob(
+        [JSON.stringify(atlasExportObject(), null, 2)],
+        { type: "application/json" }
+    );
+
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "markers.json";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+function openAtlasImport() {
+    if (!dmMode) return;
+    const input = document.getElementById("atlas-marker-import");
+    input.value = "";
+    input.click();
+}
+
+async function importAtlasMarkers(event) {
+    if (!dmMode) return;
+
+    const file = event.target.files && event.target.files[0];
+    if (!file) return;
+
+    try {
+        const parsed = JSON.parse(await file.text());
+        const imported = Array.isArray(parsed) ? parsed : parsed.markers;
+
+        if (!Array.isArray(imported)) {
+            throw new Error("No markers array found.");
+        }
+
+        const merged = mergeMarkerSets(imported, loadUserMarkers());
+        saveUserMarkers(merged);
+        renderAllUserMarkers(true);
+        alert(`Imported ${imported.length} marker${imported.length === 1 ? "" : "s"}. Local edits were kept.`);
+    } catch (error) {
+        alert(`Could not import markers.json: ${error.message}`);
+    }
+}
+
+/*
+    When hosted (for example on GitHub Pages), load data/markers.json automatically.
+    When opened directly as file:// offline, browsers normally block fetch() to nearby
+    local files. In that case localStorage remains the working copy and Import can be
+    used to load markers.json manually.
+*/
+async function loadPublishedAtlasMarkers() {
+    if (location.protocol === "file:") return;
+
+    try {
+        const response = await fetch("data/markers.json", { cache: "no-store" });
+        if (!response.ok) return;
+
+        const parsed = await response.json();
+        const published = Array.isArray(parsed) ? parsed : parsed.markers;
+        if (!Array.isArray(published)) return;
+
+        const merged = mergeMarkerSets(published, loadUserMarkers());
+        saveUserMarkers(merged);
+        renderAllUserMarkers(true);
+    } catch {
+        // Keep the local working copy if the published JSON cannot be loaded.
+    }
+}
+
+function savePlacedMarker() {
+    const name = document.getElementById("marker-name").value.trim();
+    if (!name || !pendingMarkerPoint || !pendingMarkerType) return;
+    const p = percentPoint(pendingMarkerPoint);
+    const marker = {
+        id: slugifyName(name), name, type: pendingMarkerType,
+        region: document.getElementById("marker-region").value || "unknown",
+        description: document.getElementById("marker-description").value.trim(),
+        x: p.x, y: p.y
+    };
+    marker.page = markerPagePath(marker);
+    const markers = loadUserMarkers();
+    const existing = markers.findIndex(m => m.id === marker.id);
+    if (existing >= 0) markers[existing] = marker; else markers.push(marker);
+    saveUserMarkers(markers);
+    renderUserMarker(marker);
+    closeMarkerEditor();
+    pendingMarkerPoint = null;
+    pendingMarkerType = null;
+    downloadBlankLocationPage(marker);
+}
+
+function renderUserMarker(marker) {
+    const old = document.querySelector(`[data-user-marker="${CSS.escape(marker.id)}"]`);
+    if (old) old.remove();
+    const el = document.createElement("div");
+    el.dataset.userMarker = marker.id;
+    el.style.left = `${marker.x}%`;
+    el.style.top = `${marker.y}%`;
+    el.title = marker.type === "other" ? "DM-only hidden location" : marker.name;
+
+    if (marker.type === "landmark") {
+        el.className = "landmark-marker dynamic-marker";
+        el.innerHTML = `<img src="Tokens/Landmark.png" alt="Landmark"><span class="marker-label">${escapeHtml(marker.name)}</span>`;
+    } else {
+        const typeClass = marker.type === "other" ? "secret-marker dm-only-marker" : `${marker.type}-marker`;
+        el.className = `marker ${typeClass} dynamic-marker`;
+        el.innerHTML = `<span class="marker-label">${escapeHtml(marker.name)}</span>`;
+    }
+    el.addEventListener("click", () => showUserMarker(marker.id));
+    document.getElementById("map-wrapper").appendChild(el);
+}
+
+function showUserMarker(id) {
+    const marker = loadUserMarkers().find(m => m.id === id);
+    if (!marker) return;
+    updateRegionBanner(marker.region || "unknown");
+    document.getElementById("location-panel-content").innerHTML = `
+        <div class="location-summary">
+            <h2>${escapeHtml(marker.name)}</h2>
+            <p class="location-type">${escapeHtml(marker.type === "other" ? "DM Hidden" : marker.type)}</p>
+            <p>${escapeHtml(marker.description || "New atlas location.")}</p>
+        </div>
+        <div class="location-details">
+            <div class="section-title">Atlas Page</div>
+            <p>${escapeHtml(marker.page)}</p>
+            <a class="button" href="${encodeURI(marker.page)}">Open Location</a>
+        </div>`;
+}
+
+function renderAllUserMarkers(clearExisting = false) {
+    if (clearExisting) {
+        document.querySelectorAll("[data-user-marker]").forEach(el => el.remove());
+    }
+    loadUserMarkers().forEach(renderUserMarker);
+}
+
+function downloadBlankLocationPage(marker) {
+    const title = escapeHtml(marker.name);
+    const regionName = escapeHtml((regions[marker.region] || regions.unknown).name);
+    const html = `<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width, initial-scale=1.0">\n<title>${title} — Ellond Atlas</title>\n<style>body{margin:0;background:#1b1814;color:#e7ddc7;font-family:Georgia,"Times New Roman",serif}header{padding:18px 24px;background:#17120d;border-bottom:2px solid #6e542f}main{max-width:1000px;margin:auto;padding:30px}.panel{padding:24px;background:#211a12;border:1px solid #755b35}a{color:#ead8b4}</style>\n</head>\n<body>\n<header><a href="../index.html">← Atlas</a></header>\n<main><div class="panel"><h1>${title}</h1><p><em>${regionName} · ${escapeHtml(marker.type === "other" ? "DM Hidden" : marker.type)}</em></p><p>${escapeHtml(marker.description || "Add location description here.")}</p><h2>Map</h2><p>Add this location's map and details here.</p><h2>Notes</h2><p>Add history, people, guilds, landmarks and DM information here.</p></div></main>\n</body>\n</html>`;
+    const blob = new Blob([html], {type:"text/html"});
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `${marker.id}.html`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+/* =========================================================
+   PRINT — MAP ONLY, WITH CURRENTLY SHOWN MARKERS
+========================================================= */
+function printMapOnly() {
+    closeMapContextMenu();
+    window.print();
+}
+
+const mapWrapperForTools = document.getElementById("map-wrapper");
+mapWrapperForTools.addEventListener("contextmenu", openMapContextMenu);
+function measurePointFromMarker(marker) {
+    const left = parseFloat(marker.style.left);
+    const top = parseFloat(marker.style.top);
+
+    if (Number.isFinite(left) && Number.isFinite(top)) {
+        return {
+            x: MAP_NATIVE_WIDTH * left / 100,
+            y: MAP_NATIVE_HEIGHT * top / 100
+        };
+    }
+
+    // Fallback for any future marker that is positioned another way.
+    const wrapper = document.getElementById("map-wrapper");
+    const wrapperRect = wrapper.getBoundingClientRect();
+    const markerRect = marker.getBoundingClientRect();
+    const actualScale = currentZoom * baseMapScale;
+    return {
+        x: ((markerRect.left + markerRect.width / 2) - wrapperRect.left) / actualScale,
+        y: ((markerRect.top + markerRect.height / 2) - wrapperRect.top) / actualScale
+    };
+}
+
+// Capture phase is intentional: while measuring, marker clicks become
+// measuring points before their normal onclick can open a location.
+mapWrapperForTools.addEventListener("click", function(event) {
+    if (!measureMode) return;
+    if (event.target.closest(".measure-panel")) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+
+    const marker = event.target.closest(".marker,.dragon-marker,.landmark-marker");
+    if (marker) {
+        addMeasurePoint(measurePointFromMarker(marker));
+        return;
+    }
+
+    addMeasurePoint(mapPointFromEvent(event));
+}, true);
+
+document.addEventListener("click", function(event) {
+    if (!event.target.closest("#map-context-menu")) closeMapContextMenu();
+});
+
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") {
+        closeMapContextMenu();
+        closeMarkerEditor();
+    }
+});
+
+const storedWalk = localStorage.getItem("ellondWalkSpeed");
+if (storedWalk) document.getElementById("measure-walk-speed").value = storedWalk;
+const storedHorse = localStorage.getItem("ellondHorseSpeed");
+if (storedHorse) document.getElementById("measure-horse-speed").value = storedHorse;
+renderMeasureRoute();
+renderAllUserMarkers();
+loadPublishedAtlasMarkers();
+
+
+    /* =========================================================
+       INITIALIZE
+    ========================================================= */
+
+    updateZoom();
+
+    updateRegionBanner(
+        "ellond"
+    );
+
+    applyDmMode();
+
+
+
+/* =========================================================
+   MOBILE ATLAS CONTROLS
+========================================================= */
+function isMobileAtlas() {
+    return window.matchMedia("(max-width: 800px)").matches;
+}
+
+function toggleMobileMenu() {
+    document.body.classList.toggle("mobile-menu-open");
+}
+
+function openMobileInfoPanel(markerElement) {
+    if (!isMobileAtlas()) return;
+
+    document.body.classList.add("mobile-info-open");
+
+    document
+        .querySelectorAll(".mobile-selected")
+        .forEach(el => el.classList.remove("mobile-selected"));
+
+    if (markerElement) {
+        markerElement.classList.add("mobile-selected");
+    }
+}
+
+function closeMobileInfoPanel() {
+    document.body.classList.remove("mobile-info-open");
+
+    document
+        .querySelectorAll(".mobile-selected")
+        .forEach(el => el.classList.remove("mobile-selected"));
+}
+
+(function initializeMobileAtlas() {
+    const header = document.querySelector("header");
+
+    if (header && !document.getElementById("mobile-menu-button")) {
+        const button = document.createElement("button");
+        button.id = "mobile-menu-button";
+        button.className = "mobile-menu-button";
+        button.type = "button";
+        button.setAttribute("aria-label", "Open atlas tools");
+        button.textContent = "☰";
+        button.addEventListener("click", toggleMobileMenu);
+        header.appendChild(button);
+    }
+
+    if (!document.getElementById("mobile-panel-close")) {
+        const closeButton = document.createElement("button");
+        closeButton.id = "mobile-panel-close";
+        closeButton.className = "mobile-panel-close";
+        closeButton.type = "button";
+        closeButton.setAttribute("aria-label", "Close location details");
+        closeButton.textContent = "×";
+        closeButton.addEventListener("click", closeMobileInfoPanel);
+        document.body.appendChild(closeButton);
+    }
+
+    const wrapper = document.getElementById("map-wrapper");
+
+    if (wrapper) {
+        /*
+           Existing marker onclick handlers still perform their normal work.
+           This listener only opens the mobile drawer and highlights the
+           selected marker after that existing click has run.
+        */
+        wrapper.addEventListener("click", function(event) {
+            if (!isMobileAtlas() || measureMode) return;
+
+            const marker = event.target.closest(
+                ".marker,.dragon-marker,.landmark-marker"
+            );
+
+            if (marker) {
+                setTimeout(
+                    () => openMobileInfoPanel(marker),
+                    0
+                );
+            }
+        });
+    }
+
+    /* Tap outside the tool menu to close it. */
+    document.addEventListener("click", function(event) {
+        if (!isMobileAtlas()) return;
+
+        if (
+            document.body.classList.contains("mobile-menu-open") &&
+            !event.target.closest(".header-controls") &&
+            !event.target.closest("#mobile-menu-button")
+        ) {
+            document.body.classList.remove("mobile-menu-open");
+        }
+    });
+
+    /* Tapping the drawer's small visible handle opens it again. */
+    const sideArea = document.querySelector(".side-area");
+
+    if (sideArea) {
+        sideArea.addEventListener("click", function(event) {
+            if (
+                isMobileAtlas() &&
+                !document.body.classList.contains("mobile-info-open") &&
+                event.clientY <= sideArea.getBoundingClientRect().top + 52
+            ) {
+                document.body.classList.add("mobile-info-open");
+            }
+        });
+    }
+
+    window.addEventListener("resize", function() {
+        if (!isMobileAtlas()) {
+            document.body.classList.remove(
+                "mobile-menu-open",
+                "mobile-info-open"
+            );
+
+            document
+                .querySelectorAll(".mobile-selected")
+                .forEach(el => el.classList.remove("mobile-selected"));
+        }
+    });
+})();
+
+</script>
+
+
+</body>
+
+</html>
