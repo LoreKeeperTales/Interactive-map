@@ -2084,6 +2084,265 @@ body.dm-mode .marker.secret-marker.dm-only-marker .marker-label {
     }
 }
 
+
+/* =========================================================
+   MOBILE ATLAS — TOUCH-FRIENDLY RESPONSIVE LAYOUT
+   Desktop layout is unchanged above 800px.
+========================================================= */
+.mobile-menu-button,
+.mobile-panel-close {
+    display: none;
+}
+
+@media (max-width: 800px) {
+    html,
+    body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        overscroll-behavior: none;
+    }
+
+    header {
+        height: 64px;
+        min-height: 64px;
+        padding: 0 10px;
+        gap: 8px;
+    }
+
+    .header-compass {
+        width: 46px;
+        height: 46px;
+        margin-right: 0;
+        flex: 0 0 46px;
+    }
+
+    .header-title {
+        min-width: 0;
+        margin-right: auto;
+    }
+
+    .header-title h1 {
+        font-size: 21px;
+        letter-spacing: 4px;
+        white-space: nowrap;
+    }
+
+    .header-title .subtitle {
+        display: none;
+    }
+
+    .mobile-menu-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        flex: 0 0 44px;
+        padding: 0;
+        background: linear-gradient(180deg, #302518, #1c150e);
+        color: #ead8b4;
+        border: 1px solid #81643a;
+        box-shadow: inset 0 1px 0 rgba(255,225,170,.12);
+        font: 23px Georgia, "Times New Roman", serif;
+        cursor: pointer;
+    }
+
+    /* Desktop toolbar becomes the mobile drop-down tool menu. */
+    .header-controls {
+        display: none;
+        position: fixed;
+        z-index: 500;
+        top: 64px;
+        left: 8px;
+        right: 8px;
+        max-height: calc(100dvh - 76px);
+        overflow-y: auto;
+        padding: 10px;
+        gap: 7px;
+        flex-wrap: wrap;
+        align-content: flex-start;
+        background: linear-gradient(180deg, #2a2116, #18120c);
+        border: 1px solid #8d7042;
+        box-shadow: 0 8px 22px rgba(0,0,0,.82);
+    }
+
+    body.mobile-menu-open .header-controls {
+        display: flex;
+    }
+
+    .header-controls::before,
+    .header-controls::after {
+        display: none;
+    }
+
+    .header-controls button,
+    .header-controls a {
+        min-height: 44px;
+    }
+
+    .zoom-controls {
+        display: flex;
+    }
+
+    /* Map uses the whole phone screen below the compact header. */
+    .layout,
+    .layout.panel-hidden {
+        display: block;
+        width: 100%;
+        height: calc(100dvh - 64px);
+    }
+
+    .map-container {
+        position: fixed;
+        inset: 64px 0 0 0;
+        width: 100%;
+        height: calc(100dvh - 64px);
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        touch-action: pan-x pan-y;
+    }
+
+    /* The old desktop collapse arrow is unnecessary on a phone. */
+    .panel-arrow {
+        display: none !important;
+    }
+
+    /*
+       Location information becomes a bottom drawer.
+       A small strip remains visible so it can be reopened.
+    */
+    .side-area,
+    .layout.panel-hidden .side-area {
+        display: block;
+        position: fixed;
+        z-index: 420;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: auto;
+        width: 100%;
+        height: auto;
+        max-height: 58dvh;
+        overflow-y: auto;
+        transform: translateY(calc(100% - 50px));
+        transition: transform .22s ease;
+        border-left: 0;
+        border-top: 2px solid #715632;
+        box-shadow: 0 -8px 20px rgba(0,0,0,.72);
+    }
+
+    body.mobile-info-open .side-area {
+        transform: translateY(0);
+    }
+
+    .side-area::before {
+        content: "Location details";
+        display: block;
+        position: sticky;
+        top: 0;
+        z-index: 6;
+        min-height: 48px;
+        padding: 15px 54px 11px 18px;
+        color: #c8b78f;
+        background: linear-gradient(180deg, #2a2015, #1c150e);
+        border-bottom: 1px solid #66533a;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .mobile-panel-close {
+        display: none;
+        position: fixed;
+        z-index: 440;
+        right: 10px;
+        bottom: calc(58dvh - 42px);
+        width: 36px;
+        height: 34px;
+        padding: 0;
+        background: #21180f;
+        color: #ead8b4;
+        border: 1px solid #81643a;
+        font-size: 20px;
+        line-height: 1;
+    }
+
+    body.mobile-info-open .mobile-panel-close {
+        display: block;
+    }
+
+    /* Banner takes too much room in the phone drawer. */
+    .region-banner {
+        display: none !important;
+    }
+
+    .info-panel {
+        height: auto;
+        overflow: visible;
+        padding: 18px;
+    }
+
+    .location-summary {
+        min-height: 0;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    /*
+       Phone screens become unreadable when every label is permanently shown.
+       A tapped marker shows its own label.
+    */
+    .marker-label {
+        opacity: 0 !important;
+        pointer-events: none;
+    }
+
+    .marker.mobile-selected .marker-label,
+    .dragon-marker.mobile-selected .marker-label,
+    .landmark-marker.mobile-selected .marker-label {
+        opacity: 1 !important;
+    }
+
+    .marker,
+    .dragon-marker,
+    .landmark-marker {
+        touch-action: manipulation;
+    }
+
+    /* Keep tool UI inside the phone viewport. */
+    .map-context-menu {
+        max-width: calc(100vw - 20px);
+    }
+
+    .marker-editor-modal .modal-card,
+    .modal-card {
+        max-width: calc(100vw - 24px) !important;
+        max-height: calc(100dvh - 24px);
+        overflow: auto;
+    }
+
+    .measure-panel {
+        max-width: calc(100vw - 20px) !important;
+        left: 10px !important;
+        right: auto !important;
+        bottom: 58px !important;
+    }
+}
+
+@media (max-width: 430px) {
+    .header-title h1 {
+        font-size: 18px;
+        letter-spacing: 3px;
+    }
+
+    .header-compass {
+        width: 42px;
+        height: 42px;
+        flex-basis: 42px;
+    }
+}
+
 </style>
 
 </head>
@@ -5776,6 +6035,131 @@ loadPublishedAtlasMarkers();
 
     applyDmMode();
 
+
+
+/* =========================================================
+   MOBILE ATLAS CONTROLS
+========================================================= */
+function isMobileAtlas() {
+    return window.matchMedia("(max-width: 800px)").matches;
+}
+
+function toggleMobileMenu() {
+    document.body.classList.toggle("mobile-menu-open");
+}
+
+function openMobileInfoPanel(markerElement) {
+    if (!isMobileAtlas()) return;
+
+    document.body.classList.add("mobile-info-open");
+
+    document
+        .querySelectorAll(".mobile-selected")
+        .forEach(el => el.classList.remove("mobile-selected"));
+
+    if (markerElement) {
+        markerElement.classList.add("mobile-selected");
+    }
+}
+
+function closeMobileInfoPanel() {
+    document.body.classList.remove("mobile-info-open");
+
+    document
+        .querySelectorAll(".mobile-selected")
+        .forEach(el => el.classList.remove("mobile-selected"));
+}
+
+(function initializeMobileAtlas() {
+    const header = document.querySelector("header");
+
+    if (header && !document.getElementById("mobile-menu-button")) {
+        const button = document.createElement("button");
+        button.id = "mobile-menu-button";
+        button.className = "mobile-menu-button";
+        button.type = "button";
+        button.setAttribute("aria-label", "Open atlas tools");
+        button.textContent = "☰";
+        button.addEventListener("click", toggleMobileMenu);
+        header.appendChild(button);
+    }
+
+    if (!document.getElementById("mobile-panel-close")) {
+        const closeButton = document.createElement("button");
+        closeButton.id = "mobile-panel-close";
+        closeButton.className = "mobile-panel-close";
+        closeButton.type = "button";
+        closeButton.setAttribute("aria-label", "Close location details");
+        closeButton.textContent = "×";
+        closeButton.addEventListener("click", closeMobileInfoPanel);
+        document.body.appendChild(closeButton);
+    }
+
+    const wrapper = document.getElementById("map-wrapper");
+
+    if (wrapper) {
+        /*
+           Existing marker onclick handlers still perform their normal work.
+           This listener only opens the mobile drawer and highlights the
+           selected marker after that existing click has run.
+        */
+        wrapper.addEventListener("click", function(event) {
+            if (!isMobileAtlas() || measureMode) return;
+
+            const marker = event.target.closest(
+                ".marker,.dragon-marker,.landmark-marker"
+            );
+
+            if (marker) {
+                setTimeout(
+                    () => openMobileInfoPanel(marker),
+                    0
+                );
+            }
+        });
+    }
+
+    /* Tap outside the tool menu to close it. */
+    document.addEventListener("click", function(event) {
+        if (!isMobileAtlas()) return;
+
+        if (
+            document.body.classList.contains("mobile-menu-open") &&
+            !event.target.closest(".header-controls") &&
+            !event.target.closest("#mobile-menu-button")
+        ) {
+            document.body.classList.remove("mobile-menu-open");
+        }
+    });
+
+    /* Tapping the drawer's small visible handle opens it again. */
+    const sideArea = document.querySelector(".side-area");
+
+    if (sideArea) {
+        sideArea.addEventListener("click", function(event) {
+            if (
+                isMobileAtlas() &&
+                !document.body.classList.contains("mobile-info-open") &&
+                event.clientY <= sideArea.getBoundingClientRect().top + 52
+            ) {
+                document.body.classList.add("mobile-info-open");
+            }
+        });
+    }
+
+    window.addEventListener("resize", function() {
+        if (!isMobileAtlas()) {
+            document.body.classList.remove(
+                "mobile-menu-open",
+                "mobile-info-open"
+            );
+
+            document
+                .querySelectorAll(".mobile-selected")
+                .forEach(el => el.classList.remove("mobile-selected"));
+        }
+    });
+})();
 
 </script>
 
