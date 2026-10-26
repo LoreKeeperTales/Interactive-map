@@ -755,7 +755,9 @@
         drop-shadow(0 0 4px rgba(190,145,70,.25));
 }
 
-</style>
+
+.staff-link{color:#e7c58a;text-decoration:underline;text-underline-offset:3px}.staff-link:hover{color:#fff0c8}
+.shop-section-title{color:#d6ad6a;font-size:1.15em;margin:26px 0 12px}.shop-wares{border-collapse:collapse;width:100%;font-size:.85em}.shop-wares th,.shop-wares td{border:1px solid #725633;padding:9px;text-align:left}.shop-wares th{color:#e4c28c}.shop-wares td:last-child{white-space:nowrap}#info-panel ul{line-height:1.8}</style>
 
 </head>
 
@@ -799,6 +801,7 @@
             <a class="nav-button" href="../Npc/index.html">
                 NPCs
             </a>
+        <a class="nav-button" href="shops.html?town=port-aster">Shops</a>
         </nav>
 
         <div class="zoom-controls">
@@ -1479,90 +1482,20 @@ function showGuilds() {
 
 
     const portAsterGuildLinks = {
-        adventureguild: {
-            guildName: "Adventurer's Guild",
-            guildPage: "../Guilds/adventurers-guild.html",
-            head: "To be assigned",
-            frontDesk: "To be assigned"
-        },
-        huntersguild: {
-            guildName: "Hunter's Guild",
-            guildPage: "../Guilds/hunters-guild.html",
-            head: "To be assigned",
-            frontDesk: "To be assigned"
-        },
-        challengeguild: {
-            guildName: "League of Challenge",
-            guildPage: "../Guilds/league-of-challenge.html",
-            head: "To be assigned",
-            frontDesk: "To be assigned"
-        },
-        minersguild: {
-            guildName: "Miner's Guild",
-            guildPage: "../Guilds/miners-guild.html",
-            head: "To be assigned",
-            frontDesk: "To be assigned"
-        },
-        leatherguild: {
-            guildName: "Leather Crafter's Guild",
-            guildPage: "../Guilds/leather-crafters-guild.html",
-            head: "To be assigned",
-            frontDesk: "To be assigned"
-        },
-        farmersguild: {
-            guildName: "Farmer's Guild",
-            guildPage: "../Guilds/farmers-guild.html",
-            head: "To be assigned",
-            frontDesk: "To be assigned"
-        },
-        merchantguild: {
-            guildName: "Merchant Consortium",
-            guildPage: "../Guilds/merchant-consortium.html",
-            head: "To be assigned",
-            frontDesk: "To be assigned"
-        },
-        innkeepersguild: {
-            guildName: "Innkeepers' Guild",
-            guildPage: "../Guilds/innkeepers-guild.html",
-            head: "To be assigned",
-            frontDesk: "To be assigned"
-        },
-        stonebeam: {
-            guildName: "The Order of Stone & Beam",
-            guildPage: "../Guilds/order-stone-beam.html",
-            head: "To be assigned",
-            frontDesk: "To be assigned"
-        },
-        whitehand: {
-            guildName: "The White Hand",
-            guildPage: "../Guilds/white-hand.html",
-            head: "To be assigned",
-            frontDesk: "To be assigned"
-        },
-        tidebound: {
-            guildName: "The Tidebound Brotherhood",
-            guildPage: "../Guilds/tidebound-brotherhood.html",
-            head: "To be assigned",
-            frontDesk: "To be assigned"
-        },
-        gildedvault: {
-            guildName: "The Gilded Vault",
-            guildPage: "../Guilds/gilded-vault.html",
-            head: "To be assigned",
-            frontDesk: "To be assigned"
-        },
-        veiledkey: {
-            guildName: "Guild of the Veiled Key",
-            guildPage: "../Guilds/guild-of-the-veiled-key.html",
-            head: "To be assigned",
-            frontDesk: "To be assigned"
-        },
-        magicalleague: {
-            guildName: "Gentleman's League of Magical Excellence",
-            guildPage: "../Guilds/gentlemans-league.html",
-            head: "To be assigned",
-            frontDesk: "To be assigned"
-        },
+        adventureguild: { guildName: "Adventurer's Guild", hall: "West March Hall", guildPage: "../Guilds/adventurers-guild.html", head: "<a class=\"staff-link\" href=\"../Npc/marrec-vale.html\">Marrec Vale</a>", frontDesk: "<a class=\"staff-link\" href=\"../Npc/Tessa_Quill_NPC.html\">Tessa Quill</a>" },
+        huntersguild: { guildName: "Hunter's Guild", hall: "Long Trail Lodge", guildPage: "../Guilds/hunters-guild.html", head: "<a class=\"staff-link\" href=\"../Npc/kael-fenner.html\">Kael Fenner</a>", frontDesk: "<a class=\"staff-link\" href=\"../Npc/mira-thornfield.html\">Mira Thornfield</a>" },
+        challengeguild: { guildName: "League of Challenge", hall: "Aster Fighting Hall", guildPage: "../Guilds/league-of-challenge.html", head: "<a class=\"staff-link\" href=\"../Npc/garran-holt.html\">Garran Holt</a>", frontDesk: "<a class=\"staff-link\" href=\"../Npc/pella-vane.html\">Pella Vane</a>" },
+        minersguild: { guildName: "Miner's Guild", hall: "Prospector's Office", guildPage: "../Guilds/miners-guild.html", head: "<a class=\"staff-link\" href=\"../Npc/orik-stonevein.html\">Orik Stonevein</a>", frontDesk: "<a class=\"staff-link\" href=\"../Npc/nessa-coppermark.html\">Nessa Coppermark</a>" },
+        leatherguild: { guildName: "Leather Crafter's Guild", hall: "Hideworkers' Yard", guildPage: "../Guilds/leather-crafters-guild.html", head: "<a class=\"staff-link\" href=\"../Npc/harlan-tann.html\">Harlan Tann</a>", frontDesk: "<a class=\"staff-link\" href=\"../Npc/edda-stitch.html\">Edda Stitch</a>" },
+        farmersguild: { guildName: "Farmer's Guild", hall: "Marsh & Field Office", guildPage: "../Guilds/farmers-guild.html", head: "<a class=\"staff-link\" href=\"../Npc/tobren-reed.html\">Tobren Reed</a>", frontDesk: "<a class=\"staff-link\" href=\"../Npc/anya-seedwell.html\">Anya Seedwell</a>" },
+        merchantguild: { guildName: "Merchant Consortium", hall: "Aster Exchange", guildPage: "../Guilds/merchant-consortium.html", head: "<a class=\"staff-link\" href=\"../Npc/cassian-vell.html\">Cassian Vell</a>", frontDesk: "<a class=\"staff-link\" href=\"../Npc/linnet-brass.html\">Linnet Brass</a>" },
+        innkeepersguild: { guildName: "Innkeepers' Guild", hall: "Wayfarer's House", guildPage: "../Guilds/innkeepers-guild.html", head: "<a class=\"staff-link\" href=\"../Npc/marta-hearth.html\">Marta Hearth</a>", frontDesk: "<a class=\"staff-link\" href=\"../Npc/perrin-bell.html\">Perrin Bell</a>" },
+        stonebeam: { guildName: "Order of Stone & Beam", hall: "Surveyor's House", guildPage: "../Guilds/order-stone-beam.html", head: "<a class=\"staff-link\" href=\"../Npc/edric-plumb.html\">Edric Plumb</a>", frontDesk: "<a class=\"staff-link\" href=\"../Npc/nella-square.html\">Nella Square</a>" },
+        whitehand: { guildName: "White Hand", hall: "White Hand Hospice", guildPage: "../Guilds/white-hand.html", head: "<a class=\"staff-link\" href=\"../Npc/sister-amara-venn.html\">Sister Amara Venn</a>", frontDesk: "<a class=\"staff-link\" href=\"../Npc/jorin-hale.html\">Jorin Hale</a>" },
+        tidebound: { guildName: "Tidebound Brotherhood", hall: "Tidehall", guildPage: "../Guilds/tidebound-brotherhood.html", head: "<a class=\"staff-link\" href=\"../Npc/rusk-marrow.html\">Rusk Marrow</a>", frontDesk: "<a class=\"staff-link\" href=\"../Npc/sela-moor.html\">Sela Moor</a>" },
+        gildedvault: { guildName: "Gilded Vault", hall: "Aster Vault", guildPage: "../Guilds/gilded-vault.html", head: "<a class=\"staff-link\" href=\"../Npc/corvin-darr.html\">Corvin Darr</a>", frontDesk: "<a class=\"staff-link\" href=\"../Npc/eryn-penn.html\">Eryn Penn</a>" },
+        veiledkey: { guildName: "Veiled Key", hall: "Keyhouse", guildPage: "../Guilds/guild-of-the-veiled-key.html", head: "<a class=\"staff-link\" href=\"../Npc/veyra-locke.html\">Veyra Locke</a>", frontDesk: "<a class=\"staff-link\" href=\"../Npc/tomel-grey.html\">Tomel Grey</a>" },
+        magicalleague: { guildName: "Gentleman's League of Magical Excellence", hall: "Aster Arcane Office", guildPage: "../Guilds/gentlemans-league.html", head: "<a class=\"staff-link\" href=\"../Npc/magister-elian-wren.html\">Magister Elian Wren</a>", frontDesk: "<a class=\"staff-link\" href=\"../Npc/fia-lark.html\">Fia Lark</a>" },
     };
 
     function portAsterGuildContext(id) {
@@ -1578,7 +1511,7 @@ function showGuilds() {
             <div class="guild-context">
 
                 <div class="section-title">
-                    Local Guild Staff
+                    ${guild.hall || "Local Guild Staff"} · Local Guild Staff
                 </div>
 
                 <div class="guild-staff">
@@ -1651,7 +1584,7 @@ function showGuilds() {
                 "Durgan Ironwake — Male Dwarf, 132",
 
             description:
-                "The largest forge in Port Aster. Durgan refuses to make cheap weapons and stands behind every blade he sells.",
+                "The largest forge in Port Aster. Durgan refuses to make cheap weapons and stands behind every blade he sells. League of the Black Forge: Manager Durgan Ironwake; Desk Clerk Lysa Embernote.",
 
             inventory:
                 "Weapons, shields, chain and scale armor, breastplates, commissioned plate armor, repairs, weapon silvering and custom commissions."
@@ -2146,6 +2079,29 @@ magicalleague: {
        LOCATION PANEL
     ========================= */
 
+
+    // Shop inventory shared with the town's Shops directory.
+    const shopMarkerNames = {"marens": "Maren’s Outfitters", "ironwake": "Ironwake Smithy", "gullcompass": "Gull & Compass", "greenroot": "Greenroot Apothecary", "saltandscale": "Salt & Scale Fishmongers", "oakarrow": "Oak & Arrow", "ledger": "The Ledger House", "tankard": "The Silver Tankard", "seawind": "Seawind Stables", "inkcompass": "The Cartographer’s Quill"};
+    const shopInventory = {"Ironwake Smithy": {"owner": "Durgan Ironwake", "guild": "League of the Black Forge", "sections": {"Weapons": [["Dagger", "2 gp"], ["Spear", "2 gp"], ["Handaxe", "5 gp"], ["Battleaxe", "10 gp"], ["Longsword", "15 gp"], ["Shortsword", "10 gp"], ["Warhammer", "12 gp"], ["Mace", "6 gp"], ["Greatsword", "50 gp"], ["Polearm", "20 gp"]], "Armor": [["Shield", "10 gp"], ["Chain Shirt", "50 gp"], ["Chain Mail", "75 gp"], ["Scale Mail", "50 gp"], ["Breastplate", "400 gp"], ["Plate Armor (commission)", "1500 gp"]], "Guild Exclusives": [["Masterwork Weapon", "100 gp surcharge / 75 gp loved"], ["Reinforced Shield", "40 gp liked / 35 gp loved"], ["Forgemaster Commission", "500 gp liked / 450 gp loved"]]}, "services": ["Repairs", "Silvering weapons", "Custom commissions", "Armor resizing", "Weapon engraving", "Equipment appraisal"]}, "Gull & Compass": {"owner": "Edwin Marr", "guild": "Adventurer’s Guild", "sections": {"Stock Items": [["Rope (50 ft)", "2 gp"], ["Torches (10)", "1 gp"], ["Lantern", "5 gp"], ["Oil Flask", "1 gp"], ["Tinderbox", "1 gp"], ["Rations (7 days)", "5 gp"], ["Waterskin", "1 gp"], ["Grappling Hook", "2 gp"], ["Crowbar", "2 gp"], ["Hammer", "1 gp"], ["Pitons (10)", "1 gp"], ["Shovel", "2 gp"], ["Tent (2 person)", "10 gp"], ["Mess Kit", "2 gp"]], "Signature Items": [["Climber’s Kit", "30 gp"], ["Healer’s Kit", "5 gp"], ["Fishing Gear", "10 gp"], ["Spyglass (rare)", "1000 gp"], ["Map of the West Marches", "20 gp"], ["Empty Journal", "4 gp"]], "Guild Exclusives": [["Explorer’s Bundle", "35 gp liked / 30 gp loved"], ["Expedition Supply Crate", "75 gp liked / 65 gp loved"], ["Guild Survey Maps", "50 gp liked / 40 gp loved"]]}, "services": ["Equipment inspections", "Packing advice", "Map updates", "Special orders", "Bulk outfitting"]}, "Greenroot Apothecary": {"owner": "Elira Mossbrook", "guild": "Herbalists & Healers Guild", "sections": {"Stock Items": [["Healing Herbs", "5 gp"], ["Antitoxin", "50 gp"], ["Bandages", "1 gp"], ["Herbal Tea", "1 gp"], ["Healing Salve", "5 gp"], ["Poultice", "4 gp"], ["Insect Repellent", "2 gp"], ["Spell Components (Common)", "Standard / varies"]], "Signature Items": [["Potion of Healing", "50 gp"], ["Jungle Remedy Kit", "20 gp"], ["Traveler’s Herbal Bundle", "10 gp"]], "Guild Exclusives": [["Master Herbalist Consultation", "15 gp liked / 10 gp loved"], ["Rare Healing Herbs", "40 gp liked / 35 gp loved"], ["Commissioned Herbal Mixture", "Price varies"]]}, "services": ["Identify herbs and fungi", "Custom remedies", "Diagnose common illnesses", "Expedition medicine packs", "Buys rare herbs"]}, "Salt & Scale Fishmongers": {"owner": "Branik Tideborn", "guild": "Fishermen’s Guild", "sections": {"Stock Items": [["Fresh Fish", "5 sp"], ["Smoked Fish", "8 sp"], ["Salted Cod", "6 sp"], ["Crab", "10 sp"], ["Lobster", "2 gp"], ["Mussels (Basket)", "6 sp"], ["Oysters (Dozen)", "1 gp"], ["Seaweed Bundle", "5 sp"], ["Whale Oil Flask", "10 gp"]], "Signature Items": [["Captain’s Seafood Crate", "15 gp"], ["Smoked Sailor’s Pack", "4 gp"], ["Premium Oyster Selection", "6 gp"]], "Guild Exclusives": [["Deepwater Catch", "12 gp liked / 10 gp loved"], ["Fresh Expedition Rations", "8 gp liked / 7 gp loved"], ["Bulk Ship Provisions", "Price varies"]]}, "services": ["Buys fresh catches", "Prepares fish", "Preserves seafood", "Ship provisions", "Special orders"]}, "Oak & Arrow": {"owner": "Fenric Alderbow", "guild": "Hunter’s Guild", "sections": {"Stock Items": [["Longbow", "50 gp"], ["Shortbow", "25 gp"], ["Crossbow", "35 gp"], ["Arrows (20)", "2 gp"], ["Bolts (20)", "2 gp"], ["Hunting Spear", "2 gp"], ["Quiver", "1 gp"]], "Signature Items": [["Oakheart Recurve Bow", "160 gp"], ["Silentflight Arrows (20)", "10 gp"], ["Hunter’s Pack", "20 gp"]], "Guild Exclusives": [["Custom Bow Commission", "120 gp liked / 100 gp loved"], ["Rare Fletching Materials", "30 gp liked / 25 gp loved"], ["Monster-hide Cloak", "60 gp liked / 50 gp loved"]]}, "services": ["Bow restringing", "Arrow crafting", "Weapon maintenance", "Buys monster trophies"]}, "The Ledger House": {"owner": "Hester Quill", "guild": "Merchant Consortium", "sections": {"Stock Items": [["Rope (50 ft)", "2 gp"], ["Paper (10)", "15 sp"], ["Ink", "8 gp"], ["Candles (10)", "1 gp"], ["Flour", "1 gp"], ["Locks", "25 gp"], ["Books (Blank)", "15 gp"]], "Signature Items": [["Traveler’s Kit", "25 gp"], ["Merchant Record Book", "12 gp"], ["Homesteader Bundle", "20 gp"]], "Guild Exclusives": [["Special Orders", "Standard liked / Priority loved"], ["Letters of Credit", "Available liked or loved"], ["Trade Crates", "Price varies"]]}, "services": ["Package holding", "Book binding", "Buys surplus goods", "Merchant advice"]}, "The Silver Tankard": {"owner": "Brom Halfbarrel", "guild": "Innkeepers’ Guild", "sections": {"Stock Items": [["Room (Night)", "1 gp"], ["Hot Meal", "6 sp"], ["Local Ale", "4 sp"], ["Imported Wine", "12 gp"], ["Rum", "8 gp"]], "Signature Items": [["Captain’s Feast", "25 gp"], ["Halfbarrel Reserve Ale", "6 gp"], ["Private Dining Room", "8 gp"]], "Guild Exclusives": [["Merchant Lounge", "Included liked/loved"], ["Reserved Rooms", "Yes liked / Priority loved"]]}, "services": ["Mercenary notices", "Ship passage postings", "Private meetings", "Local rumors"]}, "Seawind Stables": {"owner": "Greta Holst", "guild": "Teamsters & Stablekeepers Guild", "sections": {"Stock Items": [["Horse Boarding", "1 gp"], ["Riding Horse", "75 gp"], ["Draft Horse", "50 gp"], ["Wagon Rental / Day", "12 gp"], ["Feed", "6 sp"]], "Signature Items": [["Expedition Wagon", "160 gp"], ["Caravan Package", "60 gp"], ["Fine Saddle", "30 gp"]], "Guild Exclusives": [["Reserved Horses", "Yes liked / Priority loved"], ["Secure Storage", "Included liked/loved"]]}, "services": ["Saddle repair", "Grooming", "Travel advice", "Harness fitting"]}, "The Cartographer’s Quill": {"owner": "Orlan Vesk", "guild": "Merchant Consortium", "sections": {"Stock Items": [["Blank Book", "15 gp"], ["Regional Map", "10 gp"], ["Sea Chart", "25 gp"], ["Ink", "8 gp"], ["Quills (10)", "1 gp"], ["Scroll Case", "10 gp"], ["Navigation Tools", "30 gp"]], "Signature Items": [["Explorer’s Journal", "16 gp"], ["West Marches Atlas", "50 gp"], ["Spell Scroll (Common)", "Standard / varies"]], "Guild Exclusives": [["Custom Maps", "Available liked / Priority loved"], ["Survey Reports", "Available liked/loved"]]}, "services": ["Map restoration", "Document sealing", "Journal binding", "Buys exploration journals"]}, "Maren’s Outfitters": {"owner": "Maren Willowthread", "guild": "Farmers & Clothiers Guild", "sections": {"Stock Items": [["Traveler’s Cloak", "12 gp"], ["Linen Shirt", "5 gp"], ["Wool Trousers", "4 gp"], ["Leather Gloves", "4 gp"], ["Travel Backpack", "5 gp"], ["Bedroll", "1 gp"], ["Blanket", "1 gp"]], "Signature Items": [["Stormweave Cloak", "90 gp"], ["Explorer’s Coat", "55 gp"], ["Custom Noble Outfit", "140 gp"]], "Guild Exclusives": [["Guild Expedition Cloak", "65 gp liked / 55 gp loved"], ["Master Tailor Commission", "120 gp liked / 100 gp loved"]]}, "services": ["Custom tailoring", "Repairs", "Embroidery", "Heraldry", "Expedition outfitting", "Bulk caravan orders"]}};
+    function shopEscape(value) {
+        return String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+    }
+    function showMarkerShop(markerId) {
+        const shopName = shopMarkerNames[markerId];
+        const shop = shopInventory[shopName];
+        if (!shop) return;
+        const panel = document.getElementById('info-panel');
+        const sections = Object.entries(shop.sections || {}).map(([title, items]) =>
+            `<h3 class="shop-section-title">${shopEscape(title)}</h3><table class="shop-wares"><thead><tr><th>Item</th><th>Price</th></tr></thead><tbody>${items.map(([item,price]) => `<tr><td>${shopEscape(item)}</td><td>${shopEscape(price)}</td></tr>`).join('')}</tbody></table>`
+        ).join('');
+        panel.innerHTML = `<div class="sidebar-buttons"><button class="sidebar-button" onclick="showLocation('${markerId}')">← Back to Shop Information</button></div>
+            <h2>${shopEscape(shopName)}</h2><p class="location-type">${shopEscape(locations[markerId].type)}</p>
+            <div class="section-title">Owner</div><p>${shopEscape(shop.owner)}</p>
+            <div class="section-title">Guild</div><p>${shopEscape(shop.guild)}</p>${sections}
+            <div class="section-title">Other Services</div><ul>${(shop.services || []).map(service=>`<li>${shopEscape(service)}</li>`).join('')}</ul>`;
+        panel.scrollTop = 0;
+    }
+
     function showLocation(id) {
 
         const location =
@@ -2185,6 +2141,7 @@ magicalleague: {
     >
         Guilds
     </button>
+    ${Object.prototype.hasOwnProperty.call(shopMarkerNames,id) ? `<button class="sidebar-button" onclick="showMarkerShop('${id}')">Open Shop</button>` : ''}
 
 </div>
 
@@ -2433,11 +2390,13 @@ magicalleague: {
     ========================= */
 
     updateZoom();
-
+    const requestedLocation = decodeURIComponent(window.location.hash.slice(1));
+    if (requestedLocation && locations[requestedLocation]) showLocation(requestedLocation);
 
 </script>
 
 
+<script src="../dm-system.js"></script>
 </body>
 
 </html>

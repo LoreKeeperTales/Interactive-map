@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lysa Embernote | Ellond NPC</title>
+<style>
+
+* { box-sizing: border-box; }
+
+html, body {
+    margin: 0;
+    min-height: 100%;
+}
+
+body {
+    background:
+        radial-gradient(circle at 28% 16%, rgba(102,77,44,.10), transparent 34%),
+        #17120d;
+    color: #e7ddc7;
+    font-family: Georgia, "Times New Roman", serif;
+}
+
+/* HEADER */
+header {
+    position: sticky;
+    top: 0;
+    height: 86px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 0 22px;
+    background: linear-gradient(180deg,#211a12 0%,#17120d 55%,#100d09 100%);
+    border-top: 2px solid #8d7042;
+    border-bottom: 3px solid #6e542f;
+    box-shadow:
+        inset 0 1px 0 #b89a63,
+        inset 0 -1px 0 #2a1d10,
+        0 4px 10px rgba(0,0,0,.65);
+    z-index: 100;
+}
+
+header::after {
+    content: "";
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    bottom: 5px;
+    height: 1px;
+    background: linear-gradient(90deg,transparent,#8d7042 10%,#b79a63 50%,#8d7042 90%,transparent);
+    pointer-events: none;
+}
+
+.header-emblem {
+    position: relative;
+    width: 58px;
+    height: 58px;
+    flex: 0 0 58px;
+    border: 2px solid #9d7b45;
+    border-radius: 50%;
+    box-shadow:
+        inset 0 0 0 3px #1a140e,
+        inset 0 0 0 4px #67502e,
+        0 0 6px rgba(0,0,0,.8);
+}
+
+.header-emblem::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 5px;
+    width: 2px;
+    height: 44px;
+    background: #b89758;
+    transform: translateX(-50%);
+}
+
+.header-emblem::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    width: 44px;
+    height: 2px;
+    background: #b89758;
+    transform: translateY(-50%);
+}
+
+.header-title {
+    margin-right: auto;
+    min-width: 0;
+}
+
+.header-title h1 {
+    margin: 0;
+    color: #ead8b4;
+    font-size: 27px;
+    letter-spacing: 5px;
+    text-shadow: 0 2px 2px #000, 0 0 4px rgba(194,152,86,.25);
+}
+
+.header-title .subtitle {
+    color: #b99a68;
+    font-size: 14px;
+    font-style: italic;
+}
+
+.header-controls {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 10px;
+    background: linear-gradient(180deg,#2a2116,#18120c);
+    border: 1px solid #755b35;
+    box-shadow: inset 0 0 0 1px #342619, 0 2px 6px rgba(0,0,0,.6);
+}
+
+.header-controls::before,
+.header-controls::after {
+    content: "◆";
+    position: absolute;
+    top: 50%;
+    color: #987545;
+    font-size: 9px;
+    transform: translateY(-50%);
+}
+
+.header-controls::before { left: -7px; }
+.header-controls::after { right: -7px; }
+
+.nav-button,
+.deep-link {
+    min-height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 12px;
+    background: linear-gradient(180deg,#302518,#1c150e);
+    color: #ead8b4;
+    border: 1px solid #81643a;
+    box-shadow:
+        inset 0 1px 0 rgba(255,225,170,.12),
+        inset 0 -1px 0 rgba(0,0,0,.8);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 13px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.nav-button:hover,
+.deep-link:hover {
+    background: linear-gradient(180deg,#49371f,#2a1e12);
+    border-color: #b18c52;
+}
+
+/* NPC PAGE */
+.page-shell {
+    display: grid;
+    grid-template-columns: minmax(0,1fr) 330px;
+    min-height: calc(100vh - 86px);
+}
+
+main {
+    padding: 42px clamp(28px,5vw,72px) 70px;
+    min-width: 0;
+}
+
+.npc-heading {
+    max-width: 980px;
+    margin: 0 auto 30px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid #705736;
+}
+
+.kicker {
+    margin-bottom: 8px;
+    color: #b99a68;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+.npc-heading h2 {
+    margin: 0;
+    color: #ead8b4;
+    font-size: clamp(34px,4vw,50px);
+    font-weight: normal;
+}
+
+.npc-role {
+    margin-top: 12px;
+    color: #bca47c;
+    font-size: 16px;
+    font-style: italic;
+}
+
+.content-grid {
+    max-width: 980px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 18px;
+}
+
+.card {
+    padding: 20px 22px 22px;
+    background: linear-gradient(180deg,rgba(50,39,26,.82),rgba(28,21,14,.88));
+    border: 1px solid #674f31;
+    box-shadow: inset 0 0 0 1px rgba(191,150,84,.06),0 3px 8px rgba(0,0,0,.24);
+}
+
+.card.wide { grid-column: 1 / -1; }
+
+.section-title {
+    margin: 0 0 12px;
+    padding-bottom: 8px;
+    color: #d2b57d;
+    border-bottom: 1px solid #5d482f;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.card p {
+    line-height: 1.55;
+    margin: 0;
+}
+
+.placeholder {
+    color: #9d9079;
+    font-style: italic;
+}
+
+.authority-box {
+    margin-top: 14px;
+    padding: 15px 16px;
+    background: rgba(9,7,5,.30);
+    border: 1px solid #5f482b;
+}
+
+.authority-row {
+    display: grid;
+    grid-template-columns: 165px 1fr;
+    gap: 10px;
+    margin: 7px 0;
+}
+
+.authority-label {
+    color: #aa8e60;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+aside {
+    position: sticky;
+    top: 86px;
+    height: calc(100vh - 86px);
+    overflow-y: auto;
+    padding: 31px 26px 40px;
+    background: linear-gradient(90deg,#1d1710,#2a2117);
+    border-left: 2px solid #73562f;
+    box-shadow: inset 4px 0 9px rgba(0,0,0,.35),-4px 0 10px rgba(0,0,0,.45);
+}
+
+.portrait-placeholder {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 25px;
+    background:
+        radial-gradient(circle at center, rgba(148,113,60,.12), transparent 55%),
+        #16110c;
+    border: 1px solid #745936;
+    box-shadow: inset 0 0 0 5px #21180f, inset 0 0 0 6px #5c4529;
+    color: #8e7b5a;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 11px;
+}
+
+.profile-title {
+    margin: 0 0 18px;
+    padding-bottom: 11px;
+    color: #ead8b4;
+    border-bottom: 1px solid #6f5737;
+    font-size: 22px;
+}
+
+.profile-row { margin: 17px 0; }
+
+.profile-label {
+    display: block;
+    margin-bottom: 5px;
+    color: #b99a68;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.profile-value {
+    color: #e4d6b8;
+    line-height: 1.4;
+}
+
+.sidebar-rule {
+    height: 1px;
+    margin: 23px 0;
+    background: linear-gradient(90deg,transparent,#735b38,transparent);
+}
+
+/* INDEX */
+.directory-wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 42px 28px 70px;
+}
+
+.directory-title {
+    margin-bottom: 26px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #705736;
+}
+
+.directory-title h2 {
+    margin: 0;
+    color: #ead8b4;
+    font-size: 40px;
+    font-weight: normal;
+    letter-spacing: 2px;
+}
+
+.directory-title p {
+    max-width: 850px;
+    color: #b99a68;
+    line-height: 1.5;
+}
+
+.group-title {
+    margin: 32px 0 13px;
+    color: #c9a96d;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.npc-directory {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+    gap: 14px;
+}
+
+.npc-card {
+    min-height: 112px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    padding: 17px 18px;
+    background: linear-gradient(180deg,rgba(50,39,26,.86),rgba(27,20,13,.92));
+    color: #ead8b4;
+    border: 1px solid #674f31;
+    text-decoration: none;
+    box-shadow: inset 0 0 0 1px rgba(191,150,84,.06),0 3px 7px rgba(0,0,0,.24);
+}
+
+.npc-card:hover {
+    border-color: #aa8450;
+    background: linear-gradient(180deg,rgba(73,55,31,.92),rgba(34,25,15,.96));
+}
+
+.npc-card strong {
+    font-size: 18px;
+    font-weight: normal;
+}
+
+.npc-card .role {
+    color: #c0a675;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.npc-card .region {
+    color: #9e917a;
+    font-size: 13px;
+    font-style: italic;
+}
+
+.note {
+    margin-top: 28px;
+    padding: 16px 18px;
+    color: #a99a80;
+    background: rgba(20,15,10,.55);
+    border: 1px solid #5e482d;
+    line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+    header {
+        height: auto;
+        min-height: 86px;
+        flex-wrap: wrap;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .header-emblem { display: none; }
+    .header-title h1 { font-size: 20px; letter-spacing: 2px; }
+    .page-shell { display: block; }
+    aside { position: static; height: auto; border-left: none; border-top: 2px solid #73562f; }
+    .content-grid { grid-template-columns: 1fr; }
+    .card.wide { grid-column: auto; }
+}
+
+
+/* =========================================================
+   DM-ONLY STAT BLOCK
+========================================================= */
+
+.dm-lock-wrap {
+    margin-top: 18px;
+}
+
+.dm-lock-button {
+    min-height: 40px;
+    padding: 8px 14px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #3b1d18,
+            #21100d
+        );
+
+    color: #e8cfaf;
+    border: 1px solid #8e563f;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 13px;
+    letter-spacing: .5px;
+
+    cursor: pointer;
+}
+
+.dm-lock-button:hover {
+    background:
+        linear-gradient(
+            180deg,
+            #563026,
+            #2d1712
+        );
+
+    border-color: #b06b4e;
+}
+
+.dm-stat-block {
+    display: none;
+    margin-top: 18px;
+    padding: 20px 22px 24px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(56, 28, 20, .92),
+            rgba(28, 15, 11, .96)
+        );
+
+    border: 1px solid #8a573f;
+
+    box-shadow:
+        inset 0 0 0 1px rgba(212, 160, 110, .08),
+        0 4px 10px rgba(0,0,0,.35);
+}
+
+.dm-stat-block.unlocked {
+    display: block;
+}
+
+.dm-warning {
+    margin: 0 0 16px;
+    color: #d7ad89;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.stat-heading {
+    margin: 0 0 6px;
+    color: #f0ddc0;
+    font-size: 24px;
+    font-weight: normal;
+}
+
+.stat-subheading {
+    margin: 0 0 15px;
+    color: #bda58a;
+    font-style: italic;
+    font-size: 13px;
+}
+
+.stat-rule {
+    height: 2px;
+    margin: 12px 0;
+    background:
+        linear-gradient(
+            90deg,
+            #8d4f37,
+            #c08a61,
+            #8d4f37
+        );
+}
+
+.stat-line {
+    margin: 6px 0;
+    line-height: 1.45;
+}
+
+.stat-line strong {
+    color: #d8ba95;
+}
+
+.ability-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(58px, 1fr));
+    gap: 7px;
+    margin: 14px 0;
+}
+
+.ability-box {
+    text-align: center;
+    padding: 9px 5px;
+
+    background: rgba(0,0,0,.20);
+    border: 1px solid #6c4937;
+}
+
+.ability-box strong {
+    display: block;
+    color: #d8ba95;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+.ability-box span {
+    display: block;
+    margin-top: 4px;
+    color: #f0ddc0;
+}
+
+.dm-section-title {
+    margin: 17px 0 7px;
+    color: #d2b57d;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.7px;
+}
+
+.dm-placeholder {
+    color: #a7947e;
+    font-style: italic;
+}
+
+.dm-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0,0,0,.72);
+}
+
+.dm-modal.open {
+    display: flex;
+}
+
+.dm-dialog {
+    width: min(390px, calc(100vw - 30px));
+    padding: 24px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #2b2118,
+            #17100c
+        );
+
+    border: 1px solid #8d6640;
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.75),
+        inset 0 0 0 1px rgba(211,170,103,.08);
+}
+
+.dm-dialog h3 {
+    margin: 0 0 8px;
+    color: #ead8b4;
+    font-size: 22px;
+    font-weight: normal;
+}
+
+.dm-dialog p {
+    margin: 0 0 16px;
+    color: #bba68a;
+    line-height: 1.45;
+}
+
+.dm-dialog input {
+    width: 100%;
+    height: 40px;
+    padding: 8px 10px;
+
+    background: #120d09;
+    color: #ead8b4;
+
+    border: 1px solid #73583a;
+    outline: none;
+
+    font-family: Georgia, "Times New Roman", serif;
+}
+
+.dm-dialog input:focus {
+    border-color: #b58b54;
+}
+
+.dm-dialog-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 14px;
+}
+
+.dm-error {
+    min-height: 18px;
+    margin-top: 9px;
+    color: #d88f76;
+    font-size: 12px;
+}
+
+@media (max-width: 760px) {
+    .ability-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+</style>
+</head>
+<body>
+<header>
+<div class="header-emblem"></div>
+<div class="header-title">
+<h1>ELLOND</h1>
+<span class="subtitle">NPC Archive — 451 COD</span>
+</div>
+<nav aria-label="Atlas navigation" class="header-controls">
+<button class="nav-button" onclick="goBack()" type="button">← Back</button>
+<a class="nav-button" href="../index.html">Atlas</a>
+<a class="nav-button" href="../Guilds/index.html">Guilds</a>
+<a class="nav-button" href="index.html">NPCs</a>
+</nav>
+</header>
+<div class="page-shell">
+<main>
+<section class="npc-heading">
+<div class="kicker">NPC Record • 451 COD</div>
+<h2>Lysa Embernote</h2>
+<div class="npc-role">Desk Clerk · League of the Black Forge</div>
+</section>
+<div class="content-grid"><section class="card wide"><h3 class="section-title">Overview</h3><p>Lysa Embernote serves as desk clerk at Ironwake Smithy in Port Aster, representing League of the Black Forge.</p></section><section class="card"><h3 class="section-title">Appearance</h3><p>Lysa Embernote wears practical attire suited to work at Ironwake Smithy, Port Aster. Distinctive details are left open for the DM.</p></section><section class="card"><h3 class="section-title">Personality</h3><p>Experienced in orders &amp; forge logistics; attentive to guild members and visitors. Additional mannerisms may be developed during play.</p></section><section class="card"><h3 class="section-title">Guild Duties</h3><p>Desk Clerk at Ironwake Smithy, Port Aster. Primary expertise: Orders &amp; forge logistics.</p></section><section class="card"><h3 class="section-title">Connections</h3><p><a class="deep-link" href="../Guilds/league-of-the-black-forge.html">League of the Black Forge — Guild Page</a> <a class="deep-link" href="../Locations/port-aster.html">Ironwake Smithy, Port Aster — Port Aster Map</a> <a class="deep-link" href="index.html">NPC Directory</a></p></section><section class="card"><h3 class="section-title">Local Knowledge</h3><p>Lysa Embernote is familiar with Ironwake Smithy, Port Aster and its daily operations. Orders &amp; forge logistics is their recognized specialty.</p></section><section class="card wide"><h3 class="section-title">DM Tools</h3><p>Combat statistics, actions, tactics and private notes are hidden during normal viewing.</p><div class="dm-lock-wrap"><button class="dm-lock-button" onclick="openDmPrompt()" type="button">For DM’s Eyes Only</button></div><div class="dm-stat-block" id="dm-stat-block"><div class="dm-warning">DM Only • 451 COD</div><h3 class="stat-heading">Lysa Embernote — Combat Statistics</h3><p class="stat-subheading">Human · Guild desk clerk · CR 1/4 (custom)</p><div class="stat-rule"></div><p class="stat-line"><strong>Armor Class:</strong> 13   <strong>Hit Points:</strong> 19   <strong>Speed:</strong> 30 ft.</p><p class="stat-line"><strong>Initiative:</strong> +2   <strong>Proficiency Bonus:</strong> +2   <strong>Passive Perception:</strong> 13</p><div class="ability-grid"><div class="ability-box"><strong>STR</strong><span>13 (+1)</span></div><div class="ability-box"><strong>DEX</strong><span>14 (+2)</span></div><div class="ability-box"><strong>CON</strong><span>13 (+1)</span></div><div class="ability-box"><strong>INT</strong><span>11 (+0)</span></div><div class="ability-box"><strong>WIS</strong><span>13 (+1)</span></div><div class="ability-box"><strong>CHA</strong><span>14 (+2)</span></div></div><p class="stat-line"><strong>Skills:</strong> Insight +3, Perception +3, Investigation +2, Persuasion +4</p><p class="stat-line"><strong>Saving Throws:</strong> Wisdom +1, Dexterity +2</p><p class="stat-line"><strong>Languages:</strong> Common</p><h4 class="dm-section-title">Traits</h4><p><strong>Guild Specialist.</strong> Advantage on one ability check per scene directly involving orders &amp; forge logistics, at the DM's discretion.</p><h4 class="dm-section-title">Actions</h4><p><strong>Shortsword.</strong> Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 5 (1d6 +1) piercing damage.</p><p><strong>Shortbow.</strong> Ranged Weapon Attack: +4 to hit, range 80/320 ft., one target. Hit: 6 (1d6 +2) piercing damage.</p><p><strong>Help.</strong> Takes the Help action to aid an ally within reach or distract an enemy as permitted by D&amp;D 5e.</p><h4 class="dm-section-title">Bonus Actions / Reactions</h4><p><strong>Quick Warning (1/day).</strong> As a reaction, grant an ally within 30 feet +2 AC against one attack if the ally can hear the warning.</p><h4 class="dm-section-title">Tactics</h4><p>Lysa Embernote is known for orders &amp; forge logistics at Ironwake Smithy, Port Aster. In a crisis, they secure records, alert colleagues and guide visitors to safety. Avoids suicidal combat; calls for guild guards or assistance if outmatched.</p><h4 class="dm-section-title">Private DM Notes</h4><p>Potential quest lead: irregularities or disputes involving orders &amp; forge logistics at Ironwake Smithy, Port Aster. These are optional adventure hooks, not established canon.</p></div></section></div>
+</main>
+<aside><div class="portrait-placeholder">Portrait</div><h3 class="profile-title">NPC Profile</h3><div class="profile-row"><span class="profile-label">Name</span><div class="profile-value">Lysa Embernote</div></div><div class="profile-row"><span class="profile-label">Race</span><div class="profile-value">Human (provisional)</div></div><div class="profile-row"><span class="profile-label">Role</span><div class="profile-value">Desk Clerk</div></div><div class="profile-row"><span class="profile-label">Current Location</span><div class="profile-value">Ironwake Smithy, Port Aster</div></div><div class="profile-row"><span class="profile-label">Affiliation</span><div class="profile-value"><a class="deep-link" href="../Guilds/league-of-the-black-forge.html">League of the Black Forge</a></div></div><div class="profile-row"><span class="profile-label">Specialty</span><div class="profile-value">Orders &amp; forge logistics</div></div></aside>
+</div>
+<div aria-hidden="true" class="dm-modal" id="dm-modal">
+<div aria-labelledby="dm-dialog-title" aria-modal="true" class="dm-dialog" role="dialog">
+<h3 id="dm-dialog-title">
+            For DM's Eyes Only
+        </h3>
+<p>
+            Enter the DM password to reveal this NPC's game statistics.
+        </p>
+<input autocomplete="off" id="dm-password" onkeydown="handleDmKey(event)" placeholder="Password" type="password"/>
+<div class="dm-error" id="dm-error"></div>
+<div class="dm-dialog-actions">
+<button class="nav-button" onclick="closeDmPrompt()" type="button">
+                Cancel
+            </button>
+<button class="dm-lock-button" onclick="unlockDmStats()" type="button">
+                Unlock
+            </button>
+</div>
+</div>
+</div>
+<script>
+
+/* =========================================================
+   DM-ONLY STATS
+
+   Change this password before publishing if desired.
+   This is client-side protection intended to keep stats
+   hidden from casual player viewing, not strong security.
+========================================================= */
+
+const DM_PASSWORD = "DM451";
+
+function openDmPrompt() {
+
+    const modal =
+        document.getElementById("dm-modal");
+
+    const input =
+        document.getElementById("dm-password");
+
+    const error =
+        document.getElementById("dm-error");
+
+    error.textContent = "";
+    input.value = "";
+
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden", "false");
+
+    setTimeout(() => input.focus(), 20);
+}
+
+function closeDmPrompt() {
+
+    const modal =
+        document.getElementById("dm-modal");
+
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
+}
+
+function unlockDmStats() {
+
+    const input =
+        document.getElementById("dm-password");
+
+    const error =
+        document.getElementById("dm-error");
+
+    const block =
+        document.getElementById("dm-stat-block");
+
+    if (input.value === DM_PASSWORD) {
+
+        block.classList.add("unlocked");
+
+        closeDmPrompt();
+
+        block.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+
+    } else {
+
+        error.textContent =
+            "Incorrect password.";
+
+        input.select();
+    }
+}
+
+function handleDmKey(event) {
+
+    if (event.key === "Enter") {
+        unlockDmStats();
+    }
+
+    if (event.key === "Escape") {
+        closeDmPrompt();
+    }
+}
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Escape") {
+            closeDmPrompt();
+        }
+    }
+);
+
+
+function goBack() {
+    if (document.referrer) {
+        history.back();
+    } else {
+        window.location.href = "../index.html";
+    }
+}
+</script>
+</body>
+</html>

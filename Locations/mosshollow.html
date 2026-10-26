@@ -868,6 +868,7 @@
             <a class="nav-button" href="../Npc/index.html">
                 NPCs
             </a>
+        <a class="nav-button" href="shops.html?town=mosshollow">Shops</a>
         </nav>
 
         <div class="zoom-controls">
@@ -1102,6 +1103,8 @@
         </p>
 
 
+        ${mosshollowResidentLinks(id)}
+        ${mosshollowGuildContext(id)}
         <div class="section-title">
             Explore
         </div>
@@ -1196,7 +1199,9 @@
             currentZoom = maximumZoom;
         }
 
-        updateZoom();
+        const startMarker = decodeURIComponent(location.hash.slice(1));
+    if (villageLocations[startMarker]) { showVillageLocation(startMarker); }
+    updateZoom();
 
     }
 
@@ -1209,7 +1214,9 @@
             currentZoom = minimumZoom;
         }
 
-        updateZoom();
+        const startMarker = decodeURIComponent(location.hash.slice(1));
+    if (villageLocations[startMarker]) { showVillageLocation(startMarker); }
+    updateZoom();
 
     }
 
@@ -1218,7 +1225,9 @@
 
         currentZoom = 1;
 
-        updateZoom();
+        const startMarker = decodeURIComponent(location.hash.slice(1));
+    if (villageLocations[startMarker]) { showVillageLocation(startMarker); }
+    updateZoom();
 
     }
 
@@ -1297,6 +1306,12 @@ const villageLocations = {
 
 const mosshollowGuildLinks = {
 
+    reedandoyster: {
+        guildName: "The Innkeepers' Guild",
+        guildPage: "../Guilds/innkeepers-guild.html#mosshollow",
+        head: '<a href="../Npc/maela-fenbrook.html">Maela Fenbrook</a>',
+        frontDesk: "Managed locally by the innkeeper"
+    },
     netsandreeds: {
         guildName: "Guild of Nets & Reeds",
         guildPage: "../Guilds/guild-of-nets-and-reeds.html",
@@ -1319,7 +1334,7 @@ function mosshollowGuildContext(id) {
         <div class="guild-context">
 
             <div class="section-title">
-                Local Guild Staff
+                ${guild.guildName} — Local Affiliation
             </div>
 
             <div class="guild-staff">
@@ -1357,6 +1372,10 @@ function mosshollowGuildContext(id) {
     `;
 }
 
+
+const mosshollowResidents = {"pearljetty": [["brenna-reedfin", "Brenna Reedfin", "Fisher"]], "marshmarket": [["orrin-pike", "Orrin Pike", "Fishmonger"], ["hesta-bramble", "Hesta Bramble", "General-store keeper"], ["perrit-fenwick", "Perrit Fenwick", "Store assistant"]], "reedandoyster": [["maela-fenbrook", "Maela Fenbrook", "Innkeeper"]], "lilylanding": [["dovin-moss", "Dovin Moss", "Boatwright"]], "tortleelder": [["elder-shelma", "Elder Shelma", "Village elder"]], "moonchurch": [["sister-nyra", "Sister Nyra", "Shrine keeper"]]};
+function mosshollowResidentLinks(id){const people=mosshollowResidents[id]||[];if(!people.length)return '';return '<div class="section-title">People &amp; Services</div>'+people.map(([file,name,role])=>'<p><a class="deep-link" href="../Npc/'+file+'.html">'+name+'</a> — '+role+'</p>').join('');}
+
 function showVillageLocation(id) {
 
     const location = villageLocations[id];
@@ -1386,6 +1405,8 @@ function showVillageLocation(id) {
             ${location.known}
         </p>
 
+        ${mosshollowResidentLinks(id)}
+        ${mosshollowGuildContext(id)}
         <div class="section-title">
             Explore
         </div>
@@ -1440,12 +1461,15 @@ function showVillageLocation(id) {
        INITIALIZE
     ========================= */
 
+    const startMarker = decodeURIComponent(location.hash.slice(1));
+    if (villageLocations[startMarker]) { showVillageLocation(startMarker); }
     updateZoom();
 
 
 </script>
 
 
+<script src="../dm-system.js"></script>
 </body>
 
 </html>
