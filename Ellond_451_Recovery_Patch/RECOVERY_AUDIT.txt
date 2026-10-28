@@ -1,0 +1,26 @@
+ELLOND 451 — RECOVERY AUDIT (2026-10-27)
+
+Compared Ellond 451(2).zip against the latest available update archives.
+
+CONFIRMED PRESENT AND MATCHING THE LATEST SHOP UPDATE:
+Locations/shops.html
+Locations/port-aster.html
+Locations/mosshollow.html
+Locations/xal-torath.html
+
+REPAIRED:
+Four location pages referenced map images with capitalization that differs from the actual image filenames. This breaks on case-sensitive GitHub Pages.
+- Mosshollow.png -> mosshollow.png
+- XalTorath.png -> xaltorath.png (two HTML pages)
+- Greenhaven.png -> greenhaven.png
+
+RESTORED FOR CONVENIENCE:
+Locations/shops.html (identical to the latest sidebar shop update).
+
+UNRESOLVED:
+The root dm-system.js is absent from the uploaded archive, although 38 HTML pages refer to it. It was also absent from the other full archive snapshots available here. No replacement was fabricated: an invented script could interfere with your existing DM controls. Individual NPC pages such as Maela and Tessa have their own embedded password logic.
+
+INSTALLATION:
+Copy the Locations folder from this ZIP into the existing project. Do not replace index.html, NPC pages or Guild pages.
+
+The patch does not modify Port Aster's map, its shop button or any map markers.
