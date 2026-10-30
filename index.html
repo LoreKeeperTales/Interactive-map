@@ -2345,11 +2345,65 @@ body.dm-mode .marker.secret-marker.dm-only-marker .marker-label {
 
 </style>
 
-</head>
+<style id="ellond-campaign-style">
+#ellond-campaign-gate{position:fixed;inset:0;background:#100d09f5;z-index:100000;display:flex;align-items:center;justify-content:center;padding:20px;overflow:auto}
+#ellond-campaign-gate[hidden]{display:none}#ellond-campaign-box{max-width:680px;width:100%;background:#271e15;border:2px solid #a2834b;padding:28px;color:#e7ddc7;box-shadow:0 15px 65px #000;font-family:Georgia,serif}#ellond-campaign-box h1{color:#edcf98;letter-spacing:2px}#ellond-campaign-box input,#ellond-campaign-box textarea,#ellond-campaign-box select,.ellond-editor input,.ellond-editor textarea{background:#15110d;border:1px solid #8a6d41;color:#f5e8d1;padding:9px;width:100%;font:inherit}#ellond-campaign-box label,.ellond-editor label{display:block;margin-top:12px;color:#d5b57a}#ellond-campaign-box button,.ellond-campaign-tools button,.ellond-editor button,.ellond-party-actions button{background:#382b1d;color:#e8d5b3;border:1px solid #967744;padding:7px 10px;cursor:pointer;font:inherit}#ellond-campaign-box button:hover,.ellond-campaign-tools button:hover,.ellond-editor button:hover{background:#644b2d}.ellond-gate-buttons{display:flex;gap:9px;flex-wrap:wrap;margin:18px 0}.ellond-campaign-tools{display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin-left:auto;font:12px Georgia,serif}.ellond-campaign-tools strong{color:#ebd1a0;white-space:nowrap}.ellond-campaign-tools button{padding:6px}.ellond-campaign-tools small{color:#bda77f}#ellond-party-token{position:absolute;z-index:99;width:45px;height:45px;display:flex;align-items:center;justify-content:center;border:3px solid #d8b569;border-radius:50%;background:#1b3032;color:#f5dc9c;font-size:25px;transform:translate(-50%,-50%);cursor:grab;touch-action:none;user-select:none;box-shadow:0 2px 8px #000}#ellond-party-token:after{content:'PARTY';position:absolute;top:43px;left:50%;transform:translateX(-50%);font:10px Georgia,serif;color:#f0d8a6;text-shadow:1px 1px 3px #000}.ellond-editor{max-height:calc(100vh - 210px);overflow:auto}.ellond-editor textarea{min-height:85px;resize:vertical}.ellond-party-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.ellond-note{white-space:pre-wrap;line-height:1.5}.ellond-crew-row{display:grid;grid-template-columns:1fr 1fr auto;gap:6px;margin:8px 0}.ellond-crew-row input{min-width:0}.ellond-campaign-tools #ellond-date-label{min-width:105px;text-align:center}#ellond-campaign-error{color:#f0ae91;min-height:20px}.ellond-status{color:#c4ae8a;font-size:12px}#ellond-region-hint{font-size:12px;color:#c8af7c}
+</style>
+
+
+<style id="ellond-header-grouping-style">
+header .header-controls{display:flex;align-items:center;gap:9px;flex-wrap:nowrap;min-width:0;overflow:visible}
+header .ellond-toolbar-group{position:relative;flex:none}
+header .ellond-group-trigger{padding:8px 12px;min-height:38px;background:#302419;color:#ecd7ac;border:1px solid #896a3b;font:14px Georgia,serif;cursor:pointer;white-space:nowrap}
+header .ellond-toolbar-group.is-open .ellond-group-trigger{background:#584128}
+header .ellond-group-menu{position:absolute;top:100%;left:0;display:none;flex-direction:column;gap:3px;min-width:130px;padding:5px;background:#231a11;border:1px solid #94713e;z-index:999;box-shadow:0 7px 15px #000a}
+header .ellond-toolbar-group.is-open .ellond-group-menu{display:flex}
+header .ellond-group-menu>a,header .ellond-group-menu>button,header .ellond-group-menu>.legend-wrap>button{display:block;width:100%;text-align:left;white-space:nowrap;margin:0;box-sizing:border-box}
+header .ellond-group-menu .legend-wrap{width:100%}
+header .ellond-calendar-compact{display:flex;align-items:center;gap:6px;flex:none}
+header .ellond-calendar-unit{display:grid;grid-template-columns:19px auto 19px;grid-template-rows:13px 19px;align-items:center;gap:0 2px}
+header .ellond-calendar-unit .ellond-calendar-title{grid-column:1/4;grid-row:1;text-align:center;font:bold 11px Georgia,serif;color:#c9944d}
+header .ellond-calendar-unit button{padding:0;min-width:19px;height:19px;font:15px Georgia,serif;line-height:16px;background:#302419;color:#e5cf9e;border:1px solid #725633;cursor:pointer}
+header .ellond-calendar-value{font:12px Georgia,serif;color:#e9d7b7;white-space:nowrap;text-align:center}
+header .ellond-calendar-date{max-width:165px;overflow:hidden;text-overflow:ellipsis}
+header .ellond-campaign-tools{display:none!important}
+header .atlas-nav:empty{display:none}
+@media(max-width:1150px){header .header-controls{gap:5px}header .ellond-group-trigger{padding:7px 8px}header .header-title .subtitle{display:none}header .ellond-calendar-compact{gap:3px}}
+@media(max-width:800px){header .header-controls{flex-wrap:wrap;justify-content:flex-start}header{height:auto;min-height:65px}header .ellond-group-menu{top:100%}}
+</style>
+<style id="ellond-campaign-modal-style">
+#ellond-campaign-modal{position:fixed;inset:0;z-index:99998;background:rgba(9,7,5,.84);display:flex;justify-content:center;align-items:center;padding:24px;box-sizing:border-box}
+#ellond-campaign-modal[hidden]{display:none!important}
+#ellond-campaign-modal .ellond-modal-card{position:relative;box-sizing:border-box;width:min(780px,100%);max-height:min(88vh,900px);overflow-y:auto;background:linear-gradient(145deg,#382b20,#211912);border:2px solid #a48148;box-shadow:0 20px 65px #000;color:#e8d8b7;padding:28px 34px;font-family:Georgia,serif}
+#ellond-campaign-modal .ellond-modal-close{position:sticky;top:0;float:right;z-index:1;border:1px solid #a48148;background:#241a12;color:#f2dfb9;font:25px Georgia,serif;cursor:pointer;width:38px;height:38px}
+#ellond-campaign-modal .location-summary{padding:0 0 12px;border-bottom:1px solid #80623c}
+#ellond-campaign-modal .location-summary h2{font-size:29px;margin:0 0 8px;color:#e9d1a4}
+#ellond-campaign-modal .location-details{padding:12px 0 0}
+#ellond-campaign-modal .ellond-editor label{display:block;margin:14px 0;color:#e2c28b}
+#ellond-campaign-modal .ellond-editor input,#ellond-campaign-modal .ellond-editor textarea{display:block;box-sizing:border-box;width:100%;margin-top:6px;background:#19130f;border:1px solid #987545;color:#f0e5d2;padding:11px;font:16px Georgia,serif}
+#ellond-campaign-modal .ellond-editor textarea{min-height:120px;resize:vertical}
+#ellond-campaign-modal .ellond-editor button{border:1px solid #a48148;background:#3b2b1b;color:#eed8ae;padding:10px 14px;cursor:pointer;font:16px Georgia,serif}
+#ellond-campaign-modal .ellond-crew-row{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;margin-bottom:8px;align-items:center}
+#ellond-campaign-modal .ellond-crew-row input{margin:0}
+#ellond-campaign-modal .ellond-party-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+@media(max-width:560px){#ellond-campaign-modal{padding:10px}#ellond-campaign-modal .ellond-modal-card{padding:15px}#ellond-campaign-modal .ellond-crew-row{grid-template-columns:1fr auto}#ellond-campaign-modal .ec-character{grid-column:1}}
+</style><style id="ellond-token-style">#ellond-party-token{background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important}#ec-token,#ec-token-upload{display:block;width:100%;max-width:100%;margin:8px 0 15px;padding:8px;background:#221a14;color:#f0d7aa;border:1px solid #90713f;font:16px Georgia,serif}</style><script src="tokens/token-list.js"></script><style id="ellond-official-calendar-style">
+header .ellond-calendar-official{display:flex!important;align-items:center;gap:6px;white-space:nowrap}
+header .ellond-calendar-official .ellond-calendar-unit{display:grid;grid-template-columns:25px auto 25px;grid-template-rows:18px 32px;align-items:center;justify-items:center;gap:0 3px;min-width:92px}
+header .ellond-calendar-official .ellond-calendar-title{grid-column:1/4;grid-row:1;color:#e1b976;font:700 14px Georgia,serif}
+header .ellond-calendar-official .ellond-calendar-value{grid-column:2;grid-row:2;color:#f5e2b8;font:700 15px Georgia,serif;min-width:36px;text-align:center}
+header .ellond-calendar-official .ellond-calendar-unit:nth-child(2) .ellond-calendar-value{min-width:94px}
+header .ellond-calendar-official .ellond-calendar-unit button{min-width:24px;height:28px;padding:1px 5px!important}
+header .ellond-calendar-official .ellond-calendar-unit button:first-of-type{grid-column:1;grid-row:2}
+header .ellond-calendar-official .ellond-calendar-unit button:last-of-type{grid-column:3;grid-row:2}
+header .ellond-calendar-official #ellond-date-label{display:none!important}
+@media(max-width:1100px){header .ellond-calendar-official{gap:2px}header .ellond-calendar-official .ellond-calendar-unit{min-width:72px}header .ellond-calendar-official .ellond-calendar-unit:nth-child(2) .ellond-calendar-value{min-width:70px;font-size:12px}}
+</style></head>
 
 
 
 <body>
+<div id="ellond-campaign-gate" role="dialog" aria-modal="true" aria-labelledby="ellond-gate-title"><div id="ellond-campaign-box"><h1 id="ellond-gate-title">ELLOND · CAMPAIGNS</h1><p>Create a new campaign or load a campaign JSON to enter the world atlas. Progress is automatically remembered in this browser; download a JSON backup to keep it permanently.</p><label>Campaign name<input id="ellond-new-name" placeholder="West Marches Campaign" maxlength="80"></label><div class="ellond-gate-buttons"><button id="ellond-new">Create Campaign</button><button id="ellond-import">Load Campaign JSON</button><button id="ellond-resume" hidden>Return to Campaign</button></div><input id="ellond-import-file" type="file" accept=".json,application/json" hidden><p id="ellond-campaign-error" role="status"></p><p class="ellond-status">Campaign files are saved in your Downloads folder. The included <code>campaigns/</code> folder is for keeping those backups in your website project. Browsers cannot silently write into a GitHub repository.</p></div></div>
 
 
 <!-- =============================================================
@@ -5235,7 +5289,8 @@ elarion: {
 
         if (
             location.secret &&
-            !dmMode
+            !dmMode &&
+            !(window.EllondCampaign && window.EllondCampaign.isRevealed("locations",id))
         ) {
 
             return;
@@ -5941,7 +5996,15 @@ function renderAllUserMarkers(clearExisting = false) {
 function downloadBlankLocationPage(marker) {
     const title = escapeHtml(marker.name);
     const regionName = escapeHtml((regions[marker.region] || regions.unknown).name);
-    const html = `<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width, initial-scale=1.0">\n<title>${title} — Ellond Atlas</title>\n<style>body{margin:0;background:#1b1814;color:#e7ddc7;font-family:Georgia,"Times New Roman",serif}header{padding:18px 24px;background:#17120d;border-bottom:2px solid #6e542f}main{max-width:1000px;margin:auto;padding:30px}.panel{padding:24px;background:#211a12;border:1px solid #755b35}a{color:#ead8b4}</style>\n</head>\n<body>\n<header><a href="../index.html">← Atlas</a></header>\n<main><div class="panel"><h1>${title}</h1><p><em>${regionName} · ${escapeHtml(marker.type === "other" ? "DM Hidden" : marker.type)}</em></p><p>${escapeHtml(marker.description || "Add location description here.")}</p><h2>Map</h2><p>Add this location's map and details here.</p><h2>Notes</h2><p>Add history, people, guilds, landmarks and DM information here.</p></div></main>\n</body>\n</html>`;
+    const html = `<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width, initial-scale=1.0">\n<title>${title} — Ellond Atlas</title>\n<style>body{margin:0;background:#1b1814;color:#e7ddc7;font-family:Georgia,"Times New Roman",serif}header{padding:18px 24px;background:#17120d;border-bottom:2px solid #6e542f}main{max-width:1000px;margin:auto;padding:30px}.panel{padding:24px;background:#211a12;border:1px solid #755b35}a{color:#ead8b4}</style>\n</head>\n<body>\n<header><a href="../index.html">← Atlas</a></header>\n<main><div class="panel"><h1>${title}</h1><p><em>${regionName} · ${escapeHtml(marker.type === "other" ? "DM Hidden" : marker.type)}</em></p><p>${escapeHtml(marker.description || "Add location description here.")}</p><h2>Map</h2><p>Add this location's map and details here.</p><h2>Notes</h2><p>Add history, people, guilds, landmarks and DM information here.</p></div></main>\n
+
+
+
+
+
+
+
+</body>\n</html>`;
     const blob = new Blob([html], {type:"text/html"});
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
@@ -6164,6 +6227,137 @@ function closeMobileInfoPanel() {
 </script>
 
 
+<script id="ellond-campaign-script">
+(function(){'use strict';
+const KEY='ellond451-campaign-v3',MARKERS='ellondUserMarkersV1',MONTHS=['Dawnsprout','Greenwake','Bloomtide','Suncrest','Highgrowth','Forgeheat','Goldfield','Reaping','Dragonwane','Kelemorn','Jasveil'],WEEKDAYS=['Dawnday','Seedday','Wildday','Scaleday','Forgeday','Wheelday','Crownday','Reapday','Veilday','Runeday','Hearthday'];
+let state=null,drag=false,moved=false;
+const gate=document.getElementById('ellond-campaign-gate'),error=document.getElementById('ellond-campaign-error');
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fresh=name=>({schema:'ellond451-campaign',version:2,name,calendar:{year:451,month:0,day:1},party:{x:50,y:50,visible:true,players:[],notes:'',travelNotes:'',tokenImage:'Tokens/default_campaign.png'},discovered:[],revealed:{locations:[],guilds:[],npcs:[]},worldMarkers:[],guildReputation:{},shopChanges:{},dmNotes:'',created:new Date().toISOString()});
+function normalize(o){if(!o||typeof o!=='object'||!['ellond451-campaign','ellond451-campaign-v2'].includes(o.schema||o.format))throw Error('Not an Ellond campaign JSON');const s=fresh(String(o.name||'Imported Campaign').slice(0,80));if(o.calendar&&Number.isInteger(o.calendar.year)&&o.calendar.year>=1&&o.calendar.year<100000&&Number.isInteger(o.calendar.month)&&o.calendar.month>=0&&o.calendar.month<12&&Number.isInteger(o.calendar.day)&&o.calendar.day>=1&&o.calendar.day<=(o.calendar.month===11?2:33))s.calendar={...o.calendar,month:o.calendar.month===11?10:o.calendar.month};if(o.party){if(Number.isFinite(o.party.x)&&o.party.x>=0&&o.party.x<=100)s.party.x=o.party.x;if(Number.isFinite(o.party.y)&&o.party.y>=0&&o.party.y<=100)s.party.y=o.party.y;s.party.visible=o.party.visible!==false;s.party.tokenImage=typeof o.party.tokenImage==='string'&&(/^(tokens\/[a-zA-Z0-9_.-]+\.(png|jpg|jpeg|webp|svg))$/i.test(o.party.tokenImage))?o.party.tokenImage:'Tokens/default_campaign.png';s.party.notes=String(o.party.notes||'');s.party.travelNotes=String(o.party.travelNotes||'');s.party.players=Array.isArray(o.party.players)?o.party.players.filter(p=>p&&typeof p==='object').slice(0,30).map(p=>({player:String(p.player||''),character:String(p.character||'')})):[];}s.discovered=Array.isArray(o.discovered)?o.discovered.filter(x=>typeof x==='string'):[];if(o.revealed&&typeof o.revealed==='object')for(const k of ['locations','guilds','npcs'])s.revealed[k]=Array.isArray(o.revealed[k])?o.revealed[k].filter(x=>typeof x==='string'):[];s.worldMarkers=Array.isArray(o.worldMarkers)?o.worldMarkers:[];s.guildReputation=o.guildReputation&&typeof o.guildReputation==='object'?o.guildReputation:{};s.shopChanges=o.shopChanges&&typeof o.shopChanges==='object'?o.shopChanges:{};s.dmNotes=String(o.dmNotes||'');s.created=o.created||s.created;return s;}
+function save(){if(!state)return;try{state.worldMarkers=JSON.parse(localStorage.getItem(MARKERS)||'[]');localStorage.setItem(KEY,JSON.stringify(state));}catch(e){console.warn('Campaign autosave failed',e);}}
+function sync(){if(!state)return;document.getElementById('ellond-date-label').textContent=(state.calendar.month===11?(state.calendar.day===1?'Day of Passing':'Day of Returning'):state.calendar.day+' '+MONTHS[state.calendar.month])+' · '+state.calendar.year;window.ellondRefreshCalendar?.(state.calendar,MONTHS,WEEKDAYS);document.getElementById('ellond-active-name').textContent=state.name;token.style.left=state.party.x+'%';token.style.top=state.party.y+'%';token.style.display=state.party.visible?'flex':'none';token.style.backgroundImage='url('+JSON.stringify(state.party.tokenImage||'Tokens/default_campaign.png')+')';token.textContent='';save();}
+function activate(s){state=normalize(s);localStorage.setItem(MARKERS,JSON.stringify(state.worldMarkers));if(typeof window.renderAllUserMarkers==='function')window.renderAllUserMarkers();gate.hidden=true;document.getElementById('ellond-resume').hidden=false;sync();}
+const controls=document.createElement('div');controls.className='ellond-campaign-tools';controls.innerHTML='<small id="ellond-active-name"></small><button id="ellond-day-minus" title="Previous day">Day −</button><strong id="ellond-date-label"></strong><button id="ellond-day-plus" title="Next day">Day +</button><button id="ellond-month-minus" title="Previous month">Month −</button><button id="ellond-month-plus" title="Next month">Month +</button><button id="ellond-party-visible">Party</button><button id="ellond-campaign-edit">Campaign</button><button id="ellond-campaign-export">Save JSON</button><button id="ellond-campaign-home">Campaigns</button>';
+(document.querySelector('header .header-controls')||document.querySelector('header')).appendChild(controls);
+function day(n){if(!state)return;let d=state.calendar;d.day+=n;
+if(n>0){if(d.month===11&&d.day>2){d.month=0;d.day=1;d.year++;}else if(d.month<11&&d.day>33){d.day=1;d.month++;}}
+else{if(d.day<1){if(d.month===0){d.year=Math.max(1,d.year-1);d.month=11;d.day=2;}else if(d.month===11){d.month=10;d.day=33;}else{d.month--;d.day=33;}}}sync();}
+function month(n){if(!state)return;let d=state.calendar;
+if(d.month===11){d.month=n>0?0:10;if(n>0)d.year++;d.day=Math.min(d.day,33);}
+else{d.month+=n;if(d.month>10){d.month=0;d.year++;}if(d.month<0){d.month=10;d.year=Math.max(1,d.year-1);}d.day=Math.min(d.day,33);}sync();}
+window.addEventListener('ellond-shift-year',e=>{if(state){state.calendar.year=Math.max(1,state.calendar.year+e.detail);sync();}});document.getElementById('ellond-day-minus').onclick=()=>day(-1);document.getElementById('ellond-day-plus').onclick=()=>day(1);document.getElementById('ellond-month-minus').onclick=()=>month(-1);document.getElementById('ellond-month-plus').onclick=()=>month(1);
+document.getElementById('ellond-party-visible').onclick=()=>{if(state){state.party.visible=!state.party.visible;sync();}};
+document.getElementById('ellond-campaign-home').onclick=()=>{gate.hidden=false;error.textContent='Export your current campaign before switching.';};
+document.getElementById('ellond-resume').onclick=()=>{if(state)gate.hidden=true;};
+document.getElementById('ellond-new').onclick=()=>{const name=document.getElementById('ellond-new-name').value.trim();if(!name){error.textContent='Enter a campaign name.';return;}if(state&&!confirm('Create a new campaign? Export your current save first.'))return;activate(fresh(name));error.textContent='';};
+document.getElementById('ellond-import').onclick=()=>document.getElementById('ellond-import-file').click();
+document.getElementById('ellond-import-file').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{if(f.size>5e6)throw Error('Save file too large');const s=normalize(JSON.parse(await f.text()));if(state&&!confirm('Load '+s.name+'? Export your current campaign first.'))return;activate(s);error.textContent='';}catch(ex){error.textContent=ex.message;}finally{e.target.value='';}};
+document.getElementById('ellond-campaign-export').onclick=()=>{if(!state)return;save();const a=document.createElement('a'),url=URL.createObjectURL(new Blob([JSON.stringify(state,null,2)],{type:'application/json'}));a.href=url;a.download='ellond-'+state.name.toLowerCase().replace(/[^a-z0-9]+/g,'-')+'-'+state.calendar.year+'cod.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);};
+const wrapper=document.getElementById('map-wrapper'),token=document.createElement('div');token.id='ellond-party-token';token.textContent='';token.title='Drag to move; click to view party information';token.setAttribute('aria-label','Party token');wrapper.appendChild(token);token.style.display='none';
+function nearestRegion(){const anchors=[];document.querySelectorAll('#map-wrapper [onclick*="showLocation("]').forEach(el=>{const match=(el.getAttribute('onclick')||'').match(/showLocation\(['"]([^'"]+)/);if(!match||typeof locations==='undefined'||!locations[match[1]]||!locations[match[1]].region)return;const st=el.getAttribute('style')||'',mx=st.match(/left:\s*([\d.]+)%/),my=st.match(/top:\s*([\d.]+)%/);if(mx&&my)anchors.push({x:+mx[1],y:+my[1],region:locations[match[1]].region});});if(!anchors.length)return {id:'ellond',estimated:true};anchors.sort((a,b)=>(a.x-state.party.x)**2+(a.y-state.party.y)**2-( (b.x-state.party.x)**2+(b.y-state.party.y)**2));return {id:anchors[0].region,estimated:true};}
+function regionInfo(){const hit=nearestRegion(),r=typeof regions!=='undefined'?regions[hit.id]:null;return {id:hit.id,name:r?.name||'Uncharted Territory',status:r?.status||'',seat:r?.seat||'',character:r?.character||'',estimated:true};}
+function panel(html){document.getElementById('location-panel-content').innerHTML=html;}
+function showParty(){closeEditorModal();if(!state)return;const r=regionInfo();if(typeof updateRegionBanner==='function')updateRegionBanner(r.id);panel('<div class="location-summary"><h2>⚑ '+esc(state.name)+'</h2><p class="location-type">Travelling Party</p><p id="ellond-region-hint">Nearest mapped region: '+esc(r.name)+' (approximate)</p><p>'+esc(r.character)+'</p></div><div class="location-details"><h3>Party Members</h3>'+(state.party.players.length?'<ul>'+state.party.players.map(p=>'<li>'+esc(p.player)+' — '+esc(p.character)+'</li>').join('')+'</ul>':'<p>No party members entered yet.</p>')+'<p><strong>Calendar:</strong> '+esc(state.calendar.day+' '+MONTHS[state.calendar.month]+', '+state.calendar.year+' CoD')+'</p><p><strong>Region:</strong> '+esc(r.name)+'</p><p><strong>Seat:</strong> '+esc(r.seat)+'</p><div class="ellond-party-actions"><button id="ellond-open-notes">Open Notes</button><button id="ellond-open-campaign">Campaign Page</button></div></div>');document.getElementById('ellond-open-notes').onclick=showNotes;document.getElementById('ellond-open-campaign').onclick=showEditor;}
+function showNotes(){if(!state)return;panel('<div class="location-summary"><h2>Campaign Notes</h2><p class="location-type">'+esc(state.name)+'</p></div><div class="location-details"><h3>Session Notes</h3><p class="ellond-note">'+esc(state.party.notes||'No session notes yet.')+'</p><h3>Travel Log</h3><p class="ellond-note">'+esc(state.party.travelNotes||'No travel log yet.')+'</p><div class="ellond-party-actions"><button id="ellond-back-party">← Party</button><button id="ellond-edit-notes">Edit on Campaign Page</button></div></div>');document.getElementById('ellond-back-party').onclick=showParty;document.getElementById('ellond-edit-notes').onclick=showEditor;}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeEditorModal()});
+function closeEditorModal(){const el=document.getElementById('ellond-campaign-modal');if(el){el.hidden=true;el.querySelector('.ellond-modal-body').innerHTML='';}}
+function editorPanel(html){let el=document.getElementById('ellond-campaign-modal');if(!el){el=document.createElement('div');el.id='ellond-campaign-modal';el.hidden=true;el.setAttribute('role','dialog');el.setAttribute('aria-modal','true');el.setAttribute('aria-label','Campaign Management');el.innerHTML='<div class="ellond-modal-card"><button class="ellond-modal-close" type="button" aria-label="Close campaign editor">×</button><div class="ellond-modal-body"></div></div>';document.body.appendChild(el);el.querySelector('.ellond-modal-close').onclick=closeEditorModal;el.addEventListener('click',e=>{if(e.target===el)closeEditorModal()});}el.querySelector('.ellond-modal-body').innerHTML=html;el.hidden=false;el.querySelector('.ellond-modal-close').focus();}
+function showEditor(){if(!state)return;editorPanel('<div class="location-summary"><h2>Campaign Management</h2><p class="location-type">Edit the party and campaign notes</p></div><div class="location-details ellond-editor"><label>Campaign name<input id="ec-name" maxlength="80" value="'+esc(state.name)+'"></label><h3>Party Token</h3><label>Choose token from tokens/ folder<select id="ec-token"></select></label><p class="ellond-status">Tokens are loaded from the tokens/ folder. Campaign saves store only the filename. Replace an image in that folder to update it in every campaign using that filename.</p><h3>Players & Characters</h3><div id="ec-members">'+state.party.players.map(p=>row(p)).join('')+'</div><button id="ec-add">+ Add Member</button><label>Session Notes<textarea id="ec-notes"></textarea></label><label>Travel Log<textarea id="ec-travel"></textarea></label><label>DM Notes<textarea id="ec-dmnotes"></textarea></label><div class="ellond-party-actions"><button id="ec-save">Save Changes</button><button id="ec-back">← Party</button></div><p class="ellond-status">Hidden locations and custom markers are included in exported JSON. Use DM controls on the map to reveal them.</p></div>');const tokenSelect=document.getElementById('ec-token');const tokenOptions=window.ELLOND_TOKEN_OPTIONS||[{file:'default-token.svg',name:'Default Party Flag'}];tokenOptions.forEach(t=>{if(!/^[a-zA-Z0-9_. -]+\.(png|jpg|jpeg|webp|svg)$/i.test(t.file))return;const opt=document.createElement('option');opt.value='tokens/'+t.file;opt.textContent=t.name||t.file;tokenSelect.appendChild(opt);});if(![...tokenSelect.options].some(o=>o.value===state.party.tokenImage)&&state.party.tokenImage.startsWith('tokens/')){const opt=document.createElement('option');opt.value=state.party.tokenImage;opt.textContent=state.party.tokenImage.slice(7);tokenSelect.appendChild(opt);}if(state.party.tokenImage.startsWith('data:'))state.party.tokenImage='Tokens/default_campaign.png';tokenSelect.value=state.party.tokenImage;document.getElementById('ec-save').onclick=()=>{state.party.tokenImage=tokenSelect.value||'Tokens/default_campaign.png';state.name=document.getElementById('ec-name').value.trim()||state.name;state.party.players=[...document.querySelectorAll('.ellond-crew-row')].map(el=>({player:el.querySelector('.ec-player').value.trim(),character:el.querySelector('.ec-character').value.trim()})).filter(p=>p.player||p.character);state.party.notes=document.getElementById('ec-notes').value;state.party.travelNotes=document.getElementById('ec-travel').value;state.dmNotes=document.getElementById('ec-dmnotes').value;sync();showParty();};}
+function row(p){return '<div class="ellond-crew-row"><input class="ec-player" placeholder="Player name" value="'+esc(p.player)+'"><input class="ec-character" placeholder="Character name" value="'+esc(p.character)+'"><button class="ec-remove" title="Remove member">×</button></div>';}
+document.getElementById('ellond-campaign-edit').onclick=showEditor;
+token.addEventListener('pointerdown',e=>{if(!state||e.button!==0)return;drag=true;moved=false;token.setPointerCapture(e.pointerId);e.preventDefault();e.stopPropagation();});
+token.addEventListener('pointermove',e=>{if(!drag||!state)return;const rect=wrapper.getBoundingClientRect(),scale=typeof currentZoom==='number'&&typeof baseMapScale==='number'?currentZoom*baseMapScale:1;const w=typeof MAP_NATIVE_WIDTH==='number'?MAP_NATIVE_WIDTH:1400,h=typeof MAP_NATIVE_HEIGHT==='number'?MAP_NATIVE_HEIGHT:900;const x=Math.max(0,Math.min(100,(e.clientX-rect.left)/scale/w*100)),y=Math.max(0,Math.min(100,(e.clientY-rect.top)/scale/h*100));if(Math.abs(x-state.party.x)+Math.abs(y-state.party.y)>.1)moved=true;state.party.x=x;state.party.y=y;sync();e.stopPropagation();});
+token.addEventListener('pointerup',e=>{if(!drag)return;drag=false;if(!moved)showParty();else if(document.getElementById('ellond-region-hint'))showParty();e.stopPropagation();});token.addEventListener('pointercancel',()=>drag=false);token.addEventListener('click',e=>e.stopPropagation());
+// Track edits to world markers even when they are made through existing atlas tools.
+const originalSet=Storage.prototype.setItem;Storage.prototype.setItem=function(k,v){const r=originalSet.call(this,k,v);if(k===MARKERS&&state){try{state.worldMarkers=JSON.parse(v);originalSet.call(this,KEY,JSON.stringify(state));}catch(e){}}return r;};
+try{const previous=JSON.parse(localStorage.getItem(KEY)||'null');if(previous)activate(previous);else{const old=JSON.parse(localStorage.getItem('ellond451-active-campaign-v2')||'null');if(old)activate({...old,schema:'ellond451-campaign'});}}catch(e){console.warn('Campaign restore failed',e);}
+window.EllondCampaign={get:()=>state,save,open:showEditor,reveal:(category,id)=>{if(!state||!['locations','guilds','npcs'].includes(category))return;const a=state.revealed[category];if(!a.includes(id))a.push(id);save();},isRevealed:(category,id)=>!!state?.revealed?.[category]?.includes(id)};
+})();
+</script>
+<script id="ellond-header-grouping-script">
+(function(){
+'use strict';
+const root=document.querySelector('header .header-controls');if(!root)return;
+const nav=root.querySelector('.atlas-nav'), campaign=root.querySelector('.ellond-campaign-tools');if(!nav||!campaign)return;
+function findText(text){return [...nav.querySelectorAll('button')].find(el=>el.textContent.trim().toLowerCase()===text.toLowerCase());}
+function group(title,items){
+const wrapper=document.createElement('div');wrapper.className='ellond-toolbar-group';
+const button=document.createElement('button');button.className='ellond-group-trigger';button.type='button';button.textContent=title;button.setAttribute('aria-expanded','false');
+const menu=document.createElement('div');menu.className='ellond-group-menu';
+items.forEach(el=>{if(el)menu.appendChild(el)});
+wrapper.append(button,menu);
+button.addEventListener('click',e=>{e.stopPropagation();const open=!wrapper.classList.contains('is-open');document.querySelectorAll('header .ellond-toolbar-group').forEach(g=>{g.classList.remove('is-open');g.querySelector('.ellond-group-trigger').setAttribute('aria-expanded','false')});wrapper.classList.toggle('is-open',open);button.setAttribute('aria-expanded',String(open));});
+return wrapper;
+}
+const dayMinus=document.getElementById('ellond-day-minus'),dayPlus=document.getElementById('ellond-day-plus'),monthMinus=document.getElementById('ellond-month-minus'),monthPlus=document.getElementById('ellond-month-plus'),date=document.getElementById('ellond-date-label');
+const calendar=document.createElement('div');calendar.className='ellond-calendar-compact ellond-calendar-official';
+function unit(label,minus,plus){const el=document.createElement('div');el.className='ellond-calendar-unit';const title=document.createElement('span');title.className='ellond-calendar-title';title.textContent=label;const val=document.createElement('span');val.className='ellond-calendar-value';if(minus){minus.textContent='‹';minus.title='Previous '+label.toLowerCase();}if(plus){plus.textContent='›';plus.title='Next '+label.toLowerCase();}el.append(title,minus||document.createElement('span'),val,plus||document.createElement('span'));calendar.appendChild(el);return val;}
+const dayVal=unit('Day',dayMinus,dayPlus),monthVal=unit('Month',monthMinus,monthPlus),yearVal=unit('Year',null,null);
+const yearPrev=document.createElement('button'),yearNext=document.createElement('button');yearPrev.textContent='‹';yearNext.textContent='›';yearPrev.title='Previous year';yearNext.title='Next year';
+const yearUnit=yearVal.parentElement;yearUnit.insertBefore(yearPrev,yearVal);yearUnit.appendChild(yearNext);
+window.ellondRefreshCalendar=(d,months,weekdays)=>{dayVal.textContent=d.month===11?(d.day===1?'Passing':'Returning'):String(d.day).padStart(2,'0');monthVal.textContent=d.month===11?'Year-End':months[d.month];yearVal.textContent=String(d.year);dayVal.title=d.month===11?'Festival day':weekdays[(d.day-1)%11];monthVal.title=d.month===11?'Two year-ending festival days':months[d.month];};
+if(date){date.style.display='none';calendar.appendChild(date);}
+yearPrev.onclick=()=>window.dispatchEvent(new CustomEvent('ellond-shift-year',{detail:-1}));
+yearNext.onclick=()=>window.dispatchEvent(new CustomEvent('ellond-shift-year',{detail:1}));
+const comp=group('Compendium',[...nav.querySelectorAll('a')].filter(a=>/guild|npc|shop/i.test(a.textContent)));
+const tools=group('Tools',[document.getElementById('labels-button'),nav.querySelector('.legend-wrap'),findText('Measure'),findText('Print')]);
+const camp=group('Campaign',['ellond-party-visible','ellond-campaign-edit','ellond-campaign-export','ellond-campaign-home'].map(id=>document.getElementById(id)));
+const dm=findText('DM');
+root.append(calendar,tools,comp);
+if(dm)root.appendChild(dm);
+root.appendChild(camp);
+nav.style.display='none';campaign.style.display='none';
+document.addEventListener('click',e=>{if(!e.target.closest('.ellond-toolbar-group'))document.querySelectorAll('header .ellond-toolbar-group').forEach(g=>{g.classList.remove('is-open');g.querySelector('.ellond-group-trigger').setAttribute('aria-expanded','false')})});
+})();
+</script>
+
+<style id="ellond-map-navigation-v2-style">
+#map-container{cursor:grab;overscroll-behavior:contain;touch-action:none}
+#map-container.ellond-panning{cursor:grabbing;user-select:none}
+#ellond-party-token{cursor:grab!important}
+</style>
+<script id="ellond-map-navigation-v2">
+(function(){
+  'use strict';
+  const viewport=document.getElementById('map-container');
+  const wrapper=document.getElementById('map-wrapper');
+  if(!viewport||!wrapper||typeof updateZoom!=='function'||typeof currentZoom==='undefined')return;
+  // Match 4433 cursor-anchored wheel zoom, adapted to 451's scrollable map stage.
+  viewport.addEventListener('wheel',function(e){
+    if(e.ctrlKey||e.metaKey)return;
+    e.preventDefault();
+    const before=currentZoom;
+    const after=Math.max(minimumZoom,Math.min(maximumZoom,Math.round((before+(e.deltaY<0?zoomStep:-zoomStep))*1000)/1000));
+    if(after===before)return;
+    const rect=viewport.getBoundingClientRect();
+    const mx=e.clientX-rect.left,my=e.clientY-rect.top;
+    const worldX=(viewport.scrollLeft+mx)/(before*baseMapScale);
+    const worldY=(viewport.scrollTop+my)/(before*baseMapScale);
+    currentZoom=after;updateZoom();
+    viewport.scrollLeft=worldX*(after*baseMapScale)-mx;
+    viewport.scrollTop=worldY*(after*baseMapScale)-my;
+  },{passive:false});
+  let drag=null;
+  viewport.addEventListener('pointerdown',function(e){
+    if(e.button!==0||e.target.closest('#ellond-party-token,.marker,.dragon-marker,.landmark-marker,button,a,input,textarea,select,[role="button"]'))return;
+    drag={id:e.pointerId,x:e.clientX,y:e.clientY,left:viewport.scrollLeft,top:viewport.scrollTop};
+    viewport.classList.add('ellond-panning');
+    viewport.setPointerCapture(e.pointerId);
+    e.preventDefault();
+  });
+  viewport.addEventListener('pointermove',function(e){
+    if(!drag||e.pointerId!==drag.id)return;
+    viewport.scrollLeft=drag.left-(e.clientX-drag.x);
+    viewport.scrollTop=drag.top-(e.clientY-drag.y);
+    e.preventDefault();
+  });
+  function finish(e){if(!drag||e.pointerId!==drag.id)return;drag=null;viewport.classList.remove('ellond-panning');if(viewport.hasPointerCapture(e.pointerId))viewport.releasePointerCapture(e.pointerId);}
+  viewport.addEventListener('pointerup',finish);
+  viewport.addEventListener('pointercancel',finish);
+  window.addEventListener('blur',()=>{drag=null;viewport.classList.remove('ellond-panning')});
+})();
+</script>
 </body>
 
 </html>

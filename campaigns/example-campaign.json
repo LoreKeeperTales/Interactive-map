@@ -1,0 +1,28 @@
+{
+  "schema": "ellond451-campaign",
+  "version": 2,
+  "name": "Example Campaign",
+  "calendar": {
+    "year": 451,
+    "month": 0,
+    "day": 1
+  },
+  "party": {
+    "x": 50,
+    "y": 50,
+    "visible": true,
+    "players": [],
+    "notes": "",
+    "travelNotes": ""
+  },
+  "discovered": [],
+  "revealed": {
+    "locations": [],
+    "guilds": [],
+    "npcs": []
+  },
+  "worldMarkers": [],
+  "guildReputation": {},
+  "shopChanges": {},
+  "dmNotes": ""
+}
